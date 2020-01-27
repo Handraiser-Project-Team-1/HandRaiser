@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Select from "./components/selectclass/Select";
+import Login from "./components/login/Login";
 
 function App() {
   return (
@@ -11,6 +12,12 @@ function App() {
           exact
           path="/classes"
           render={props => <Select {...props} active="classes" />}
+        />
+        <Route
+          exact
+          path="/login"
+          render={props => <Login {...props} active="login" />}
+          //component={Login}
         />
       </Switch>
     </BrowserRouter>
