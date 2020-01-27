@@ -7,7 +7,11 @@ function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/select" component={ClassSelect} />
+        <Route
+          exact
+          path="/classes"
+          render={props => <ClassSelect {...props} active="classes" />}
+        />
       </Switch>
     </BrowserRouter>
   );
