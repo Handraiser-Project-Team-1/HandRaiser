@@ -3,7 +3,7 @@ import TopBar from "../includes/TopBar";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { Grid } from "@material-ui/core";
 
-export default function ClassSelect(props) {
+export default function Select(props) {
   return (
     <TopBar active={props.active}>
       <Grid container spacing={1}>

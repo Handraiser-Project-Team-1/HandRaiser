@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
-import ClassSelect from "./components/class-select/ClassSelect";
+import Select from "./components/selectclass/Select";
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
         <Route
           exact
           path="/classes"
-          render={props => <ClassSelect {...props} active="classes" />}
+          render={props => <Select {...props} active="classes" />}
         />
       </Switch>
     </BrowserRouter>
