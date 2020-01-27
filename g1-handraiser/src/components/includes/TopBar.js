@@ -18,7 +18,6 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import Avatar from "@material-ui/core/Avatar";
 import SchoolIcon from "@material-ui/icons/School";
 import { deepOrange } from "@material-ui/core/colors";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -26,6 +25,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
+import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 
 const drawerWidth = 240;
 
@@ -57,7 +57,8 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3)
+    padding: theme.spacing(3),
+    backgroundColor: "rgba(0, 0, 0, 0.04)"
   },
   nested: {
     paddingLeft: theme.spacing(4)
@@ -137,15 +138,9 @@ function TopBar(props) {
         <List component="div" disablePadding>
           <ListItem button className={classes.nested}>
             <ListItemAvatar>
-              <Avatar className={classes.orange}>B</Avatar>
+              <StarBorderOutlinedIcon />
             </ListItemAvatar>
             <ListItemText primary="BoomCamp 2019" />
-          </ListItem>
-          <ListItem button className={classes.nested}>
-            <ListItemAvatar>
-              <Avatar className={classes.orange}>D</Avatar>
-            </ListItemAvatar>
-            <ListItemText primary="Django Class" />
           </ListItem>
         </List>
       </Collapse>
