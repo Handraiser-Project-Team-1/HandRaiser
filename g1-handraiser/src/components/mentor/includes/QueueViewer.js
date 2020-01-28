@@ -8,42 +8,61 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CheckIcon from '@material-ui/icons/Check';
 
 const columns = [
   {
     id: 'name',
-    label: 'Name',
-    minWidth: 120
+    label: 'Student on Queue',
+    minWidth: 120,
   },
   {
-    id: 'action',
-    label: 'Action',
-    minWidth: 170,
+    id: 'status',
+    label: 'Status',
+    align: 'center',
+    minWidth: 120,
+  },
+  {
+    id: 'remove',
+    label: 'Remove',
+    minWidth: 300,
     align: 'right',
-    format: value => value.toLocaleString(),
+  },
+  {
+    id: 'checked',
+    label: 'Help',
+    minWidth: 50,
+    align: 'right',
   },
 ];
 
-function createData(name) {
-  return {name};
+function createData(name, status, remove, checked) {
+  return { name, status, remove, checked };
 }
 
 const rows = [
-  createData('India'),
-  createData('China'),
-  createData('Italy'),
-  createData('United States'),
-  createData('Canada'),
-  createData('Australia'),
-  createData('Germany'),
-  createData('Ireland'),
-  createData('Mexico'),
-  createData('Japan'),
-  createData('France'),
-  createData('United Kingdom'),
-  createData('Russia'),
-  createData('Nigeria'),
-  createData('Brazil'),
+  createData(
+    'India',
+    'Being Helped',
+    <IconButton onClick={console.log("delete")}>
+      <DeleteIcon color="secondary" />
+    </IconButton>,
+    <IconButton onClick={console.log("delete")}>
+      <CheckIcon color="secondary" />
+    </IconButton>
+  ),
+  createData(
+    'China',
+    'Waiting',
+    <IconButton onClick={console.log("delete")}>
+      <DeleteIcon color="secondary" />
+    </IconButton>,
+    <IconButton onClick={console.log("delete")}>
+      <CheckIcon color="secondary" />
+    </IconButton>
+  ),
 ];
 
 const useStyles = makeStyles({
@@ -59,7 +78,7 @@ const useStyles = makeStyles({
 export default function QueueViewer() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(15);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
