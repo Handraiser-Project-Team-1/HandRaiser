@@ -136,7 +136,7 @@ function TopBar(props) {
       </ListItem>
       <Collapse in={openSubList} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem button className={classes.nested}>
+          <ListItem selected={active === "boomcamp" ? true : false} button className={classes.nested}>
             <ListItemAvatar>
               <StarBorderOutlinedIcon />
             </ListItemAvatar>
