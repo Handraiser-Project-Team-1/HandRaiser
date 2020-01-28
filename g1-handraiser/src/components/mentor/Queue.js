@@ -8,18 +8,18 @@ import StudentList from "./includes/StudentList";
 export default function Queue(props) {
   return (
     <TopBar active={props.active}>
-      <Grid container spacing={2}>
-        <Grid item>
+      <Grid container spacing={1}>
+        <Grid item xs={3}>
           <Grid
             container
             direction="column"
             justify="center"
             alignItems="center"
           >
-            <Grid item xs={12}>
+            <Grid item>
               <QueueContainer />
             </Grid>
-            <Grid item xs={12}> 
+            <Grid item>
               <StudentList />
             </Grid>
           </Grid>
