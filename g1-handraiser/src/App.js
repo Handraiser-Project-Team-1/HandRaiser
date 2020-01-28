@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Select from "./components/selectclass/Select";
 import Queue from "./components/mentor/Queue";
-// import Login from "./components/login/Login";
+import Login from "./components/login/Login";
 import Admin from "./components/superadmin/admin"
 
 function App() {

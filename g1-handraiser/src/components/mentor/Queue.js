@@ -16,10 +16,10 @@ export default function Queue(props) {
             justify="center"
             alignItems="center"
           >
-            <Grid item>
+            <Grid item xs={12}>
               <QueueContainer />
             </Grid>
-            <Grid item>
+            <Grid item xs={12}> 
               <StudentList />
             </Grid>
           </Grid>

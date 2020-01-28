@@ -46,20 +46,20 @@ const rows = [
   createData(
     'India',
     'Being Helped',
-    <IconButton onClick={console.log("delete")}>
+    <IconButton>
       <DeleteIcon color="secondary" />
     </IconButton>,
-    <IconButton onClick={console.log("delete")}>
+    <IconButton>
       <CheckIcon color="secondary" />
     </IconButton>
   ),
   createData(
     'China',
     'Waiting',
-    <IconButton onClick={console.log("delete")}>
+    <IconButton>
       <DeleteIcon color="secondary" />
     </IconButton>,
-    <IconButton onClick={console.log("delete")}>
+    <IconButton >
       <CheckIcon color="secondary" />
     </IconButton>
   ),
@@ -109,7 +109,7 @@ export default function QueueViewer() {
           <TableBody>
             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
+                <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
                   {columns.map(column => {
                     const value = row[column.id];
                     return (
