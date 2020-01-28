@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Select from "./components/selectclass/Select";
-import Login from "./components/login/Login";
-import Admin from "./components/superadmin/admin"
+import Login from "./components/login/LoginInterface";
+import Admin from "./components/superadmin/admin";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
         <Route
           exact
           path="/admin"
-          render={props => <Admin {...props} actove="admin"/>}
+          render={props => <Admin {...props} actove="admin" />}
         />
       </Switch>
     </BrowserRouter>
