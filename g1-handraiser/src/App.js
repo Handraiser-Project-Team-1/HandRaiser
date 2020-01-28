@@ -15,11 +15,11 @@ function App() {
           path="/classes"
           render={props => <Select {...props} active="classes" />}
         />
-        {/* <Route
+        <Route
           exact
           path="/login"
           render={props => <Login {...props} active="login" />}
-        /> */}
+        />
         <Route
           exact
           path="/queue"
