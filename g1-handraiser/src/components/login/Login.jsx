@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { GoogleLogin, GoogleLogout } from "react-google-login";
+import { GoogleLogin } from "react-google-login";
 import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import GoogleIcon from "./img/googles.png";
+import { CircularProgress } from "@material-ui/core";
+
+import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   button: {
@@ -17,6 +21,9 @@ const useStyles = makeStyles({
     },
     "@media (max-width: 320px)": {
       width: "95%"
+    },
+    '&:hover': {
+      background: '#5090d4'
     }
   },
   google: {
@@ -30,38 +37,45 @@ const useStyles = makeStyles({
   }
 });
 function Login() {
+
+  const history = useHistory();
   const classes = useStyles();
 
-  const userLocalProfile = localStorage.getItem("profile");
-
-  const [details, setDetails] = useState(JSON.parse(userLocalProfile));
+  const [ userDetails, setUserDetails ] = useState({});
+  const [ login, setLogin ] = useState(false);
 
   const responseGoogle = response => {
-    localStorage.setItem("profile", JSON.stringify(response.profileObj));
-    setDetails(response.profileObj);
+    setUserDetails(response.profileObj);
+    axios({
+      method: 'POST',
+      url: 'http://localhost:port/',
+      data: {
+        userData:{
+          ...userDetails,
+          token_type: response.tokenObj.token_type,
+          access_token: response.tokenObj.access_token,
+        }
+      }
+    })
+    .then(() => {
+      setLogin(true);
+    })
+    .then(() => {
+      setTimeout(() => {
+        history.push('/');
+      }, 3000);
+    })
+    .catch( error => {
+      //show notif
+    })
   };
 
-  const logout = response => {
-    localStorage.removeItem("profile");
-    setDetails({});
-  };
+  const responseGoogleFail = response => {
+    console.error(response.error);
+  }
 
-  return userLocalProfile ? (
-    <div>
-      <p>Google ID: {details.googleId}</p>
-      <p>Image:</p>
-      <img alt={details.name} src={details.imageUrl} />
-      <p>Google ID: {details.email}</p>
-      <p>First Name: {details.givenName}</p>
-      <p>Last Name: {details.familyName}</p>
-      <p>{JSON.stringify(details)}</p>
-      <GoogleLogout
-        clientId="566271695022-d3jfkv7cmqq6c6unto7bvb7q2osl7hii.apps.googleusercontent.com"
-        buttonText="Logout"
-        onLogoutSuccess={logout}
-      ></GoogleLogout>
-    </div>
-  ) : (
+  return (
+    !login ?
     <GoogleLogin
       render={renderProps => (
         <Button
@@ -77,9 +91,12 @@ function Login() {
       clientId="566271695022-d3jfkv7cmqq6c6unto7bvb7q2osl7hii.apps.googleusercontent.com"
       buttonText="Login"
       onSuccess={responseGoogle}
-      onFailure={responseGoogle}
+      onFailure={responseGoogleFail}
+      isSignedIn={true}
       cookiePolicy={"single_host_origin"}
-    />
+    /> 
+    :
+    <CircularProgress variant="indeterminate"/>
   );
 }
 
