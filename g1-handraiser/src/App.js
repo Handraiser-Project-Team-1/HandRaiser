@@ -4,6 +4,7 @@ import "./App.css";
 import Select from "./components/selectclass/Select";
 import Login from "./components/login/LoginInterface";
 import Admin from "./components/superadmin/admin";
+import Queue from "./components/mentor/Queue";
 
 function App() {
   return (
@@ -18,7 +19,11 @@ function App() {
           exact
           path="/login"
           render={props => <Login {...props} active="login" />}
-          //component={Login}
+        />
+        <Route
+          exact
+          path="/queue"
+          render={props => <Queue {...props} active="boomcamp" />}
         />
         <Route
           exact
