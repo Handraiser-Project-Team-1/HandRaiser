@@ -20,12 +20,13 @@ import Collapse from "@material-ui/core/Collapse";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import SchoolIcon from "@material-ui/icons/School";
 import { deepOrange } from "@material-ui/core/colors";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ListSubheader from "@material-ui/core/ListSubheader";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
+import { Avatar } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -72,6 +73,10 @@ const useStyles = makeStyles(theme => ({
   },
   grow: {
     flexGrow: 1
+  },
+  large: {
+    width: theme.spacing(7),
+    height: theme.spacing(7)
   }
 }));
 
@@ -119,7 +124,13 @@ function TopBar(props) {
     <div>
       <div className={classes.toolbar} />
       <Divider />
-      <List>
+      <List
+        subheader={
+          <ListSubheader component="div" id="nested-list-subheader">
+            Hi Marcial!
+          </ListSubheader>
+        }
+      >
         <ListItem selected={active === "classes" ? true : false} button>
           <ListItemIcon>
             <SchoolIcon />
@@ -136,7 +147,11 @@ function TopBar(props) {
       </ListItem>
       <Collapse in={openSubList} timeout="auto" unmountOnExit>
         <List component="div" disablePadding>
-          <ListItem selected={active === "boomcamp" ? true : false} button className={classes.nested}>
+          <ListItem
+            selected={active === "boomcamp" ? true : false}
+            button
+            className={classes.nested}
+          >
             <ListItemAvatar>
               <StarBorderOutlinedIcon />
             </ListItemAvatar>
@@ -173,7 +188,10 @@ function TopBar(props) {
                 color="inherit"
                 onClick={handleClick}
               >
-                <AccountCircleIcon />
+                <Avatar
+                  alt="Marcial Norte"
+                  src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg"
+                />
               </IconButton>
               <Menu
                 id="simple-menu"
