@@ -43,6 +43,7 @@ function Login() {
   const [ login, setLogin ] = useState(false);
 
   const responseGoogle = response => {
+    setLogin(true);
     axios({
       method: 'POST',
       url:`${process.env.REACT_APP_DB_URL}/api/users`,
@@ -54,17 +55,21 @@ function Login() {
         }
       }
     })
-      .then(() => {
-        setLogin(true);
-      })
-      .then(() => {
-        setTimeout(() => {
-          history.push("/");
-        }, 3000);
-      })
-      .catch(error => {
-        //show notif
-      });
+    .then(response => {
+      setTimeout(() => {
+        if(response.data.status === '200' || response.data.status === 200){
+          //(response.data.userType === 'mentor') ? history.push('/mentor') : history.push('/student');
+        }else{
+          history.push('/verification');
+        }
+      }, 3000);
+    })
+    .then(() => {
+      localStorage.setItem('tokenid', response.tokenObj.id_token);
+    })
+    .catch(error => {
+      console.error(error);
+    });
   };
 
   const responseGoogleFail = response => {
