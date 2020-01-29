@@ -40,24 +40,11 @@ function Login() {
   const history = useHistory();
   const classes = useStyles();
 
-<<<<<<< HEAD
-  const [ login, setLogin ] = useState(false);
-=======
   const [userDetails, setUserDetails] = useState({});
   const [login, setLogin] = useState(false);
->>>>>>> g1-develop
 
   const responseGoogle = response => {
     axios({
-<<<<<<< HEAD
-      method: 'POST',
-      url:`${process.env.REACT_APP_DB_URL}/api/users`,
-      data: {
-        userData:{
-          ...response.profileObj,
-          token_type: response.tokenObj.token_type,
-          id_token: response.tokenObj.id_token,
-=======
       method: "POST",
       url: "http://localhost:port/",
       data: {
@@ -65,7 +52,6 @@ function Login() {
           ...userDetails,
           token_type: response.tokenObj.token_type,
           access_token: response.tokenObj.access_token
->>>>>>> g1-develop
         }
       }
     })
