@@ -44,7 +44,6 @@ function Login() {
   const [login, setLogin] = useState(false);
 
   const responseGoogle = response => {
-    setUserDetails(response.profileObj);
     axios({
       method: "POST",
       url: "http://localhost:port/",
