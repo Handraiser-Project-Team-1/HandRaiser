@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core";
 import GoogleIcon from "./img/googles.png";
 import { CircularProgress } from "@material-ui/core";
 
-import axios from 'axios';
+import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -17,13 +17,13 @@ const useStyles = makeStyles({
     color: "#fff",
     "@media (max-width: 768px)": {
       marginLeft: "1%",
-      width: "95%"
+      minWidth: "100%"
     },
     "@media (max-width: 320px)": {
       width: "95%"
     },
-    '&:hover': {
-      background: '#5090d4'
+    "&:hover": {
+      background: "#5090d4"
     }
   },
   google: {
@@ -37,45 +37,43 @@ const useStyles = makeStyles({
   }
 });
 function Login() {
-
   const history = useHistory();
   const classes = useStyles();
 
-  const [ userDetails, setUserDetails ] = useState({});
-  const [ login, setLogin ] = useState(false);
+  const [userDetails, setUserDetails] = useState({});
+  const [login, setLogin] = useState(false);
 
   const responseGoogle = response => {
     setUserDetails(response.profileObj);
     axios({
-      method: 'POST',
-      url: 'http://localhost:port/',
+      method: "POST",
+      url: "http://localhost:port/",
       data: {
-        userData:{
+        userData: {
           ...userDetails,
           token_type: response.tokenObj.token_type,
-          access_token: response.tokenObj.access_token,
+          access_token: response.tokenObj.access_token
         }
       }
     })
-    .then(() => {
-      setLogin(true);
-    })
-    .then(() => {
-      setTimeout(() => {
-        history.push('/');
-      }, 3000);
-    })
-    .catch( error => {
-      //show notif
-    })
+      .then(() => {
+        setLogin(true);
+      })
+      .then(() => {
+        setTimeout(() => {
+          history.push("/");
+        }, 3000);
+      })
+      .catch(error => {
+        //show notif
+      });
   };
 
   const responseGoogleFail = response => {
     console.error(response.error);
-  }
+  };
 
-  return (
-    !login ?
+  return !login ? (
     <GoogleLogin
       render={renderProps => (
         <Button
@@ -94,9 +92,9 @@ function Login() {
       onFailure={responseGoogleFail}
       isSignedIn={true}
       cookiePolicy={"single_host_origin"}
-    /> 
-    :
-    <CircularProgress variant="indeterminate"/>
+    />
+  ) : (
+    <CircularProgress variant="indeterminate" />
   );
 }
 
