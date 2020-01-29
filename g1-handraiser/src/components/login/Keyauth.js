@@ -35,6 +35,9 @@ const useStyles = makeStyles({
   },
   typography: {
     marginLeft: "5%"
+  },
+  textfield: {
+    marginLeft: "27%"
   }
 });
 function Keyauth() {
@@ -52,13 +55,9 @@ function Keyauth() {
               <TextField
                 className={classes.textfield}
                 id="standard-basic"
-                placeholder="Input your key"
-                fullWidth
-                style={{ margin: 10 }}
+                size="small"
                 margin="normal"
-                InputLabelProps={{
-                  shrink: true
-                }}
+                variant="outlined"
               />{" "}
             </Grid>
             <Grid item xs={12} sm={12}>
