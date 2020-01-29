@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core";
 import GoogleIcon from "./img/googles.png";
 import { CircularProgress } from "@material-ui/core";
 
-import axios from 'axios';
+import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
@@ -17,13 +17,13 @@ const useStyles = makeStyles({
     color: "#fff",
     "@media (max-width: 768px)": {
       marginLeft: "1%",
-      width: "95%"
+      minWidth: "100%"
     },
     "@media (max-width: 320px)": {
       width: "95%"
     },
-    '&:hover': {
-      background: '#5090d4'
+    "&:hover": {
+      background: "#5090d4"
     }
   },
   google: {
@@ -37,14 +37,19 @@ const useStyles = makeStyles({
   }
 });
 function Login() {
-
   const history = useHistory();
   const classes = useStyles();
 
+<<<<<<< HEAD
   const [ login, setLogin ] = useState(false);
+=======
+  const [userDetails, setUserDetails] = useState({});
+  const [login, setLogin] = useState(false);
+>>>>>>> g1-develop
 
   const responseGoogle = response => {
     axios({
+<<<<<<< HEAD
       method: 'POST',
       url:`${process.env.REACT_APP_DB_URL}/api/users`,
       data: {
@@ -52,28 +57,36 @@ function Login() {
           ...response.profileObj,
           token_type: response.tokenObj.token_type,
           id_token: response.tokenObj.id_token,
+=======
+      method: "POST",
+      url: "http://localhost:port/",
+      data: {
+        userData: {
+          ...userDetails,
+          token_type: response.tokenObj.token_type,
+          access_token: response.tokenObj.access_token
+>>>>>>> g1-develop
         }
       }
     })
-    .then(() => {
-      setLogin(true);
-    })
-    .then(() => {
-      setTimeout(() => {
-        history.push('/');
-      }, 3000);
-    })
-    .catch( error => {
-      //show notif
-    })
+      .then(() => {
+        setLogin(true);
+      })
+      .then(() => {
+        setTimeout(() => {
+          history.push("/");
+        }, 3000);
+      })
+      .catch(error => {
+        //show notif
+      });
   };
 
   const responseGoogleFail = response => {
     console.error(response.error);
-  }
+  };
 
-  return (
-    !login ?
+  return !login ? (
     <GoogleLogin
       render={renderProps => (
         <Button
@@ -92,9 +105,9 @@ function Login() {
       onFailure={responseGoogleFail}
       isSignedIn={true}
       cookiePolicy={"single_host_origin"}
-    /> 
-    :
-    <CircularProgress variant="indeterminate"/>
+    />
+  ) : (
+    <CircularProgress variant="indeterminate" />
   );
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, Grid, Typography } from "@material-ui/core";
-
+import Img from "./img/undraw_pair_programming_njlp.svg";
 import Avatar from "./img/users.png";
 import LoginButton from "./Login";
 
@@ -10,6 +10,7 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     padding: "5%",
+    backgroundColor: "#fafafa",
     "@media (max-width: 768px)": {
       padding: "50%"
     },
@@ -19,14 +20,15 @@ const useStyles = makeStyles({
     }
   },
   card: {
-    width: "40%;",
+    width: "80%",
     height: "80vh",
+
     "@media (max-width: 768px)": {
-      width: "50%",
-      height: "76vh"
+      minWidth: "90%",
+      minHeight: "50vh"
     },
     "@media (max-width: 1024px)": {
-      width: "70%"
+      width: "100%"
     },
     "@media (max-width: 320px)": {
       width: "100vh"
@@ -35,39 +37,45 @@ const useStyles = makeStyles({
   rectangle: {
     display: "flex",
     justifyContent: "flex-start",
-    width: "45%;",
-    height: "78vh",
+    width: "60%;",
+    height: "82vh",
     backgroundColor: "#42B0FF",
-    webkitTransform: "rotate(45deg)",
-    moztransform: " rotate(45deg)",
-    oTransform: "rotate(45deg)",
-    msTransform: "rotate(45deg)",
-    transform: "rotate(28deg)",
+    opacity: ".8",
     "@media (max-width: 768px)": {
       display: "flex",
-      width: "45%",
-      height: "76vh"
+      width: "50%",
+      minHeight: "76vh"
     },
     "@media (max-width: 320px)": {
       width: "0%"
     }
   },
+  image: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    height: "100%"
+  },
   container: {
     display: "flex",
     alignItems: "center",
     flexDirection: "column",
-    height: "50vh",
-    width: "55%",
-    marginTop: "30%",
+    height: "70vh",
+    width: "40%",
+    marginTop: "12%",
+
     "@media (max-width: 320px)": {
       display: "flex",
       width: "100%",
       justifyContent: "center",
       alignItems: "center"
     },
-    "@media (max-width: 768px)": {
+    "@media (min-width: 768px) && (max-width: 1023px)": {
       display: "flex",
-      justifyContent: "center"
+      justifyContent: "center",
+      minWidth: "30%",
+      marginTop: "7%"
     }
   },
 
@@ -97,7 +105,9 @@ export default function LoginInterface() {
       <div className={classes.root}>
         <Card className={classes.card}>
           <Grid container spacing={3}>
-            <div className={classes.rectangle}></div>
+            <div className={classes.rectangle}>
+              <img src={Img} alt="/" className={classes.image} />
+            </div>
             <div className={classes.container}>
               <img src={Avatar} alt="" className={classes.avatar} />
               <Typography variant="h3">Sign In</Typography>
