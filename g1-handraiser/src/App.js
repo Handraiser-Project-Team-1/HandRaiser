@@ -5,7 +5,7 @@ import Select from "./components/selectclass/Select";
 import Login from "./components/login/LoginInterface";
 import Admin from "./components/superadmin/admin";
 import Queue from "./components/mentor/Queue";
-
+import Key from "./components/login/Keyauth";
 function App() {
   return (
     <BrowserRouter>
@@ -29,6 +29,11 @@ function App() {
           exact
           path="/admin"
           render={props => <Admin {...props} actove="admin" />}
+        />
+        <Route
+          exact
+          path="/key"
+          render={props => <Key {...props} actove="key" />}
         />
       </Switch>
     </BrowserRouter>
