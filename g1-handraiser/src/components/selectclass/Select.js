@@ -1,11 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid } from "@material-ui/core";
 import CardClass from "../includes/CardClass";
 import Layout from "../includes/TopBar";
+import Notif from "../includes/Notif";
 
 export default function Select(props) {
+  const [notif, setNotif] = useState(true);
+
   return (
     <Layout {...props}>
+      <Notif
+        type="success"
+        title="Hi Marcial!"
+        message="Welcome to your dashboard — check it out!"
+        open={notif}
+        setOpen={setNotif}
+      />
       <Grid container spacing={2}>
         <Grid item>
           <CardClass
