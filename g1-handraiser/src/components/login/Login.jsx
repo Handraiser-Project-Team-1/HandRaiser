@@ -40,18 +40,17 @@ function Login() {
   const history = useHistory();
   const classes = useStyles();
 
-  const [userDetails, setUserDetails] = useState({});
-  const [login, setLogin] = useState(false);
+  const [ login, setLogin ] = useState(false);
 
   const responseGoogle = response => {
     axios({
-      method: "POST",
-      url: "http://localhost:port/",
+      method: 'POST',
+      url:`${process.env.REACT_APP_DB_URL}/api/users`,
       data: {
-        userData: {
-          ...userDetails,
+        userData:{
+          ...response.profileObj,
           token_type: response.tokenObj.token_type,
-          access_token: response.tokenObj.access_token
+          id_token: response.tokenObj.id_token,
         }
       }
     })
