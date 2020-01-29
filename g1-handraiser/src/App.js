@@ -5,6 +5,7 @@ import Select from "./components/selectclass/Select";
 import Login from "./components/login/LoginInterface";
 import Admin from "./components/superadmin/admin";
 import Queue from "./components/mentor/Queue";
+import Que from "./components/studentque/Que";
 
 function App() {
   return (
@@ -29,6 +30,11 @@ function App() {
           exact
           path="/admin"
           render={props => <Admin {...props} actove="admin" />}
+        />
+        <Route
+          exact
+          path="/class/:id"
+          render={props => <Que {...props} active="1" />}
         />
       </Switch>
     </BrowserRouter>

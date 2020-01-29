@@ -18,6 +18,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Divider } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import {
   Root,
   Header,
@@ -38,9 +39,8 @@ const config = {
       anchor: "left",
       hidden: false,
       inset: false,
-      variant: "persistent",
+      variant: "temporary",
       width: 240,
-      collapsible: true,
       collapsedWidth: 64
     },
     header: {
@@ -108,7 +108,11 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    backgroundColor: "rgba(0, 0, 0, 0.04)"
+    backgroundColor: "rgba(0, 0, 0, 0.04)",
+    minHeight: "100%",
+    [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(1)
+    }
   },
   nested: {
     paddingLeft: theme.spacing(4)
@@ -150,6 +154,7 @@ const theme = createMuiTheme({
 
 const Layout = props => {
   const classes = useStyles();
+  let history = useHistory();
   const { active } = props;
   const [openSubList, setOpenSubList] = React.useState(true);
 
@@ -192,6 +197,9 @@ const Layout = props => {
                   <ListItem
                     selected={active === "classes" ? true : false}
                     button
+                    onClick={() => {
+                      history.push("/classes");
+                    }}
                   >
                     <ListItemIcon>
                       <SchoolIcon />
@@ -209,9 +217,12 @@ const Layout = props => {
                 <Collapse in={openSubList} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
                     <ListItem
-                      selected={active === "boomcamp" ? true : false}
+                      selected={active === "1" ? true : false}
                       button
                       className={classes.nested}
+                      onClick={() => {
+                        history.push("/class/1");
+                      }}
                     >
                       <ListItemIcon>
                         <StarBorderOutlinedIcon />
