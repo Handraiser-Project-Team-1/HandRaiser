@@ -6,13 +6,13 @@ module.exports = {
     createUsers: (req, res) => {
         const db = req.app.get('db')
         const { userData } = req.body;
-<<<<<<< HEAD
-        
         db.user_details
         .findOne({
             google_id: userData.googleId
+        },{
+            fields: ["userd_id", "google_id", "user_fname", "user_lname", "user_email", "user_image"]
         })
-        .then( user => {
+        .then(user => {
             if(!user){
                 db.user_details
                 .insert({
@@ -21,6 +21,12 @@ module.exports = {
                     user_lname: userData.familyName,
                     user_email: userData.email,
                     user_image: userData.imageUrl,
+                    user_type: [{
+                        userd_id: undefined,
+                        user_type: 'pending'
+                    }]
+                },{
+                    deepInsert: true,
                 },{
                     fields: ["google_id", "user_fname", "user_lname", "user_email", "user_image"]
                 })
@@ -32,17 +38,23 @@ module.exports = {
                     res.status(500).end();
                 })
             }else{
-                db.UserType
+                db.user_type
                 .findOne({
-                    googleId: userData.googleId
+                    userd_id: user.userd_id
                 },{
-                    fields: ["googleId", "user_type"]
+                    fields: ["user_type"]
                 })
                 .then(fetchedUserType => {
-                    if(!fetchedUserType){
-                        res.status(206).send(fetchedUserType)
-                    }else{
-                        res.status(200).send({ ...user, ...fetchedUserType});
+                    switch (fetchedUserType.user_type) {
+                        case 'mentor':
+                            res.status(200).send({ ...user, ...fetchedUserType})
+                            break;
+                        case 'student':
+                            res.status(200).send({ ...user, ...fetchedUserType})
+                            break;
+                        default:
+                            res.status(206).send({ ...user, ...fetchedUserType})
+                            break;
                     }
                 })
                 .catch(error => {
@@ -51,26 +63,11 @@ module.exports = {
                 })
             }
         })
-=======
-        try {
-            db.user_details.filter(user => user.userd_id === userData.googleId)
-        } catch (error) {
-            db.user_details
-            .insert({
-                google_id: userData.googleId,
-                user_fname: userData.givenName,
-                user_lname: userData.familyName,
-                user_image: userData.imageUrl,
-                user_email: userData.email,
-            },{
-                fields: ['userd_id', 'google_id', 'user_fname', 'user_lname', 'user_image', 'user_email']
-            })
-            .then(u => res.status(200).json(u))
-            .catch(err =>{
-                console.log(err)
-                res.status(500).end()
-            })
-        }
+        .catch(error => {
+            console.error(error);
+            res.status(500).end();
+        })
+
     },
     getUsers: (req, res)=>{
         db = req.app.get('db')
@@ -95,6 +92,5 @@ module.exports = {
             console.log(err);
             res.status(500).end();
         });
->>>>>>> g1-develop
     }
 }

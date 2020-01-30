@@ -17,7 +17,7 @@ massive({
   app.use(cors());
 
   app.post('/api/users/', user.createUsers)
-  app.get('/api/users', user.getUsers)
+  app.patch('/api/users', user.getUsers)
   app.get('/api/protected/data',
         function(req, res){
             const db = req.app.get('db')

@@ -56,13 +56,14 @@ function Login() {
       }
     })
     .then(response => {
+      console.log(response);
       setTimeout(() => {
-        if(response.data.status === '200' || response.data.status === 200){
-          //(response.data.userType === 'mentor') ? history.push('/mentor') : history.push('/student');
+        if(response.data.status === 200){
+          (response.data.userType === 'mentor') ? history.push('/mentor') : history.push('/student');
         }else{
-          history.push('/verification');
+          history.push('/authentication');
         }
-      }, 3000);
+      }, 2000);
     })
     .then(() => {
       localStorage.setItem('tokenid', response.tokenObj.id_token);

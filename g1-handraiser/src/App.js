@@ -7,6 +7,8 @@ import Admin from "./components/superadmin/admin";
 import Queue from "./components/mentor/Queue";
 import Que from "./components/studentque/Que";
 import page404 from "./components/includes/Page404";
+import Authentication from "./components/login/Keyauth";
+
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +37,11 @@ function App() {
           exact
           path="/class/:id"
           render={props => <Que {...props} active="1" />}
+        />
+        <Route
+          exact
+          path="/authentication"
+          render={props => <Authentication {...props} active="authentication" />}
         />
         <Route component={page404} />
       </Switch>
