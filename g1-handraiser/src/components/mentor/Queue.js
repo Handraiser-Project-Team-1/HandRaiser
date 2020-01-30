@@ -1,6 +1,6 @@
 import React from "react";
 import TopBar from "../includes/TopBar";
-import QueueContainer from "./includes/QueueCounter";
+import QueueCounter from "./includes/QueueCounter";
 import QueueViewer from "./includes/QueueViewer";
 import StudentList from "./includes/StudentList";
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,7 +26,7 @@ export default function Queue(props) {
               alignItems="stretch"
             >
               <Grid item>
-                <QueueContainer />
+                <QueueCounter />
               </Grid>
               <Grid item>
                 <BeingHelp />
