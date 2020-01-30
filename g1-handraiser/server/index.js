@@ -36,7 +36,7 @@ massive({
             }
   });
 
-  app.post('/api/user/:uid', user.createType)
+  app.post('/api/user/:uid', user.setUserType)
 
   const PORT = 3001;
   app.listen(PORT, () => {
