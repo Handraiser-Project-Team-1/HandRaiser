@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -56,11 +57,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Dashboard(props) {
+  let history = useHistory();
+  const {keys} = props
   const classes = useStyles();
   const [open, setOpen] = useState(false)
   const [openR, setOpenR] = useState(false)
 
+  useEffect(()=>{
+    if(localStorage.getItem('key') !== keys){
+      history.push('/')
+    }
+  },[history, keys])
+  
   const show = () => {
     setOpen(true)
   }
