@@ -8,6 +8,7 @@ import Queue from "./components/mentor/Queue";
 import Que from "./components/studentque/Que";
 import page404 from "./components/includes/Page404";
 
+import Key from "./components/login/Keyauth";
 function App() {
   return (
     <BrowserRouter>
@@ -38,6 +39,8 @@ function App() {
           render={props => <Que {...props} active="1" />}
         />
         <Route component={page404} />
+        path="/key" render={props => <Key {...props} actove="key" />}
+        />
       </Switch>
     </BrowserRouter>
   );
