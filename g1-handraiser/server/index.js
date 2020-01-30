@@ -17,6 +17,7 @@ massive({
   app.use(cors());
 
   app.post('/api/users/', user.createUsers)
+  app.get('/api/users', user.getUsers)
   app.get('/api/protected/data',
         function(req, res){
             const db = req.app.get('db')
@@ -30,10 +31,12 @@ massive({
                 jwt.verify(token, secret);
                 res.status(200).json({ data: 'here is the protected data.', token: token});
             }catch(err){
-                console.error(err)
+                console.log(err)
                 res.status(500).end()
             }
   });
+
+  app.post('/api/user/:uid', user.createType)
 
   const PORT = 3001;
   app.listen(PORT, () => {
