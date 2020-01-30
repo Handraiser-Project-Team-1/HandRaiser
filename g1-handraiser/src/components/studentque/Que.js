@@ -1,7 +1,6 @@
 import React from "react";
 import Layout from "../includes/TopBar";
 import { Grid, Paper, Typography } from "@material-ui/core";
-import BreadCrumbs from "../includes/BreadCrumbs";
 import { makeStyles } from "@material-ui/core/styles";
 import NeedHelp from "./NeedHelp";
 import BeingHelp from "./BeingHelp";
@@ -20,21 +19,17 @@ export default function Que(props) {
   return (
     <Layout {...props}>
       <Grid container spacing={1}>
-        <Grid
-          container
-          direction="row"
-          justify="flex-end"
-          alignItems="flex-start"
-          className={classes.paddingBread}
-        >
-          <BreadCrumbs />
-        </Grid>
         <Grid container>
           <div style={{ paddingBottom: "15px" }} />
         </Grid>
+
         <Grid item xs={12} lg={6} md={6}>
           <Paper elevation={0} className={classes.root}>
-            <Typography variant="h5" gutterBottom>
+            <Typography
+              variant="h6"
+              style={{ fontWeight: "500", padding: "6px" }}
+              gutterBottom
+            >
               In Que
             </Typography>
             <NeedHelp />
@@ -42,7 +37,11 @@ export default function Que(props) {
         </Grid>
         <Grid item xs={12} lg={6} md={6}>
           <Paper elevation={0} className={classes.root}>
-            <Typography variant="h5" gutterBottom>
+            <Typography
+              variant="h6"
+              style={{ fontWeight: "500", padding: "6px" }}
+              gutterBottom
+            >
               Current
             </Typography>
             <BeingHelp />
