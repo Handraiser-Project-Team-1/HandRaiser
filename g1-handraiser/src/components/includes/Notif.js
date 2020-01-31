@@ -28,7 +28,7 @@ export default function CustomizedSnackbars(props) {
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
       onClose={handleClose}
     >
-      <Alert severity={type} className={classes.root}>
+      <Alert severity={type} className={classes.root} onClose={handleClose}>
         <AlertTitle>{title}</AlertTitle>
         {message}
       </Alert>
