@@ -3,13 +3,14 @@ const massive = require("massive");
 const cors = require("cors");
 const secret = process.env.REACT_APP_SECRET_KEY
 const user = require("./controllers/user/user")
-
+require('dotenv').config()
+// console.log(process.env)
 massive({
-  host: "localhost",
-  port: 5432,
-  database: "handraiser",
-  user: "postgres",
-  password: "handraiser"
+  host: process.env.DB_HOST,
+  port: process.env.PORT,
+  database: process.env.DATABASE,
+  user: process.env.USERS,
+  password: process.env.PASSWORD
 }).then(db => {
   const app = express();
   app.set("db", db);
@@ -17,7 +18,7 @@ massive({
   app.use(cors());
 
   app.post('/api/users/', user.createUsers)
-  app.patch('/api/users', user.getUsers)
+  app.get('/api/users', user.getUsers)
   app.get('/api/protected/data',
         function(req, res){
             const db = req.app.get('db')
