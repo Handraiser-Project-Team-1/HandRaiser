@@ -42,11 +42,10 @@ const useStyles = makeStyles({
     backgroundColor: "#42B0FF",
     opacity: ".8",
     "@media (max-width: 768px)": {
-      display: "flex",
       width: "50%",
       minHeight: "76vh"
     },
-    "@media (max-width: 320px)": {
+    "@media (max-width: 425px)": {
       width: "0%"
     }
   },
@@ -63,20 +62,18 @@ const useStyles = makeStyles({
     flexDirection: "column",
     height: "70vh",
     width: "40%",
-    marginTop: "12%",
-
-    "@media (max-width: 320px)": {
+    marginTop: "15%",
+    
+    "@media (max-width: 425px)": {
       display: "flex",
-      width: "100%",
+      width: "90%",
       justifyContent: "center",
       alignItems: "center"
     },
-    "@media (min-width: 768px) && (max-width: 1023px)": {
-      display: "flex",
-      justifyContent: "center",
-      minWidth: "30%",
-      marginTop: "7%"
-    }
+    "@media(max-width: 768px)": {
+      padding: "5%",
+      marginTop: "15%",
+    },
   },
 
   avatar: {
@@ -86,7 +83,7 @@ const useStyles = makeStyles({
       width: "50%"
     },
     "@media (max-width: 320px)": {
-      width: "35%"
+      width: "55%"
     }
   },
   button: {

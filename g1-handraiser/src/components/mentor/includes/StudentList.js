@@ -7,7 +7,6 @@ import Grid from '@material-ui/core/Grid';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import FaceIcon from '@material-ui/icons/Face';
 import GridList from '@material-ui/core/GridList';
-import Typography from '@material-ui/core/Typography';
 import CardHeader from '@material-ui/core/CardHeader';
 
 const useStyles = makeStyles(theme => ({
