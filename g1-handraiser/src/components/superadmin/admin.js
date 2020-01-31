@@ -65,7 +65,10 @@ export default function Dashboard(props) {
   const [openR, setOpenR] = useState(false)
 
   useEffect(()=>{
-    if(localStorage.getItem('key') !== keys){
+    console.log(localStorage.getItem('key'), keys)
+    if(localStorage.getItem('key') === keys){
+      history.push('/admin')
+    }else{
       history.push('/')
     }
   },[history, keys])
