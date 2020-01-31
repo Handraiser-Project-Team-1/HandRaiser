@@ -108,51 +108,6 @@ export default function Dashboard(props) {
           </Container>
         </main>
       </TopBar>
-      {/* <div className={classes.root}>
-        <CssBaseline />
-        <AppBar position="absolute">
-          <Toolbar className={classes.toolbar}>
-            <Typography
-              component="h1"
-              variant="h6"
-              color="inherit"
-              noWrap
-              className={classes.title}
-            >
-              Admin
-            </Typography>
-            <Button color="inherit" onClick={request}>
-              Login Requests
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </Button>
-            <Request open={openR} setOpen={setOpenR} />
-          </Toolbar>
-        </AppBar>
-        <main className={classes.content}>
-          <Container maxWidth="lg" className={classes.container}>
-            <Card className={classes.card}>
-              <CardContent className={classes.cardContent}>
-                <Typography>Mentor Robby</Typography>
-              </CardContent>
-              <Badge
-                badgeContent={4}
-                color="secondary"
-                style={{ float: "right", bottom: "45px", left: "-15px" }}
-              >
-                <NotificationsIcon />
-              </Badge>
-              <CardActions>
-                <Button onClick={show} size="small">
-                  Show Students
-                </Button>
-              </CardActions>
-            </Card>
-            <ShowStudents open={open} setOpen={setOpen} />
-          </Container>
-        </main>
-      </div> */}
     </React.Fragment>
   );
 }
