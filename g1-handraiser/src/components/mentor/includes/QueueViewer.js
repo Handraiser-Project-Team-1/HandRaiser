@@ -1,138 +1,74 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CheckIcon from '@material-ui/icons/Check';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import InQueue from './Viewer/InQueue';
+import QueueDone from './Viewer/QueueDone';
 
-const columns = [
-  {
-    id: 'name',
-    label: 'Student on Queue',
-    minWidth: 120,
-  },
-  {
-    id: 'status',
-    label: 'Status',
-    align: 'center',
-    minWidth: 120,
-  },
-  {
-    id: 'remove',
-    label: 'Remove',
-    minWidth: 300,
-    align: 'right',
-  },
-  {
-    id: 'checked',
-    label: 'Help',
-    minWidth: 50,
-    align: 'right',
-  },
-];
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
 
-function createData(name, status, remove, checked) {
-  return { name, status, remove, checked };
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && <Box p={3}>{children}</Box>}
+    </Typography>
+  );
 }
 
-const rows = [
-  createData(
-    'India',
-    'Being Helped',
-    <IconButton>
-      <DeleteIcon color="secondary" />
-    </IconButton>,
-    <IconButton>
-      <CheckIcon color="secondary" />
-    </IconButton>
-  ),
-  createData(
-    'China',
-    'Waiting',
-    <IconButton>
-      <DeleteIcon color="secondary" />
-    </IconButton>,
-    <IconButton >
-      <CheckIcon color="secondary" />
-    </IconButton>
-  ),
-];
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
 
-const useStyles = makeStyles({
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+const useStyles = makeStyles(theme => ({
   root: {
-    width: '100%',
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
   },
-  container: {
-    minHeight: '85vh',
-    maxHeight: '85vh',
-  },
-});
+}));
 
 export default function QueueViewer() {
   const classes = useStyles();
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(15);
+  const [value, setValue] = React.useState(0);
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
   return (
-    <Paper className={classes.root}>
-      <TableContainer className={classes.container}>
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              {columns.map(column => (
-                <TableCell
-                  key={column.id}
-                  align={column.align}
-                  style={{ minWidth: column.minWidth }}
-                >
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-              return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
-                  {columns.map(column => {
-                    const value = row[column.id];
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.format && typeof value === 'number' ? column.format(value) : value}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <TablePagination
-        rowsPerPageOptions={[15, 25, 100]}
-        component="div"
-        count={rows.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onChangePage={handleChangePage}
-        onChangeRowsPerPage={handleChangeRowsPerPage}
-      />
-    </Paper>
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
+          <Tab label="On Queue" {...a11yProps(0)} />
+          <Tab label="Done" {...a11yProps(1)} />
+
+        </Tabs>
+      </AppBar>
+      <TabPanel value={value} index={0}>
+          <InQueue />
+      </TabPanel>
+      <TabPanel value={value} index={1}>
+          <QueueDone />
+      </TabPanel>
+    </div>
   );
 }
