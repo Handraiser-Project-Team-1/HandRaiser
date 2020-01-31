@@ -1,113 +1,212 @@
 import React from 'react';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
+import MessageIcon from '@material-ui/icons/Message';
+import Grid from '@material-ui/core/Grid';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import FaceIcon from '@material-ui/icons/Face';
+import GridList from '@material-ui/core/GridList';
+import Typography from '@material-ui/core/Typography';
+import CardHeader from '@material-ui/core/CardHeader';
 
-const columns = [
-  {
-    id: 'name',
-    label: 'List of Student',
-    minWidth: 120
-  }
-];
-
-function createData(name) {
-  return {name};
-}
-
-const rows = [
-  createData('Vanessa'),
-  createData('Franco'),
-  createData('Mark'),
-  createData('Vincent'),
-  createData('Marcial'),
-  createData('Vince'),
-  createData('Fresh'),
-  createData('Joven'),
-  createData('Jude'),
-  createData('Bryan'),
-  createData('France'),
-  createData('Nayve'),
-  createData('Clark'),
-  createData('Delfin'),
-  createData('Micheal'),
-];
-
-const useStyles = makeStyles({
-  root: {
-    width: 400,
-    marginTop: '3%'
-  },
-  container: {
-    minHeight: '70vh',
-    maxHeight: '70vh',
-  },
-});
+const useStyles = makeStyles(theme => ({
+    gridList: {
+        height: 545,
+    },
+    Card: {
+        marginTop: 5
+    },
+    bg: {
+        backgroundColor: '#42b0fe',
+        color: '#fff'
+    }
+}));
 
 function StudentList() {
     const classes = useStyles();
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(15);
-
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = event => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
     return (
-        <Paper className={classes.root}>
-            <TableContainer className={classes.container}>
-                <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                        <TableRow>
-                            {columns.map(column => (
-                                <TableCell
-                                    key={column.id}
-                                    align={column.align}
-                                    style={{ minWidth: column.minWidth }}
-                                >
-                                    {column.label}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map(row => {
-                            return (
-                                <TableRow hover role="checkbox" tabIndex={-1} key={row.name}>
-                                    {columns.map(column => {
-                                        const value = row[column.id];
-                                        return (
-                                            <TableCell key={column.id} align={column.align}>
-                                                {column.format && typeof value === 'number' ? column.format(value) : value}
-                                            </TableCell>
-                                        );
-                                    })}
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                rowsPerPageOptions={[15, 25, 50, 75, 100]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onChangePage={handleChangePage}
-                onChangeRowsPerPage={handleChangeRowsPerPage}
+        <Card className={classes.Card}>
+
+            <CardHeader
+                title="List of student"
+                className={classes.bg}
             />
-        </Paper>
+            <GridList cellHeight={80} className={classes.gridList} cols={1}>
+                <Card >
+                    <CardContent>
+                        <CardActionArea className={classes.userBackground}>
+                            <CardContent>
+                                <Grid container spacing={1}>
+                                    <Grid item xs={2} >
+                                        <FaceIcon fontSize="small" />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        Vincent Serra
+                                </Grid>
+                                    <Grid item xs={2} >
+                                        <MessageIcon fontSize="small" />
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </CardActionArea>
+                    </CardContent>
+                </Card>
+                <Card >
+                    <CardContent>
+                        <CardActionArea className={classes.userBackground}>
+                            <CardContent>
+                                <Grid container spacing={1}>
+                                    <Grid item xs={2} >
+                                        <FaceIcon fontSize="small" />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        Vincent Serra
+                                </Grid>
+                                    <Grid item xs={2} >
+                                        <MessageIcon fontSize="small" />
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </CardActionArea>
+                    </CardContent>
+                </Card>
+                <Card >
+                    <CardContent>
+                        <CardActionArea className={classes.userBackground}>
+                            <CardContent>
+                                <Grid container spacing={1}>
+                                    <Grid item xs={2} >
+                                        <FaceIcon fontSize="small" />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        Vincent Serra
+                                </Grid>
+                                    <Grid item xs={2} >
+                                        <MessageIcon fontSize="small" />
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </CardActionArea>
+                    </CardContent>
+                </Card>
+                <Card >
+                    <CardContent>
+                        <CardActionArea className={classes.userBackground}>
+                            <CardContent>
+                                <Grid container spacing={1}>
+                                    <Grid item xs={2} >
+                                        <FaceIcon fontSize="small" />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        Vincent Serra
+                                </Grid>
+                                    <Grid item xs={2} >
+                                        <MessageIcon fontSize="small" />
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </CardActionArea>
+                    </CardContent>
+                </Card>
+                <Card >
+                    <CardContent>
+                        <CardActionArea className={classes.userBackground}>
+                            <CardContent>
+                                <Grid container spacing={1}>
+                                    <Grid item xs={2} >
+                                        <FaceIcon fontSize="small" />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        Vincent Serra
+                                </Grid>
+                                    <Grid item xs={2} >
+                                        <MessageIcon fontSize="small" />
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </CardActionArea>
+                    </CardContent>
+                </Card>
+                <Card >
+                    <CardContent>
+                        <CardActionArea className={classes.userBackground}>
+                            <CardContent>
+                                <Grid container spacing={1}>
+                                    <Grid item xs={2} >
+                                        <FaceIcon fontSize="small" />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        Vincent Serra
+                                </Grid>
+                                    <Grid item xs={2} >
+                                        <MessageIcon fontSize="small" />
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </CardActionArea>
+                    </CardContent>
+                </Card>
+                <Card >
+                    <CardContent>
+                        <CardActionArea className={classes.userBackground}>
+                            <CardContent>
+                                <Grid container spacing={1}>
+                                    <Grid item xs={2} >
+                                        <FaceIcon fontSize="small" />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        Vincent Serra
+                                </Grid>
+                                    <Grid item xs={2} >
+                                        <MessageIcon fontSize="small" />
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </CardActionArea>
+                    </CardContent>
+                </Card>
+                <Card >
+                    <CardContent>
+                        <CardActionArea className={classes.userBackground}>
+                            <CardContent>
+                                <Grid container spacing={1}>
+                                    <Grid item xs={2} >
+                                        <FaceIcon fontSize="small" />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        Vincent Serra
+                                </Grid>
+                                    <Grid item xs={2} >
+                                        <MessageIcon fontSize="small" />
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </CardActionArea>
+                    </CardContent>
+                </Card>
+                <Card >
+                    <CardContent>
+                        <CardActionArea className={classes.userBackground}>
+                            <CardContent>
+                                <Grid container spacing={1}>
+                                    <Grid item xs={2} >
+                                        <FaceIcon fontSize="small" />
+                                    </Grid>
+                                    <Grid item xs={8}>
+                                        Vincent Serra
+                                </Grid>
+                                    <Grid item xs={2} >
+                                        <MessageIcon fontSize="small" />
+                                    </Grid>
+                                </Grid>
+                            </CardContent>
+                        </CardActionArea>
+                    </CardContent>
+                </Card>
+
+            </GridList>
+        </Card>
     )
 }
 

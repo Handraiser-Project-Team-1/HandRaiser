@@ -25,5 +25,29 @@ module.exports = {
                 res.status(500).end()
             })
         }
+    },
+    getUsers: (req, res)=>{
+        db = req.app.get('db')
+        db.user_details
+        .find()
+        .then(u => res.status(200).json(u))
+        .catch(err => {
+            console.log(err);
+            res.status(500).end();
+        });
+    },
+    createType: (req, res) => {
+        db = req.app.get('db')
+        const {userd_id, user_type} = req.body
+        db.user_type
+        .insert({
+            user_type,
+            userd_id: req.params.uid,
+        })
+        .then(u => res.status(200).json(u))
+        .catch(err => {
+            console.log(err);
+            res.status(500).end();
+        });
     }
 }

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -9,10 +10,11 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import { Container } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
+// import IconButton from '@material-ui/core/IconButton';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import ShowStudents from './actions/showStudents';
 import Badge from '@material-ui/core/Badge';
+import Request from './actions/request';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,12 +57,30 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Dashboard(props) {
+  let history = useHistory();
+  const {keys} = props
   const classes = useStyles();
   const [open, setOpen] = useState(false)
+  const [openR, setOpenR] = useState(false)
+
+  useEffect(()=>{
+    if(localStorage.getItem('key') === keys){
+      if(keys === null){
+        history.push('/')
+      }else{
+        history.push('/admin')
+      }
+    }else{
+      history.push('/')
+    }
+  },[history, keys])
   
   const show = () => {
     setOpen(true)
+  }
+  const request = () => {
+    setOpenR(true)
   }
   return (
     <React.Fragment>
@@ -71,6 +91,13 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Admin
           </Typography>
+          <Button color="inherit" onClick={request}>
+            Login Requests
+            <Badge badgeContent={4} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </Button>
+          <Request open={openR} setOpen={setOpenR}/>
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
@@ -79,26 +106,11 @@ export default function Dashboard() {
             <CardContent className={classes.cardContent}>
               <Typography>Mentor Robby</Typography>
             </CardContent>
-            <IconButton color="inherit" style={{float: 'right', bottom: '55px'}}>
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            <Badge badgeContent={4} color="secondary" style={{float: 'right', bottom: '45px', left: '-15px'}}>
+              <NotificationsIcon />
+            </Badge>
             <CardActions>
               <Button onClick={show} size="small">Show Students</Button>
-            </CardActions>
-          </Card>
-          <Card className={classes.card}>
-            <CardContent className={classes.cardContent}>
-              <Typography>Mentor Dan</Typography>
-            </CardContent>
-            <IconButton color="inherit" style={{float: 'right', bottom: '55px'}}>
-              <Badge badgeContent={6} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <CardActions>
-              <Button size="small">Show Students</Button>
             </CardActions>
           </Card>
           <ShowStudents open={open} setOpen={setOpen}/>
