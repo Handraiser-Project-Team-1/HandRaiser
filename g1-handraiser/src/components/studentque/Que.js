@@ -4,6 +4,9 @@ import { Grid, Paper, Typography, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NeedHelp from "./NeedHelp";
 import BeingHelp from "./BeingHelp";
+require("dotenv").config();
+
+console.log(process.env);
 
 const useStyles = makeStyles(theme => ({
   root: {
