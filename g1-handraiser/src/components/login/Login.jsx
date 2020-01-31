@@ -43,28 +43,32 @@ function Login() {
   const [ login, setLogin ] = useState(false);
 
   const responseGoogle = response => {
+    setLogin(true);
     axios({
       method: 'POST',
       url:`${process.env.REACT_APP_DB_URL}/api/users`,
       data: {
         userData:{
           ...response.profileObj,
-          token_type: response.tokenObj.token_type,
-          id_token: response.tokenObj.id_token,
         }
       }
     })
-      .then(() => {
-        setLogin(true);
-      })
-      .then(() => {
-        setTimeout(() => {
-          history.push("/");
-        }, 3000);
-      })
-      .catch(error => {
-        //show notif
-      });
+    .then(response => {
+      setTimeout(() => {
+        if(response.data.status === 200){
+          (response.data.userType === 'mentor') ? history.push('/mentor') : history.push('/student');
+        }else{
+          history.push('/authentication');
+        }
+      }, 2000);
+    })
+    .then(() => {
+      let token = {type: response.tokenObj.token_type, token: response.tokenObj.id_token};
+      localStorage.setItem('tokenid', JSON.stringify(token));
+    })
+    .catch(error => {
+      console.error(error);
+    });
   };
 
   const responseGoogleFail = response => {
