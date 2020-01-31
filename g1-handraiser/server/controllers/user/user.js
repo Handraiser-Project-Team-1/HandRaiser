@@ -82,5 +82,36 @@ module.exports = {
     setUserType: (req, res) => {
         db = req.app.get('db');
         const { key, token } = req.body;
+        const tokenObj = JSON.parse(token);
+        var decoded = jwt.decode(tokenObj.token);
+        if(!decoded){
+            res.status(403).end();
+        }else{
+          db.keys
+          .findOne({
+              key: key
+          },{
+              fields: ["userd_id", "key_type", "key"]
+          })
+          .then(key => {
+              if(!key){
+                  res.status(401).end();
+              }else{
+                  db.user_type
+                  .update({
+                      userd_id: key.userd_id
+                  },{
+                      user_type: key.key_type
+                  })
+                  .then(response => {
+                      res.status(200).end();
+                  }) 
+                  .catch(error => {
+                      console.error(error);
+                      res.status(500).end();
+                  })
+              }
+          })
+        }
     }
 }

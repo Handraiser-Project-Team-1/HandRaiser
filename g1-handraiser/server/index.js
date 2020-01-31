@@ -36,7 +36,7 @@ massive({
             }
   });
 
-  app.post('/api/user/:uid', user.setUserType)
+  app.patch('/api/user', user.setUserType)
 
   const PORT = 3001;
   app.listen(PORT, () => {
