@@ -6,6 +6,8 @@ import Img from "./img/undraw_security_o890.svg";
 import { FormHelperText } from "@material-ui/core";
 
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
+import Notification from "../includes/Notif";
 
 const useStyles = makeStyles({
   root: {
@@ -46,10 +48,13 @@ const useStyles = makeStyles({
 });
 function Keyauth() {
   const classes = useStyles();
-
+  const history = useHistory();
   const [key,setKey] = useState('');
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
+
+  const [notif, setNotif] = useState(false);
+  const [notifType, setNotifType] = useState(false);
 
   const onChangeFn = (e) => {
     setKey(e.target.value);
@@ -71,16 +76,47 @@ function Keyauth() {
       data: { key: key, token: tokenObj }
     })
     .then( response => {
-      console.log(response);
+      setTimeout(() => {
+        (response.data.type) ? history.push('/mentor') : history.push('/student');
+      }, 1000);
     })
     .catch( error => {
-      let err = String(error).match(/\w+$/g).join();
-      console.log(err);
-    })
+      let errorCode = String(error).match(/\w+$/g).join();
+      if(Number(errorCode) === 401){
+        setNotif(true);
+        setNotifType(true);
+      }else if(Number(errorCode) === 403){
+        //wrong token redirect to login 
+        localStorage.removeItem('tokenid');
+        history.push('/login');
+      }else{
+        console.error(error);
+        setNotif(true);
+        setNotifType(false);
+      }
+    });
   }
 
   return (
     <>
+      {(notif) &&
+        (notifType) ? 
+        <Notification 
+          type="error"
+          title="Wrong Authentication Code"
+          message="Kindly check again the code in your email"
+          open={notif}
+          setOpen={setNotif}
+        />
+        :
+        <Notification 
+          type="error"
+          title="Something's wrong"
+          message="Please try again later."
+          open={notif}
+          setOpen={setNotif}
+        />
+      }
       <div className={classes.root}>
         <Card className={classes.card}>
           <Grid container justify="center" alignItems="center" spacing={3}>

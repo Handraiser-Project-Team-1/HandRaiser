@@ -94,23 +94,35 @@ module.exports = {
               fields: ["userd_id", "key_type", "key"]
           })
           .then(key => {
-              if(!key){
-                  res.status(401).end();
-              }else{
-                  db.user_type
-                  .update({
-                      userd_id: key.userd_id
-                  },{
-                      user_type: key.key_type
-                  })
-                  .then(response => {
-                      res.status(200).end();
-                  }) 
-                  .catch(error => {
-                      console.error(error);
-                      res.status(500).end();
-                  })
-              }
+            if(!key){
+              res.status(401).end();
+            }else{
+              db.user_type
+              .update({
+                userd_id: key.userd_id
+              },{
+                user_type: key.key_type
+              },{
+                fields: ["userd_id", "user_type"]
+              })
+              .then(user => {
+                db.keys
+                .destroy({
+                  userd_id: user[0].userd_id
+                })
+                .then(() => {
+                  res.status(200).send({name: decoded.name, type: user[0].user_type});
+                })
+                .catch(error => {
+                  console.error(error);
+                  res.status(500).end();
+                })
+              }) 
+              .catch(error => {
+                console.error(error);
+                res.status(500).end();
+              })
+            }
           })
         }
     }
