@@ -17,7 +17,7 @@ massive({
   app.use(cors());
 
   app.post('/api/users/', user.createUsers)
-  app.get('/api/users', user.getUsers)
+  app.patch('/api/users', user.getUsers)
   app.get('/api/protected/data',
         function(req, res){
             const db = req.app.get('db')
@@ -36,7 +36,7 @@ massive({
             }
   });
 
-  app.post('/api/user/:uid', user.createType)
+  app.patch('/api/user', user.setUserType)
 
   const PORT = 3001;
   app.listen(PORT, () => {

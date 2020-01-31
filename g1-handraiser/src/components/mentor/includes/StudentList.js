@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -8,6 +9,18 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import FaceIcon from "@material-ui/icons/Face";
 import GridList from "@material-ui/core/GridList";
 import CardHeader from "@material-ui/core/CardHeader";
+=======
+import React from 'react';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import { makeStyles } from '@material-ui/core/styles';
+import MessageIcon from '@material-ui/icons/Message';
+import Grid from '@material-ui/core/Grid';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import FaceIcon from '@material-ui/icons/Face';
+import GridList from '@material-ui/core/GridList';
+import CardHeader from '@material-ui/core/CardHeader';
+>>>>>>> g1-develop
 
 const useStyles = makeStyles(theme => ({
   gridList: {
