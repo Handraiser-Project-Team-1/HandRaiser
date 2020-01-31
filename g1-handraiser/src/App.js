@@ -9,17 +9,18 @@ import Queue from "./components/mentor/Queue";
 import Que from "./components/studentque/Que";
 import page404 from "./components/includes/Page404";
 
-function makeid(length) {
-  var result           = '';
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
 function App() {
+
+  var makeid = (length) => {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+  }
+  
   var key = makeid(5)
   return (
     <BrowserRouter>
@@ -47,7 +48,7 @@ function App() {
         <Route
           exact
           path="/admin"
-          render={props => <Admin {...props} keys={key} active="admin" />}
+          render={props => <Admin {...props} keys={localStorage.getItem('key')} active="admin" />}
         />
         <Route
           exact

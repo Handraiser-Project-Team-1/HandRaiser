@@ -9,10 +9,10 @@ import {
     List,
     ListItem,
     ListItemText,
-    // Typography
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import axios from 'axios';
+// require('dotenv').config()
 
 const useStyles = makeStyles(theme =>({
     bot:{
@@ -36,6 +36,7 @@ export default function Request(props){
     const [disable, setDisable] = useState(false)
 
     useEffect(()=>{
+        // console.log(process.env.REACT_APP_DB_URL, 'hi')
         axios
         .get(`${process.env.REACT_APP_DB_URL}/api/users`)
         .then(res=>{
