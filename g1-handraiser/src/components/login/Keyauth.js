@@ -64,13 +64,14 @@ function Keyauth() {
 
   const onSubmitFn = (e) => {
     e.preventDefault();
+    let tokenObj = JSON.parse(localStorage.getItem('token'));
     axios({
       method: 'PATCH',
       url: `${process.env.REACT_APP_DB_URL}/api/users`,
-      data: { key: key }
+      data: { key: key, token: tokenObj }
     })
     .then( response => {
-      
+      console.log(response);
     })
     .catch( error => {
       //show notif

@@ -81,6 +81,6 @@ module.exports = {
     },
     setUserType: (req, res) => {
         db = req.app.get('db');
-        const { key } = req.body;
+        const { key, token } = req.body;
     }
 }

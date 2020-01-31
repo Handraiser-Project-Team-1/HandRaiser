@@ -50,13 +50,10 @@ function Login() {
       data: {
         userData:{
           ...response.profileObj,
-          token_type: response.tokenObj.token_type,
-          id_token: response.tokenObj.id_token,
         }
       }
     })
     .then(response => {
-      console.log(response);
       setTimeout(() => {
         if(response.data.status === 200){
           (response.data.userType === 'mentor') ? history.push('/mentor') : history.push('/student');
@@ -66,7 +63,8 @@ function Login() {
       }, 2000);
     })
     .then(() => {
-      localStorage.setItem('tokenid', response.tokenObj.id_token);
+      let token = {type: response.tokenObj.token_type, token: response.tokenObj.id_token};
+      localStorage.setItem('tokenid', JSON.stringify(token));
     })
     .catch(error => {
       console.error(error);
