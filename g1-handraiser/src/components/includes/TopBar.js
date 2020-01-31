@@ -56,6 +56,44 @@ const config = {
       persistentBehavior: "fit"
     }
   },
+  lg: {
+    sidebar: {
+      anchor: "left",
+      hidden: false,
+      inset: false,
+      variant: "permanent",
+      width: 256,
+      collapsible: false
+    },
+    content: {
+      persistentBehavior: "fit"
+    },
+    header: {
+      position: "sticky",
+      clipped: true,
+      offsetHeight: 64,
+      persistentBehavior: "fit"
+    }
+  },
+  xl: {
+    sidebar: {
+      anchor: "left",
+      hidden: false,
+      inset: false,
+      variant: "permanent",
+      width: 256,
+      collapsible: false
+    },
+    content: {
+      persistentBehavior: "fit"
+    },
+    header: {
+      position: "sticky",
+      clipped: true,
+      offsetHeight: 64,
+      persistentBehavior: "fit"
+    }
+  },
   sm: {
     sidebar: {
       anchor: "left",
@@ -108,7 +146,7 @@ const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
-    backgroundColor: "rgba(0, 0, 0, 0.04)",
+    backgroundColor: "rgba(183, 182, 182, 0.04)",
     minHeight: "100%",
     [theme.breakpoints.only("xs")]: {
       padding: theme.spacing(1)
@@ -125,8 +163,9 @@ const useStyles = makeStyles(theme => ({
     }
   },
   large: {
-    width: theme.spacing(8),
-    height: theme.spacing(8),
+    width: theme.spacing(14),
+    height: theme.spacing(14),
+    margin: "auto",
     transition: "all 0.3s ease 0s",
     [theme.breakpoints.between("sm", "md")]: {
       width: theme.spacing(6),
@@ -192,7 +231,10 @@ const Layout = props => {
                 </Typography>
               </div>
               <Divider />
-              <div className={sidebarStyles.container}>
+              <div
+                className={sidebarStyles.container}
+                style={{ height: "100vh" }}
+              >
                 <List>
                   <ListItem
                     selected={active === "classes" ? true : false}

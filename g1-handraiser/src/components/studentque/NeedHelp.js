@@ -29,7 +29,10 @@ export default function NeedHelp() {
             <Avatar>M</Avatar>
           </ListItemIcon>
 
-          <ListItemText primary="Marcial M. Norte Jr" />
+          <ListItemText
+            primary="Marcial M. Norte Jr"
+            secondary="Cant merge my dev branch"
+          />
 
           <ListItemSecondaryAction>
             <Tooltip title="Remove myself from Que">
