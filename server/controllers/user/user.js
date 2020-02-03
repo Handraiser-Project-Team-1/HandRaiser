@@ -151,5 +151,18 @@ module.exports = {
                 res.status(500).end();
             })
         })
+    },
+    getKeyList: (req, res) => {
+        const db = req.app.get('db');
+        
+        db.query(`SELECT * FROM user_details AS ud, user_type AS ut, keys as K WHERE ud.userd_id = ut.userd_id AND k.userd_id = ut.userd_id AND k.userd_id = ud.userd_id AND ut.user_type = 'pending'`)
+        .then(response => {
+            res.status(200).send(response);
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).end();
+        })
+        
     }
 }

@@ -10,6 +10,7 @@ import { Avatar, Divider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 import {
   Root,
@@ -22,6 +23,7 @@ import {
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import Request from "../actions/request";
+import KeyList from "../actions/KeyList";
 
 const config = {
   autoCollapseDisabled: false,
@@ -187,10 +189,26 @@ const theme = createMuiTheme({
 const Layout = props => {
   const classes = useStyles();
   const [openR, setOpenR] = useState(false);
+  const [openK, setOpenK] = useState(false);
 
   const request = () => {
     setOpenR(true);
   };
+
+  const keyDialog = () => {
+    setOpenK(true);
+  };
+
+  const [loginReqCount, setLoginReqCount] = useState(0);
+  const [keyAprvCount, setKeyAprvCount] = useState(0);
+
+  const setLoginReqBadge = (num) => {
+    setLoginReqCount(num);
+  }
+  
+  const setKeyBadge = (num) => {
+    setKeyAprvCount(num);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -226,16 +244,25 @@ const Layout = props => {
                 className={sidebarStyles.container}
                 style={{ height: "100vh" }}
               >
-                <div style={{ padding: "40px" }}>
+                <div style={{ padding: '40px 40px 0 40px'}}>
                   <Button color="inherit" onClick={request}>
                     Login Requests
-                    <Badge badgeContent={4} color="secondary">
+                    <Badge badgeContent={loginReqCount} color="secondary">
                       <NotificationsIcon />
                     </Badge>
                   </Button>
                 </div>
-                <Request open={openR} setOpen={setOpenR} />
+                <Request setLoginReqBadge={setLoginReqBadge} open={openR} setOpen={setOpenR} />
+                <div style={{ padding: '40px 40px 0 40px'}}>
+                  <Button color="inherit" onClick={keyDialog}>
+                    Key approval
+                    <Badge badgeContent={keyAprvCount} style={{marginLeft: 5}} color="secondary">
+                      <VpnKeyIcon />
+                    </Badge>
+                  </Button>
+                </div>
               </div>
+              <KeyList setKeyBadge={setKeyBadge} open={openK} setOpen={setOpenK} />
               <CollapseBtn className={sidebarStyles.collapseBtn}>
                 {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </CollapseBtn>
