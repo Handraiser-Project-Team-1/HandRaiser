@@ -109,14 +109,18 @@ const useStyles = makeStyles(theme => ({
 
 export default function Welcome(props) {
   const [notif, setNotif] = useState(false);
+  const [error, setError] = useState(false);
   const classes = useStyles();
   let history = useHistory();
   const { keys } = props;
   localStorage.setItem("key", keys);
   const [key, setKey] = useState();
 
-  const submit = () => {
-    if (localStorage.getItem("key") === key.key) {
+  const submit = (e) => {
+    if(key === undefined){
+      history.push('/welcome')
+      setError(true)
+    }else if (localStorage.getItem("key") === key.key) {
       history.push("/admin");
     } else {
       setNotif(true);
@@ -124,9 +128,13 @@ export default function Welcome(props) {
   };
 
   const handlechange = e => {
-    let prevdata = Object.assign({}, key);
-    prevdata[e.target.name] = e.target.value;
-    setKey(prevdata);
+    if(e.target.value === null){
+      setKey('undefined')
+    }else{
+      let prevdata = Object.assign({}, key);
+      prevdata[e.target.name] = e.target.value;
+      setKey(prevdata);
+    }
   };
   return (
     <React.Fragment>
@@ -135,6 +143,12 @@ export default function Welcome(props) {
         message="Wrong key, Admin!"
         open={notif}
         setOpen={setNotif}
+      />
+      <Notif
+        type="error"
+        message="Fill up the field, Admin!"
+        open={error}
+        setOpen={setError}
       />
       <div className={classes.root}>
         <Card className={classes.card}>
