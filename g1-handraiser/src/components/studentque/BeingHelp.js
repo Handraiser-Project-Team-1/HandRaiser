@@ -33,6 +33,7 @@ export default function BeingHelp() {
           <ListItemText
             primary="Martha Dansyle Marbella"
             className={classes.itemText}
+            secondary="Assisting by: Daniel Nebreja"
           />
         </ListItem>
       </List>
