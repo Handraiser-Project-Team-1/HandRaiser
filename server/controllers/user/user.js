@@ -1,5 +1,5 @@
 const argon2 = require('argon2');
-const secret = process.env.REACT_APP_SECRET_KEY
+const secret = process.env.SECRET_KEY
 const jwt = require('jsonwebtoken');
 
 module.exports = {
