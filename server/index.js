@@ -37,7 +37,8 @@ massive({
             }
   });
 
-  app.patch('/api/user', user.setUserType)
+  app.patch('/api/user', user.setUserType); //<-- this is for initial login authentication
+  app.post('/api/key', user.sendUserKey); //<-- this is for sending key to the users
 
   const PORT = 3001;
   app.listen(PORT, () => {
