@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { useHistory } from "react-router-dom";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -186,11 +187,17 @@ const theme = createMuiTheme({
 
 const Layout = props => {
   const classes = useStyles();
+  let history = useHistory();
   const [openR, setOpenR] = useState(false);
 
   const request = () => {
     setOpenR(true);
   };
+
+  const logout = () => {
+    localStorage.clear();
+    history.push('/')
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -203,8 +210,11 @@ const Layout = props => {
                 <SidebarTrigger className={headerStyles.leftTrigger}>
                   {opened ? <ChevronLeftIcon /> : <MenuIcon />}
                 </SidebarTrigger>
-                <Typography variant="h6">HandRaiser</Typography>
-              </Toolbar>
+                <Typography variant="h6" style={{width: '95%'}}>HandRaiser</Typography>
+                <Button style={{color: 'white'}} onClick={logout}>
+                  Log out
+                </Button>
+              </Toolbar>            
             </Header>
             <Sidebar>
               <div className={classes.icon}>
