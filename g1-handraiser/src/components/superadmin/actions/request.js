@@ -13,13 +13,17 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
+<<<<<<< HEAD
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 // require('dotenv').config()
+=======
+>>>>>>> g1-develop
 import { Grid } from '@material-ui/core';
 import UserType from './UserType';
 
 import Notification from '../../includes/Notif';
+require('dotenv').config()
 
 const useStyles = makeStyles(theme => ({
   bot: {
@@ -61,9 +65,9 @@ export default function Request(props) {
   };
 
   const getUserFn = () => {
-    // console.log(process.env.REACT_APP_DB_URL, 'hi')
+    console.log(process.env.REACT_APP_DB_URL, 'hi')
     // axios.get(`${process.env.REACT_APP_DB_URL}/api/users`).then(res => {
-    axios.get(`http://localhost:3001/api/users`).then(res => {
+    axios.get(`${process.env.REACT_APP_DB_URL}/api/users`).then(res => {
       var temp = [];
       res.data.map(x => {
         temp.push({

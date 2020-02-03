@@ -9,6 +9,7 @@ import Queue from "./components/mentor/Queue";
 import Que from "./components/studentque/Que";
 import page404 from "./components/includes/Page404";
 import Authentication from "./components/login/Keyauth";
+require('dotenv').config()
 
 function App() {
   var makeid = length => {
@@ -25,7 +26,7 @@ function App() {
   var key = makeid(5);
   return (
     <BrowserRouter>
-      {/* {console.log(process.env)} */}
+      {console.log(process.env)}
       <Switch>
         <Route
           exact
