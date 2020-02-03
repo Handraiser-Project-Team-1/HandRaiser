@@ -25,7 +25,7 @@ function App() {
   var key = makeid(5)
   return (
     <BrowserRouter>
-      {/* {console.log(process.env)} */}
+      {console.log(process.env)}
       <Switch>
         <Route
           exact
