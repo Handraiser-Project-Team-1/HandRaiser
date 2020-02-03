@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 const useStyles = makeStyles(({ palette, spacing }) => {
   const radius = spacing(2.5);
   const size = spacing(4);
-  const rightBgColor = palette.primary.main;
+  const rightBgColor = "#09f";
   // if you want the same as facebook messenger, use this color '#09f'
   return {
     avatar: {
