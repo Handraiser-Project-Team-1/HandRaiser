@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { useHistory } from "react-router-dom";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -8,9 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Divider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import Badge from "@material-ui/core/Badge";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 import {
   Root,
@@ -188,28 +186,14 @@ const theme = createMuiTheme({
 
 const Layout = props => {
   const classes = useStyles();
-  const [openR, setOpenR] = useState(false);
   const [openK, setOpenK] = useState(false);
+  let history = useHistory();
 
-  const request = () => {
-    setOpenR(true);
-  };
-
-  const keyDialog = () => {
-    setOpenK(true);
-  };
-
-  const [loginReqCount, setLoginReqCount] = useState(0);
-  const [keyAprvCount, setKeyAprvCount] = useState(0);
-
-  const setLoginReqBadge = (num) => {
-    setLoginReqCount(num);
+  const logout = () => {
+    localStorage.clear();
+    history.push('/')
   }
   
-  const setKeyBadge = (num) => {
-    setKeyAprvCount(num);
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <Root omitThemeProvider={true} config={config}>
@@ -221,8 +205,11 @@ const Layout = props => {
                 <SidebarTrigger className={headerStyles.leftTrigger}>
                   {opened ? <ChevronLeftIcon /> : <MenuIcon />}
                 </SidebarTrigger>
-                <Typography variant="h6">HandRaiser</Typography>
-              </Toolbar>
+                <Typography variant="h6" style={{width: '95%'}}>HandRaiser</Typography>
+                <Button style={{color: 'white'}} onClick={logout}>
+                  Log out
+                </Button>
+              </Toolbar>            
             </Header>
             <Sidebar>
               <div className={classes.icon}>
@@ -244,25 +231,9 @@ const Layout = props => {
                 className={sidebarStyles.container}
                 style={{ height: "100vh" }}
               >
-                <div style={{ padding: '40px 40px 0 40px'}}>
-                  <Button color="inherit" onClick={request}>
-                    Login Requests
-                    <Badge badgeContent={loginReqCount} color="secondary">
-                      <NotificationsIcon />
-                    </Badge>
-                  </Button>
-                </div>
-                <Request setLoginReqBadge={setLoginReqBadge} open={openR} setOpen={setOpenR} />
-                <div style={{ padding: '40px 40px 0 40px'}}>
-                  <Button color="inherit" onClick={keyDialog}>
-                    Key approval
-                    <Badge badgeContent={keyAprvCount} style={{marginLeft: 5}} color="secondary">
-                      <VpnKeyIcon />
-                    </Badge>
-                  </Button>
-                </div>
+                <Request />
               </div>
-              <KeyList setKeyBadge={setKeyBadge} open={openK} setOpen={setOpenK} />
+              <KeyList open={openK} setOpen={setOpenK} />
               <CollapseBtn className={sidebarStyles.collapseBtn}>
                 {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </CollapseBtn>
