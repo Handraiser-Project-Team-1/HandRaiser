@@ -186,15 +186,6 @@ const theme = createMuiTheme({
 const Layout = props => {
   const classes = useStyles();
   let history = useHistory();
-<<<<<<< HEAD
-=======
-  const [openR, setOpenR] = useState(false);
->>>>>>> g1-develop
-
-  const logout = () => {
-    localStorage.clear();
-    history.push('/')
-  }
 
   const logout = () => {
     localStorage.clear();

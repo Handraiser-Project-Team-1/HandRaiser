@@ -9,19 +9,14 @@ import {
   List,
   ListItem,
   ListItemText,
-  DialogContent
+  DialogContent,
+  Badge,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
-<<<<<<< HEAD
-import Badge from "@material-ui/core/Badge";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-// require('dotenv').config()
-=======
->>>>>>> g1-develop
 import { Grid } from '@material-ui/core';
 import UserType from './UserType';
-
+import NotificationsIcon from '@material-ui/icons/Notifications'
 import Notification from '../../includes/Notif';
 require('dotenv').config()
 
