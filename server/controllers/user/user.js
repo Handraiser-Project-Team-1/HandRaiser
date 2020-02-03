@@ -2,6 +2,11 @@ const argon2 = require('argon2');
 const secret = process.env.SECRET_KEY
 const jwt = require('jsonwebtoken');
 
+const newVerificationKey = () => {
+  let random = Math.random().toString(36).substring(9);
+  return (random.length === 5) ? random : newVerificationKey();
+}
+
 module.exports = {
     createUsers: (req, res) => {
         const db = req.app.get('db')
@@ -71,8 +76,7 @@ module.exports = {
     },
     getUsers: (req, res)=>{
         db = req.app.get('db')
-        db.user_details
-        .find()
+        db.query(`SELECT * FROM user_details AS ud, user_type as ut WHERE NOT EXISTS (SELECT * FROM keys AS k WHERE k.userd_id = ud.userd_id) AND ud.userd_id = ut.userd_id AND ut.user_type = 'pending'`)
         .then(u => res.status(200).json(u))
         .catch(err => {
             console.log(err);
@@ -125,5 +129,27 @@ module.exports = {
             }
           })
         }
+    },
+    sendUserKey: (req, res) => {
+        const db = req.app.get('db');
+        const { id, type } = req.body;    
+
+        db.keys
+        .insert({ 
+            userd_id: id,
+            key_type: type,
+            key: newVerificationKey()
+        },{
+            fields: ["userd_id"]
+        })
+        .then(key => {
+            db.user_details
+            .findOne({ userd_id: key.userd_id},)
+            .then(user => res.status(201).send({givenName: user.user_fname, familyName: user.user_lname}))
+            .catch(error => {
+                console.error(error);
+                res.status(500).end();
+            })
+        })
     }
 }
