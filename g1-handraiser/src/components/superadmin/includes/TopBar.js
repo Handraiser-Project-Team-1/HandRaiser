@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useHistory } from "react-router-dom";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -21,6 +21,7 @@ import {
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import Request from "../actions/request";
+import KeyList from "../actions/KeyList";
 
 const config = {
   autoCollapseDisabled: false,
@@ -185,13 +186,14 @@ const theme = createMuiTheme({
 
 const Layout = props => {
   const classes = useStyles();
+  const [openK, setOpenK] = useState(false);
   let history = useHistory();
 
   const logout = () => {
     localStorage.clear();
     history.push('/')
   }
-
+  
   return (
     <ThemeProvider theme={theme}>
       <Root omitThemeProvider={true} config={config}>
@@ -231,6 +233,7 @@ const Layout = props => {
               >
                 <Request />
               </div>
+              <KeyList open={openK} setOpen={setOpenK} />
               <CollapseBtn className={sidebarStyles.collapseBtn}>
                 {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </CollapseBtn>

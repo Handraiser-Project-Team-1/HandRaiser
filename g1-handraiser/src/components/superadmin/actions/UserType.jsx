@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { FormControl, Select, MenuItem, FormHelperText, Button } from '@material-ui/core';
 import axios from 'axios';
+require('dotenv').config();
 
 function UserType({setNotifDetailsFn, openNofif, getUserFn, userid}) {
 
@@ -15,8 +16,7 @@ function UserType({setNotifDetailsFn, openNofif, getUserFn, userid}) {
   const sendKeyFn = (e) => {
     e.preventDefault();
     axios({
-      // url: `${process.env.REACT_APP_DB_URL}/api/key`,
-      url: `http://localhost:3001/api/key`,
+      url: `${process.env.REACT_APP_DB_URL}/api/key`,      
       method: 'POST',
       data: { id: userid, type: userType }
     })

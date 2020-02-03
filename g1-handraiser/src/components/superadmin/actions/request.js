@@ -60,8 +60,6 @@ export default function Request(props) {
   };
 
   const getUserFn = () => {
-    console.log(process.env.REACT_APP_DB_URL, 'hi')
-    // axios.get(`${process.env.REACT_APP_DB_URL}/api/users`).then(res => {
     axios.get(`${process.env.REACT_APP_DB_URL}/api/users`).then(res => {
       var temp = [];
       res.data.map(x => {
@@ -80,6 +78,7 @@ export default function Request(props) {
 
   useEffect(() => {
     getUserFn();
+    // eslint-disable-next-line
   }, []);
 
   const closeAdd = () => {
