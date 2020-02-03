@@ -9,13 +9,14 @@ import {
   List,
   ListItem,
   ListItemText,
-  DialogContent
+  DialogContent,
+  Badge,
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import { Grid } from '@material-ui/core';
 import UserType from './UserType';
-
+import NotificationsIcon from '@material-ui/icons/Notifications'
 import Notification from '../../includes/Notif';
 require('dotenv').config()
 
@@ -45,7 +46,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Request(props) {
   const classes = useStyles();
-  const { open, setOpen } = props;
   const [names, setNames] = useState([]);
   const [notif, setNotif] = useState(false);
   const [notifDetails, setNotifDetails] = useState({
@@ -53,6 +53,11 @@ export default function Request(props) {
     title: '',
     message: '',
   })
+  const [openR, setOpenR] = useState(false);
+
+  const request = () => {
+    setOpenR(true);
+  };
 
   const getUserFn = () => {
     console.log(process.env.REACT_APP_DB_URL, 'hi')
@@ -78,7 +83,7 @@ export default function Request(props) {
   }, []);
 
   const closeAdd = () => {
-    setOpen(false);
+    setOpenR(false);
   };
 
   const setNotifDetailsFn = (type,title,message) => {
@@ -94,7 +99,16 @@ export default function Request(props) {
   }
   
   return (
-    <Dialog aria-labelledby="simple-dialog-title" open={open}>
+    <React.Fragment>
+    <div style={{ padding: "40px" }}>
+      <Button color="inherit" onClick={request}>
+        Login Requests
+        <Badge badgeContent={names.length} color="secondary">
+          <NotificationsIcon />
+        </Badge>
+      </Button>
+    </div>
+    <Dialog aria-labelledby="simple-dialog-title" open={openR}>
       <Notification
         type={notifDetails.type}
         title={notifDetails.title}
@@ -134,5 +148,6 @@ export default function Request(props) {
       </DialogContent>
       {/* </Container> */}
     </Dialog>
+    </React.Fragment>
   );
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useHistory } from "react-router-dom";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -9,8 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Divider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import Badge from "@material-ui/core/Badge";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 
 import {
   Root,
@@ -188,11 +186,6 @@ const theme = createMuiTheme({
 const Layout = props => {
   const classes = useStyles();
   let history = useHistory();
-  const [openR, setOpenR] = useState(false);
-
-  const request = () => {
-    setOpenR(true);
-  };
 
   const logout = () => {
     localStorage.clear();
@@ -236,15 +229,7 @@ const Layout = props => {
                 className={sidebarStyles.container}
                 style={{ height: "100vh" }}
               >
-                <div style={{ padding: "40px" }}>
-                  <Button color="inherit" onClick={request}>
-                    Login Requests
-                    <Badge badgeContent={4} color="secondary">
-                      <NotificationsIcon />
-                    </Badge>
-                  </Button>
-                </div>
-                <Request open={openR} setOpen={setOpenR} />
+                <Request />
               </div>
               <CollapseBtn className={sidebarStyles.collapseBtn}>
                 {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
