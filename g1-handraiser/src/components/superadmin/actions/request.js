@@ -31,6 +31,15 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "50%",
     width: "15%",
     marginRight: "10px"
+  },
+  dialogTitle: {
+    background: '#6cb1fd', 
+    color: '#fff',
+  },
+  closeIcon: {
+    color: '#fff',
+    position: 'absolute',
+    right: theme.spacing(1),
   }
 }));
 
@@ -95,9 +104,9 @@ export default function Request(props) {
       />
       {/* <Container component="main"> */}
       <CssBaseline />
-      <DialogTitle id="simple-dialog-title">
+      <DialogTitle className={classes.dialogTitle} id="simple-dialog-title">
         Login Requests
-        <Button color="primary" onClick={closeAdd}>
+        <Button color="secondary" className={classes.closeIcon} onClick={closeAdd}>
           <CloseIcon />
         </Button>
       </DialogTitle>
