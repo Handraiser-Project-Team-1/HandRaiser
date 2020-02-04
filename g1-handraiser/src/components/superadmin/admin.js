@@ -6,49 +6,24 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import { Container } from "@material-ui/core";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import ShowStudents from "./actions/showStudents";
 import Badge from "@material-ui/core/Badge";
 import TopBar from "./includes/TopBar";
 import Notif from "../includes/Notif";
+import { Grid } from "@material-ui/core";
+import CardActionArea from "@material-ui/core/CardActionArea";
+
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex"
   },
-  toolbar: {
-    paddingRight: 24,
-    backgroundColor: "#42B0FF"
-  },
-
-  title: {
-    flexGrow: 1,
-    fontSize: 14
-  },
-  content: {
-    flexGrow: 1,
-    height: "100vh",
-    position: "absolute"
-  },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-    display: "flex"
-  },
   card: {
-    minWidth: 275,
-    margin: "20px"
+    maxWidth: 345
   },
-  cardContent: {
-    display: "flex"
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
-  pos: {
-    marginBottom: 12
+  media: {
+    width: 300,
+    height: 100
   }
 }));
 
@@ -84,29 +59,31 @@ export default function Dashboard(props) {
         open={notif}
         setOpen={setNotif}
       />
-      <TopBar active={props.active}>
-        <main className={classes.content}>
-          <Container maxWidth="lg" className={classes.container}>
+      <TopBar active={props.active} {...props}>
+        <Grid container spacing={2}>
+          <Grid item>
             <Card className={classes.card}>
-              <CardContent className={classes.cardContent}>
-                <Typography>Mentor Robby</Typography>
-              </CardContent>
-              <Badge
-                badgeContent={4}
-                color="secondary"
-                style={{ float: "right", bottom: "45px", left: "-15px" }}
-              >
-                <NotificationsIcon />
-              </Badge>
+              <CardActionArea>
+                <CardContent className={classes.media}>
+                  <Typography>Mentor Robby</Typography>
+                  <Badge
+                    badgeContent={4}
+                    color="secondary"
+                    style={{ float: "right", bottom: "25px", left: "-10px" }}
+                  >
+                    <NotificationsIcon />
+                  </Badge>
+                </CardContent>
+              </CardActionArea>
               <CardActions>
-                <Button onClick={show} size="small">
+                <Button size="small" color="primary" onClick={show}>
                   Show Students
                 </Button>
+                <ShowStudents open={open} setOpen={setOpen} />
               </CardActions>
             </Card>
-            <ShowStudents open={open} setOpen={setOpen} />
-          </Container>
-        </main>
+          </Grid>
+        </Grid>
       </TopBar>
     </React.Fragment>
   );
