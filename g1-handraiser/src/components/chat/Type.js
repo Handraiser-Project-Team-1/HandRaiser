@@ -37,13 +37,14 @@ const BootstrapInput = withStyles(theme => ({
   }
 }))(InputBase);
 
-export default function Type() {
+export default function Type({ setMessage }) {
   return (
     <BootstrapInput
       placeholder="Type Here"
       id="bootstrap-input"
       fullWidth={true}
       autoComplete="off"
+      onChange={e => setMessage(e.target.value)}
     />
   );
 }

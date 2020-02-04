@@ -7,13 +7,25 @@ import Button from "@material-ui/core/Button";
 import Type from "./Type";
 import DialogContainer from "./DialogContainer";
 import SendIcon from "@material-ui/icons/Send";
+import io from "socket.io-client";
+
+let socket;
+
+let room = Math.floor(Math.random() * Math.floor(20000));
 
 export default function DialogBox({ handleClose, open }) {
-  const [state, setState] = useState(1);
+  const [message, setMessage] = useState("");
 
-  const handleClick = () => {
-    setState(state + 1);
-  };
+  if (!socket) {
+    socket = io(":3001");
+  }
+  socket.emit("room", room);
+
+  socket.on("message", function(data) {
+    console.log("Incoming message:", data);
+  });
+
+  const handleClick = () => {};
 
   return (
     <React.Fragment>
@@ -30,15 +42,15 @@ export default function DialogBox({ handleClose, open }) {
           {"Mentor: Daniel Nebreja"}
         </DialogTitle>
         <DialogContent dividers>
-          <DialogContainer open={open} state={state} />
+          <DialogContainer />
         </DialogContent>
         <DialogActions>
-          <Type />
+          <Type setMessage={setMessage} />
           <Button
             variant="contained"
             color="primary"
             endIcon={<SendIcon>send</SendIcon>}
-            onClick={handleClick}
+            onClick={() => handleClick()}
           >
             Send
           </Button>
