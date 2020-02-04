@@ -247,13 +247,9 @@ const Layout = props => {
                 style={{ height: "100vh" }}
               >
                 <Request />
-              </div>
-              <div
-                className={sidebarStyles.container}
-                style={{ height: "100vh" }}
-              >
                 <KeyList />
               </div>
+
               <CollapseBtn className={sidebarStyles.collapseBtn}>
                 {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </CollapseBtn>

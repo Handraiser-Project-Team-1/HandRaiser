@@ -118,12 +118,12 @@ export default function Request(props) {
   return (
     <React.Fragment>
       <div style={{ padding: "40px" }}>
-        <Button color="inherit" onClick={request}>
+        <Badge badgeContent={names.length} color="secondary">
+          <NotificationsIcon />
+        </Badge>
+        <Button color="primary" onClick={request}>
           Login Requests
-          <Badge badgeContent={names.length} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </Button>
+        </Button>{" "}
       </div>
       <Dialog
         aria-labelledby="simple-dialog-title"

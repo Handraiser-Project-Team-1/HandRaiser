@@ -90,8 +90,8 @@ function Keyauth() {
       .then(response => {
         setTimeout(() => {
           response.data.type
-            ? history.push("/mentor")
-            : history.push("/student");
+            ? history.push("/queue")
+            : history.push("/classes");
         }, 1000);
       })
       .catch(error => {

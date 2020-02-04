@@ -10,13 +10,19 @@ import {
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
-import { Grid } from '@material-ui/core';
-import { Table, TableHead, TableBody, TableCell, TableRow } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableCell,
+  TableRow
+} from "@material-ui/core";
 // import FileCopyIcon from '@material-ui/icons/FileCopy';
 // import { Tooltip, InputBase, InputAdornment, IconButton,} from "@material-ui/core";
 // import Notification from '../../includes/Notif';
-import {Badge} from "@material-ui/core";
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import { Badge } from "@material-ui/core";
+import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
 const useStyles = makeStyles(theme => ({
   bot: {
@@ -32,17 +38,17 @@ const useStyles = makeStyles(theme => ({
     marginRight: "10px"
   },
   dialogTitle: {
-    background: '#6cb1fd', 
-    color: '#fff',
+    background: "#6cb1fd",
+    color: "#fff"
   },
   closeIcon: {
-    color: '#fff',
-    position: 'absolute',
-    right: theme.spacing(1),
+    color: "#fff",
+    position: "absolute",
+    right: theme.spacing(1)
   }
 }));
 
-export default function Request({open, setOpen, setKeyBadge}) {
+export default function Request({ open, setOpen, setKeyBadge }) {
   const classes = useStyles();
   const [keyList, setKeyList] = useState([]);
   const [openK, setOpenK] = useState(false);
@@ -50,21 +56,21 @@ export default function Request({open, setOpen, setKeyBadge}) {
   const fetchKeyListfn = () => {
     axios({
       url: `${process.env.REACT_APP_DB_URL}/api/keyList`,
-      method: 'GET'
+      method: "GET"
     })
-    .then( response => {
-      setKeyList(response.data);
-      setKeyBadge(response.data.length);
-    })
-    .catch( error => {
-      console.error(error);
-    })
-  }
+      .then(response => {
+        setKeyList(response.data);
+        setKeyBadge(response.data.length);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   useEffect(() => {
     fetchKeyListfn();
     //eslint-disable-next-line
-  }, [])
+  }, []);
 
   const closeAdd = () => {
     setOpenK(false);
@@ -79,14 +85,19 @@ export default function Request({open, setOpen, setKeyBadge}) {
   return (
     <React.Fragment>
       <div style={{ padding: "0px 40px 0 40px" }}>
-        <Button color="inherit" onClick={() => setOpenK(true)}>
+        <Badge badgeContent={keyList.length} color="secondary">
+          <VpnKeyIcon />
+        </Badge>
+        <Button color="primary" onClick={() => setOpenK(true)}>
           Keys
-          <Badge badgeContent={keyList.length} color="secondary">
-            <VpnKeyIcon />
-          </Badge>
         </Button>
       </div>
-      <Dialog aria-labelledby="simple-dialog-title" open={openK} maxWidth='sm' fullWidth>
+      <Dialog
+        aria-labelledby="simple-dialog-title"
+        open={openK}
+        maxWidth="sm"
+        fullWidth
+      >
         {/* <Notification
           type="success"
           title=""
@@ -97,7 +108,11 @@ export default function Request({open, setOpen, setKeyBadge}) {
         <CssBaseline />
         <DialogTitle className={classes.dialogTitle} id="simple-dialog-title">
           Sent Keys
-          <Button color="secondary" className={classes.closeIcon} onClick={closeAdd}>
+          <Button
+            color="secondary"
+            className={classes.closeIcon}
+            onClick={closeAdd}
+          >
             <CloseIcon />
           </Button>
         </DialogTitle>
@@ -118,11 +133,13 @@ export default function Request({open, setOpen, setKeyBadge}) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {keyList.map((user, id)=>{
-                  return(
+                {keyList.map((user, id) => {
+                  return (
                     <TableRow key={id}>
                       <TableCell>{++id}</TableCell>
-                      <TableCell>{user.user_lname+", "+user.user_fname}</TableCell>
+                      <TableCell>
+                        {user.user_lname + ", " + user.user_fname}
+                      </TableCell>
                       <TableCell>{user.key_type}</TableCell>
                       <TableCell>{user.key}</TableCell>
                       {/* <TableCell style={{width: '30%'}}>
@@ -148,7 +165,7 @@ export default function Request({open, setOpen, setKeyBadge}) {
                 })}
               </TableBody>
             </Table>
-          </Grid> 
+          </Grid>
         </DialogContent>
       </Dialog>
     </React.Fragment>
