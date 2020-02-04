@@ -15,6 +15,8 @@ import { Table, TableHead, TableBody, TableCell, TableRow } from "@material-ui/c
 // import FileCopyIcon from '@material-ui/icons/FileCopy';
 // import { Tooltip, InputBase, InputAdornment, IconButton,} from "@material-ui/core";
 // import Notification from '../../includes/Notif';
+import {Badge} from "@material-ui/core";
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 
 const useStyles = makeStyles(theme => ({
   bot: {
@@ -43,6 +45,7 @@ const useStyles = makeStyles(theme => ({
 export default function Request({open, setOpen, setKeyBadge}) {
   const classes = useStyles();
   const [keyList, setKeyList] = useState([]);
+  const [openK, setOpenK] = useState(false);
 
   const fetchKeyListfn = () => {
     axios({
@@ -62,9 +65,9 @@ export default function Request({open, setOpen, setKeyBadge}) {
     fetchKeyListfn();
     //eslint-disable-next-line
   }, [])
-  
+
   const closeAdd = () => {
-    setOpen(false);
+    setOpenK(false);
   };
 
   // const [notif, setNotif] = useState(false);
@@ -74,70 +77,80 @@ export default function Request({open, setOpen, setKeyBadge}) {
   // }
 
   return (
-    <Dialog aria-labelledby="simple-dialog-title" open={open} maxWidth='sm' fullWidth>
-      {/* <Notification
-        type="success"
-        title=""
-        message="Copied to Clipboard!"
-        open={notif}
-        setOpen={setNotif}
-      /> */}
-      <CssBaseline />
-      <DialogTitle className={classes.dialogTitle} id="simple-dialog-title">
-        Sent Keys
-        <Button color="secondary" className={classes.closeIcon} onClick={closeAdd}>
-          <CloseIcon />
+    <React.Fragment>
+      <div style={{ padding: "0px 40px 0 40px" }}>
+        <Button color="inherit" onClick={() => setOpenK(true)}>
+          Keys
+          <Badge badgeContent={keyList.length} color="secondary">
+            <VpnKeyIcon />
+          </Badge>
         </Button>
-      </DialogTitle>
-      <DialogContent dividers>
-        <Grid
-          container
-          direction="column"
-          justify="center"
-          alignItems="stretch"
-        >
-          <Table>
-            <TableHead>
-              <TableRow key="table-head">
-                <TableCell>#</TableCell>
-                <TableCell>Name</TableCell>
-                <TableCell>type</TableCell>
-                <TableCell align="left">key</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {keyList.map((user, id)=>{
-                return(
-                  <TableRow key={id}>
-                    <TableCell>{++id}</TableCell>
-                    <TableCell>{user.user_lname+", "+user.user_fname}</TableCell>
-                    <TableCell>{user.key_type}</TableCell>
-                    <TableCell>{user.key}</TableCell>
-                    {/* <TableCell style={{width: '30%'}}>
-                      <InputBase 
-                        type="text"
-                        defaultValue={user.key}
-                        inputProps={{
-                          readOnly: true
-                        }}
-                        endAdornment={
-                          <InputAdornment position="end">
-                            <Tooltip title="Copy Key" placement="top">
-                              <IconButton onClick={handleCopy}>
-                                <FileCopyIcon />
-                              </IconButton>
-                            </Tooltip>
-                          </InputAdornment>
-                        }
-                      />
-                    </TableCell> */}
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </Grid> 
-      </DialogContent>
-    </Dialog>
+      </div>
+      <Dialog aria-labelledby="simple-dialog-title" open={openK} maxWidth='sm' fullWidth>
+        {/* <Notification
+          type="success"
+          title=""
+          message="Copied to Clipboard!"
+          open={notif}
+          setOpen={setNotif}
+        /> */}
+        <CssBaseline />
+        <DialogTitle className={classes.dialogTitle} id="simple-dialog-title">
+          Sent Keys
+          <Button color="secondary" className={classes.closeIcon} onClick={closeAdd}>
+            <CloseIcon />
+          </Button>
+        </DialogTitle>
+        <DialogContent dividers>
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="stretch"
+          >
+            <Table>
+              <TableHead>
+                <TableRow key="table-head">
+                  <TableCell>#</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>type</TableCell>
+                  <TableCell align="left">key</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {keyList.map((user, id)=>{
+                  return(
+                    <TableRow key={id}>
+                      <TableCell>{++id}</TableCell>
+                      <TableCell>{user.user_lname+", "+user.user_fname}</TableCell>
+                      <TableCell>{user.key_type}</TableCell>
+                      <TableCell>{user.key}</TableCell>
+                      {/* <TableCell style={{width: '30%'}}>
+                        <InputBase 
+                          type="text"
+                          defaultValue={user.key}
+                          inputProps={{
+                            readOnly: true
+                          }}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <Tooltip title="Copy Key" placement="top">
+                                <IconButton onClick={handleCopy}>
+                                  <FileCopyIcon />
+                                </IconButton>
+                              </Tooltip>
+                            </InputAdornment>
+                          }
+                        />
+                      </TableCell> */}
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </Grid> 
+        </DialogContent>
+      </Dialog>
+    </React.Fragment>
   );
 }

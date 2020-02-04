@@ -99,7 +99,7 @@ export default function Request(props) {
   
   return (
     <React.Fragment>
-    <div style={{ padding: "40px" }}>
+    <div style={{ padding: "40px 40px 0 40px" }}>
       <Button color="inherit" onClick={request}>
         Login Requests
         <Badge badgeContent={names.length} color="secondary">
