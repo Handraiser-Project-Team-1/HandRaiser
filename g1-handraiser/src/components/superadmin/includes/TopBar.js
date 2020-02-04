@@ -164,6 +164,16 @@ const useStyles = makeStyles(theme => ({
       width: theme.spacing(6),
       height: theme.spacing(6)
     }
+  },
+  logout: {
+    display: "flex",
+    justifyContent: "flex-end",
+    width: "25%",
+    "@media (max-width: 320px)": {
+      display: "flex",
+      width: "50%",
+      justifyContent: "flex-end"
+    }
   }
 }));
 
@@ -190,9 +200,9 @@ const Layout = props => {
 
   const logout = () => {
     localStorage.clear();
-    history.push('/')
-  }
-  
+    history.push("/");
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Root omitThemeProvider={true} config={config}>
@@ -204,11 +214,17 @@ const Layout = props => {
                 <SidebarTrigger className={headerStyles.leftTrigger}>
                   {opened ? <ChevronLeftIcon /> : <MenuIcon />}
                 </SidebarTrigger>
-                <Typography variant="h6" style={{width: '95%'}}>HandRaiser</Typography>
-                <Button style={{color: 'white'}} onClick={logout}>
+                <Typography variant="h6" style={{ width: "95%" }}>
+                  HandRaiser
+                </Typography>
+                <Button
+                  style={{ color: "white" }}
+                  onClick={logout}
+                  className={classes.logout}
+                >
                   Log out
                 </Button>
-              </Toolbar>            
+              </Toolbar>
             </Header>
             <Sidebar>
               <div className={classes.icon}>

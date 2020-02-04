@@ -4,7 +4,6 @@ import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import GoogleIcon from "./img/googles.png";
 import { CircularProgress } from "@material-ui/core";
-
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -40,35 +39,40 @@ function Login() {
   const history = useHistory();
   const classes = useStyles();
 
-  const [ login, setLogin ] = useState(false);
+  const [login, setLogin] = useState(false);
 
   const responseGoogle = response => {
     setLogin(true);
     axios({
-      method: 'POST',
-      url:`${process.env.REACT_APP_DB_URL}/api/users`,
+      method: "POST",
+      url: `${process.env.REACT_APP_DB_URL}/api/users`,
       data: {
-        userData:{
-          ...response.profileObj,
+        userData: {
+          ...response.profileObj
         }
       }
     })
-    .then(response => {
-      setTimeout(() => {
-        if(response.data.status === 200){
-          (response.data.userType === 'mentor') ? history.push('/mentor') : history.push('/student');
-        }else{
-          history.push('/authentication');
-        }
-      }, 2000);
-    })
-    .then(() => {
-      let token = {type: response.tokenObj.token_type, token: response.tokenObj.id_token};
-      localStorage.setItem('tokenid', JSON.stringify(token));
-    })
-    .catch(error => {
-      console.error(error);
-    });
+      .then(response => {
+        setTimeout(() => {
+          if (response.data.status === 200) {
+            response.data.userType === "mentor"
+              ? history.push("/mentor")
+              : history.push("/student");
+          } else {
+            history.push("/authentication");
+          }
+        }, 2000);
+      })
+      .then(() => {
+        let token = {
+          type: response.tokenObj.token_type,
+          token: response.tokenObj.id_token
+        };
+        localStorage.setItem("tokenid", JSON.stringify(token));
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   const responseGoogleFail = response => {
