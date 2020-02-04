@@ -14,7 +14,9 @@ const useStyles = makeStyles(theme => ({
   grid: {
     display: "flex",
     alignItems: "center",
-    height: "100%"
+    height: "100%",
+    justifyContent: "space-between",
+    margin: 5
   }
 }));
 function UserType({ setNotifDetailsFn, openNofif, getUserFn, userid }) {
@@ -49,33 +51,29 @@ function UserType({ setNotifDetailsFn, openNofif, getUserFn, userid }) {
   return (
     <form onSubmit={sendKeyFn}>
       <Grid container spacing={3} className={classes.grid}>
-        <Grid item xs={12} sm={6}>
-          <FormControl error={disable}>
-            <Select
-              id="userType-select"
-              value={userType}
-              onChange={handleChange}
-              displayEmpty
-            >
-              <MenuItem value="" disabled>
-                <em>User Type</em>
-              </MenuItem>
-              <MenuItem value="student">Student</MenuItem>
-              <MenuItem value="mentor">Mentor</MenuItem>
-            </Select>
-            {disable && <FormHelperText>Choose User Type</FormHelperText>}
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={disable}
-            type="submit"
+        <FormControl error={disable}>
+          <Select
+            id="userType-select"
+            value={userType}
+            onChange={handleChange}
+            displayEmpty
           >
-            Send Key
-          </Button>
-        </Grid>
+            <MenuItem value="" disabled>
+              <em>User Type</em>
+            </MenuItem>
+            <MenuItem value="student">Student</MenuItem>
+            <MenuItem value="mentor">Mentor</MenuItem>
+          </Select>
+          {disable && <FormHelperText>Choose User Type</FormHelperText>}
+        </FormControl>
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={disable}
+          type="submit"
+        >
+          Send Key
+        </Button>
       </Grid>
     </form>
   );

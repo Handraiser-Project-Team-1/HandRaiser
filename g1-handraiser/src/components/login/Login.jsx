@@ -4,7 +4,6 @@ import { Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 import GoogleIcon from "./img/googles.png";
 import { CircularProgress } from "@material-ui/core";
-
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 
@@ -46,7 +45,7 @@ function Login() {
     setLogin(true);
     axios({
       method: "POST",
-      url: `http://localhost:3001/api/users`,
+      url: `${process.env.REACT_APP_DB_URL}/api/users`,
       data: {
         userData: {
           ...response.profileObj
