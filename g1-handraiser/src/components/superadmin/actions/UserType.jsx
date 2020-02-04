@@ -34,7 +34,7 @@ function UserType({ setNotifDetailsFn, openNofif, getUserFn, userid }) {
     e.preventDefault();
     axios({
       // url: `${process.env.REACT_APP_DB_URL}/api/key`,
-      url: `http://localhost:3001/api/key`,
+      url: `${process.env.REACT_APP_DB_URL}/api/key`,
       method: "POST",
       data: { id: userid, type: userType }
     })

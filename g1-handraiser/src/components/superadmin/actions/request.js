@@ -94,6 +94,7 @@ export default function Request(props) {
 
   useEffect(() => {
     getUserFn();
+    // eslint-disable-next-line
   }, []);
 
   const closeAdd = () => {
