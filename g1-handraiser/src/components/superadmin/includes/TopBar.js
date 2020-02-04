@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useHistory } from "react-router-dom";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -186,7 +186,6 @@ const theme = createMuiTheme({
 
 const Layout = props => {
   const classes = useStyles();
-  const [openK, setOpenK] = useState(false);
   let history = useHistory();
 
   const logout = () => {
@@ -233,7 +232,12 @@ const Layout = props => {
               >
                 <Request />
               </div>
-              <KeyList open={openK} setOpen={setOpenK} />
+              <div
+                className={sidebarStyles.container}
+                style={{ height: "100vh" }}
+              >
+                <KeyList />
+              </div>
               <CollapseBtn className={sidebarStyles.collapseBtn}>
                 {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </CollapseBtn>
