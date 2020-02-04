@@ -12,8 +12,7 @@ const useStyles = makeStyles({
     display: "flex",
     marginLeft: "13%",
     width: "70%",
-    backgroundColor: "#42B0FF",
-    color: "#fff",
+    backgroundColor: "#fff ",
     "@media (max-width: 768px)": {
       marginLeft: "1%",
       minWidth: "100%"
@@ -22,7 +21,7 @@ const useStyles = makeStyles({
       width: "95%"
     },
     "&:hover": {
-      background: "#5090d4"
+      background: "#fff"
     }
   },
   google: {
@@ -86,7 +85,8 @@ function Login() {
           className={classes.button}
           onClick={renderProps.onClick}
           disabled={renderProps.disabled}
-          variant="contained"
+          component="span"
+          variant="outlined"
         >
           <img className={classes.google} src={GoogleIcon} alt="/" />
           Login with Google
