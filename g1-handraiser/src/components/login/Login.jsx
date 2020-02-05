@@ -52,11 +52,12 @@ function Login() {
       }
     })
       .then(response => {
+        // console.log(response)
         setTimeout(() => {
-          if (response.data.status === 200) {
+          if (response.status === 200) {
             response.data.userType === "mentor"
-              ? history.push("/mentor")
-              : history.push("/student");
+              ? history.push("/queue")
+              : history.push("/classes");
           } else {
             history.push("/authentication");
           }
