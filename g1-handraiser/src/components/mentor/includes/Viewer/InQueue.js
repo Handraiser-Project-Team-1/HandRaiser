@@ -1,35 +1,34 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import FaceIcon from '@material-ui/icons/Face';
-import HelpIcon from '@material-ui/icons/Help';
-
-import Popper from '@material-ui/core/Popper';
-import Fade from '@material-ui/core/Fade';
-import Paper from '@material-ui/core/Paper';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
+import CardActionArea from "@material-ui/core/CardActionArea";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Button from "@material-ui/core/Button";
+import Typography from "@material-ui/core/Typography";
+import HelpIcon from "@material-ui/icons/Help";
+import Popper from "@material-ui/core/Popper";
+import Fade from "@material-ui/core/Fade";
+import Paper from "@material-ui/core/Paper";
+import Avatar from "@material-ui/core/Avatar";
+import { CardHeader } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   typography: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(2)
   },
   userBackground: {
-    background: '#d6d6d6'
+    background: "#f3f5f7"
   },
   Card: {
-    '@media (max-width:768px)': {
+    "@media (max-width:768px)": {
       hidden: true
     }
   }
-
 }));
 
 function InQueue() {
@@ -49,7 +48,9 @@ function InQueue() {
         {({ TransitionProps }) => (
           <Fade {...TransitionProps} timeout={350}>
             <Paper>
-              <Typography className={classes.typography}>Error Handling</Typography>
+              <Typography className={classes.typography}>
+                Error Handling
+              </Typography>
             </Paper>
           </Fade>
         )}
@@ -61,51 +62,46 @@ function InQueue() {
               <CardContent>
                 <div className={classes.root}>
                   <Grid container spacing={3}>
-                    <Grid item xs={3} >
-                      <FaceIcon fontSize="large" />
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Vincent
-                        </Typography>
+                    <Grid item xs={12}>
+                      <CardHeader
+                        avatar={
+                          <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
+                        }
+                        title="Marcial M. Norte Jr"
+                      />
                     </Grid>
                   </Grid>
                 </div>
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary">
+              <Button variant="outlined" size="small" color="primary">
                 Help
               </Button>
-              <Button size="small" color="primary">
+              <Button variant="outlined" size="small" color="primary">
                 Remove
               </Button>
               <Button size="small" color="primary">
-                <HelpIcon onClick={handleClick('bottom')} />
+                <HelpIcon onClick={handleClick("bottom")} />
               </Button>
-              <Typography>
-                1
-              </Typography>
-
-
+              <Typography>1</Typography>
             </CardActions>
           </Card>
         </Grid>
 
-
-        <Grid item xs={12} sm={4}>
+        {/* <Grid item xs={12} sm={4}>
           <Card>
             <CardActionArea className={classes.userBackground}>
               <CardContent>
                 <div className={classes.root}>
                   <Grid container spacing={3}>
                     <Grid item xs={3}>
-                      <FaceIcon fontSize="large" />
+                      <Avatar>V</Avatar>
                     </Grid>
                     <Grid item xs={9}>
                       <Typography gutterBottom variant="h5" component="h2">
                         Vincent
-                        </Typography>
+                      </Typography>
                     </Grid>
                   </Grid>
                 </div>
@@ -119,87 +115,81 @@ function InQueue() {
                 Remove
               </Button>
               <Button size="small" color="primary">
-                <HelpIcon onClick={handleClick('bottom')} />
+                <HelpIcon onClick={handleClick("bottom")} />
               </Button>
-              <Typography>
-                2
-              </Typography>
+              <Typography>4</Typography>
             </CardActions>
           </Card>
-        </Grid>
+        </Grid> */}
 
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={4} className={classes.Card}>
           <Card>
             <CardActionArea className={classes.userBackground}>
               <CardContent>
                 <div className={classes.root}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={3}>
-                      <FaceIcon fontSize="large" />
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Vincent
-                        </Typography>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <CardHeader
+                        avatar={
+                          <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
+                        }
+                        title="Marcial M. Norte Jr"
+                      />
                     </Grid>
                   </Grid>
                 </div>
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary">
+              <Button variant="outlined" size="small" color="primary">
                 Help
               </Button>
-              <Button size="small" color="primary">
+              <Button variant="outlined" size="small" color="primary">
                 Remove
               </Button>
               <Button size="small" color="primary">
-                <HelpIcon onClick={handleClick('bottom')} />
+                <HelpIcon onClick={handleClick("bottom")} />
               </Button>
-              <Typography>
-                3
-              </Typography>
+              <Typography>2</Typography>
             </CardActions>
           </Card>
         </Grid>
 
-        <Grid item xs={12} sm={4}>
+        <Grid item xs={12} sm={4} className={classes.Card}>
           <Card>
             <CardActionArea className={classes.userBackground}>
               <CardContent>
                 <div className={classes.root}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={3}>
-                      <FaceIcon fontSize="large" />
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Vincent
-                        </Typography>
+                  <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                      <CardHeader
+                        avatar={
+                          <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
+                        }
+                        title="Marcial M. Norte Jr"
+                      />
                     </Grid>
                   </Grid>
                 </div>
               </CardContent>
             </CardActionArea>
             <CardActions>
-              <Button size="small" color="primary">
+              <Button variant="outlined" size="small" color="primary">
                 Help
               </Button>
-              <Button size="small" color="primary">
+              <Button variant="outlined" size="small" color="primary">
                 Remove
               </Button>
               <Button size="small" color="primary">
-                <HelpIcon onClick={handleClick('bottom')} />
+                <HelpIcon onClick={handleClick("bottom")} />
               </Button>
-              <Typography>
-                4
-              </Typography>
+              <Typography>3</Typography>
             </CardActions>
           </Card>
         </Grid>
       </Grid>
     </div>
-  )
+  );
 }
 
-export default InQueue
+export default InQueue;

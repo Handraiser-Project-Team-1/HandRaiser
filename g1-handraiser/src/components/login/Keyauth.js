@@ -64,7 +64,6 @@ function Keyauth() {
   const [key, setKey] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
-
   const [notif, setNotif] = useState(false);
   const [notifType, setNotifType] = useState(false);
 
@@ -90,8 +89,8 @@ function Keyauth() {
       .then(response => {
         setTimeout(() => {
           response.data.type
-            ? history.push("/queue")
-            : history.push("/classes");
+            ? history.push("/classes")
+            : history.push("/queue");
         }, 1000);
       })
       .catch(error => {

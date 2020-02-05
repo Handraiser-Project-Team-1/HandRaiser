@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   CssBaseline,
-  //Container,
   Button,
   DialogTitle,
   Dialog,
   List,
   ListItem,
-  ListItemText,
   DialogContent,
   Badge
 } from "@material-ui/core";
@@ -16,10 +14,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
 import UserType from "./UserType";
-import Paper from "@material-ui/core/Paper";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Notification from "../../includes/Notif";
-import { fontSize } from "@material-ui/system";
 require("dotenv").config();
 
 const useStyles = makeStyles(theme => ({
