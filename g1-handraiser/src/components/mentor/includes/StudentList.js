@@ -44,7 +44,7 @@ function StudentList() {
             <ListItemAvatar>
               <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
             </ListItemAvatar>
-            <ListItemText primary="Marcial M. Norte Jr" />
+            <ListItemText primary="Marcial M. Nore Jr" />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">
                 <DeleteIcon style={{ color: "#42b0fe " }} />{" "}
