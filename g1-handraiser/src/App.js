@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext } from "react";
 import { BrowserRouter, Route, Switch} from "react-router-dom";
 import "./App.css";
 import Select from "./components/selectclass/Select";
@@ -11,16 +11,9 @@ import page404 from "./components/includes/Page404";
 import Authentication from "./components/login/Keyauth";
 require('dotenv').config()
 
-function App() {
-  const [auth, setAuth] = useState('')
-  
-  const authorization = () =>{
-    setAuth(localStorage.getItem('tokenid'))
-  }
+export const JWTContext = createContext({})
 
-  useEffect(()=>{
-    authorization()
-  },[auth])
+export default function App() {
 
   var makeid = length => {
     var result = "";
@@ -36,8 +29,7 @@ function App() {
   var key = makeid(5);
   return (
     <BrowserRouter>
-      {console.log(auth)}
-      {(auth === null) ? (
+      <JWTContext.Provider value={localStorage.getItem('tokenid')}>
         <Switch>
           <Route
             exact
@@ -49,10 +41,6 @@ function App() {
             path="/authentication"
             render={props => <Authentication {...props} active="authentication" />}
           />
-          <Route path="/" component={page404} />
-        </Switch>
-      ) : (
-        <Switch>
           <Route
             exact
             path="/classes"
@@ -63,33 +51,30 @@ function App() {
             path="/queue"
             render={props => <Queue {...props} active="boomcamp" />}
           />
-           <Route
+            <Route
             exact
             path="/class/:id"
             render={props => <Que {...props} active="1" />}
           />
+          <Route
+            exact
+            path="/welcome"
+            render={props => <Welcome {...props} keys={key} active="welcome" />}
+          />
+          <Route
+            exact
+            path="/admin"
+            render={props => (
+              <Admin
+                {...props}
+                keys={localStorage.getItem("key")}
+                active="admin"
+              />
+            )}
+          />
+          <Route path="/" component={page404} />
         </Switch>
-      )}
-      <Switch>
-        <Route
-          exact
-          path="/welcome"
-          render={props => <Welcome {...props} keys={key} active="welcome" />}
-        />
-        <Route
-          exact
-          path="/admin"
-          render={props => (
-            <Admin
-              {...props}
-              keys={localStorage.getItem("key")}
-              active="admin"
-            />
-          )}
-        />
-      </Switch>
+      </JWTContext.Provider>
     </BrowserRouter>
   );
 }
-
-export default App;
