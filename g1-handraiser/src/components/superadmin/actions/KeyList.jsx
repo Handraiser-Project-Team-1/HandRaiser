@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   CssBaseline,
-  //Container,
+  Typography,
   Button,
   DialogTitle,
   Dialog,
@@ -18,9 +18,6 @@ import {
   TableCell,
   TableRow
 } from "@material-ui/core";
-// import FileCopyIcon from '@material-ui/icons/FileCopy';
-// import { Tooltip, InputBase, InputAdornment, IconButton,} from "@material-ui/core";
-// import Notification from '../../includes/Notif';
 import { Badge } from "@material-ui/core";
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 
@@ -48,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Request({ open, setOpen, setKeyBadge }) {
+export default function KeyList() {
   const classes = useStyles();
   const [keyList, setKeyList] = useState([]);
   const [openK, setOpenK] = useState(false);
@@ -60,7 +57,6 @@ export default function Request({ open, setOpen, setKeyBadge }) {
     })
       .then(response => {
         setKeyList(response.data);
-        setKeyBadge(response.data.length);
       })
       .catch(error => {
         console.error(error);
@@ -75,12 +71,6 @@ export default function Request({ open, setOpen, setKeyBadge }) {
   const closeAdd = () => {
     setOpenK(false);
   };
-
-  // const [notif, setNotif] = useState(false);
-
-  // const handleCopy = () => {
-  //   setNotif(true);
-  // }
 
   return (
     <React.Fragment>
@@ -98,13 +88,6 @@ export default function Request({ open, setOpen, setKeyBadge }) {
         maxWidth="sm"
         fullWidth
       >
-        {/* <Notification
-          type="success"
-          title=""
-          message="Copied to Clipboard!"
-          open={notif}
-          setOpen={setNotif}
-        /> */}
         <CssBaseline />
         <DialogTitle className={classes.dialogTitle} id="simple-dialog-title">
           Sent Keys
@@ -133,7 +116,7 @@ export default function Request({ open, setOpen, setKeyBadge }) {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {keyList.map((user, id) => {
+                {(keyList.length !== 0) ? keyList.map((user, id) => {
                   return (
                     <TableRow key={id}>
                       <TableCell>{++id}</TableCell>
@@ -142,27 +125,9 @@ export default function Request({ open, setOpen, setKeyBadge }) {
                       </TableCell>
                       <TableCell>{user.key_type}</TableCell>
                       <TableCell>{user.key}</TableCell>
-                      {/* <TableCell style={{width: '30%'}}>
-                        <InputBase 
-                          type="text"
-                          defaultValue={user.key}
-                          inputProps={{
-                            readOnly: true
-                          }}
-                          endAdornment={
-                            <InputAdornment position="end">
-                              <Tooltip title="Copy Key" placement="top">
-                                <IconButton onClick={handleCopy}>
-                                  <FileCopyIcon />
-                                </IconButton>
-                              </Tooltip>
-                            </InputAdornment>
-                          }
-                        />
-                      </TableCell> */}
                     </TableRow>
                   );
-                })}
+                }): <Typography>No Key sent yet</Typography>}
               </TableBody>
             </Table>
           </Grid>

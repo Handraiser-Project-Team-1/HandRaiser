@@ -8,7 +8,8 @@ import {
   List,
   ListItem,
   DialogContent,
-  Badge
+  Badge,
+  Typography
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
@@ -70,8 +71,6 @@ export default function Request(props) {
   });
 
   const getUserFn = () => {
-    console.log(process.env.DB_URL, "hi");
-    // axios.get(`${process.env.REACT_APP_DB_URL}/api/users`).then(res => {
     axios.get(`${process.env.REACT_APP_DB_URL}/api/users`).then(res => {
       var temp = [];
       res.data.map(x => {
@@ -133,7 +132,6 @@ export default function Request(props) {
           open={notif}
           setOpen={setNotif}
         />
-        {/* <Container component="main"> */}
         <CssBaseline />
         <DialogTitle className={classes.dialogTitle} id="simple-dialog-title">
           Login Requests
@@ -148,36 +146,39 @@ export default function Request(props) {
         <DialogContent dividers>
           <Grid container>
             <List className={classes.list}>
-              {names.map((x, id) => {
-                return (
-                  <Grid item key={id}>
-                    <ListItem key={id}>
-                      <Grid container>
-                        <Grid item xs={12} sm={6} className={classes.grid}>
-                          <img
-                            alt={x.image}
-                            src={x.image}
-                            className={classes.pic}
-                          />
-                          {x.lname}, {x.fname}
+              {names.length !== 0 ? (
+                names.map((x, id) => {
+                  return (
+                    <Grid item key={id}>
+                      <ListItem key={id}>
+                        <Grid container>
+                          <Grid item xs={12} sm={6} className={classes.grid}>
+                            <img
+                              alt={x.image}
+                              src={x.image}
+                              className={classes.pic}
+                            />
+                            {x.lname}, {x.fname}
+                          </Grid>
+                          <Grid item xs={12} sm={6} className={classes.grids}>
+                            <UserType
+                              setNotifDetailsFn={setNotifDetailsFn}
+                              openNofif={openNofif}
+                              getUserFn={getUserFn}
+                              userid={x.uid}
+                            />
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={6} className={classes.grids}>
-                          <UserType
-                            setNotifDetailsFn={setNotifDetailsFn}
-                            openNofif={openNofif}
-                            getUserFn={getUserFn}
-                            userid={x.uid}
-                          />
-                        </Grid>
-                      </Grid>
-                    </ListItem>
-                  </Grid>
-                );
-              })}
+                      </ListItem>
+                    </Grid>
+                  );
+                })
+              ) : (
+                <Typography>No Login Requests this time</Typography>
+              )}
             </List>
           </Grid>
         </DialogContent>
-        {/* </Container> */}
       </Dialog>
     </React.Fragment>
   );

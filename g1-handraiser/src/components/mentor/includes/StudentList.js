@@ -12,6 +12,7 @@ import Avatar from "@material-ui/core/Avatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import IconButton from "@material-ui/core/IconButton";
 import CommentIcon from "@material-ui/icons/Comment";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,98 +39,6 @@ function StudentList() {
       <CardHeader className={classes.bg} title="LIST" />
       <CardHeader />
       <GridList cellHeight={80} className={classes.gridList} cols={1}>
-        {/* <Card>
-          <CardContent>
-            <CardActionArea className={classes.userBackground}>
-              <CardContent>
-                <Grid container spacing={1}>
-                  <Grid item xs={12}>
-                    <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
-                  </Grid>
-                  <Grid item xs={8}>
-                    Vincent Serra
-                  </Grid>
-                  <Grid item xs={2}>
-                    <MessageIcon fontSize="small" />
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </CardActionArea>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            <CardActionArea className={classes.userBackground}>
-              <CardContent>
-                <Grid container spacing={1}>
-                  <Grid item xs={2}>
-                    <FaceIcon fontSize="small" />
-                  </Grid>
-                  <Grid item xs={8}>
-                    Vincent Serra
-                  </Grid>
-                  <Grid item xs={2}>
-                    <MessageIcon fontSize="small" />
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </CardActionArea>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            <CardActionArea className={classes.userBackground}>
-              <CardContent>
-                <Grid container spacing={1}>
-                  <Grid item xs={2}>
-                    <FaceIcon fontSize="small" />
-                  </Grid>
-                  <Grid item xs={8}>
-                    Vincent Serra
-                  </Grid>
-                  <Grid item xs={2}>
-                    <MessageIcon fontSize="small" />
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </CardActionArea>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent>
-            <CardActionArea className={classes.userBackground}>
-              <CardContent>
-                <Grid container spacing={1}>
-                  <Grid item xs={2}>
-                    <FaceIcon fontSize="small" />
-                  </Grid>
-                  <Grid item xs={8}>
-                    Vincent Serra
-                  </Grid>
-                  <Grid item xs={2}>
-                    <MessageIcon fontSize="small" />
-                  </Grid>
-                </Grid>
-              </CardContent>
-            </CardActionArea>
-          </CardContent>
-        </Card> */}
-        {/* 
-        <List className={classes.root}>
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
-            </ListItemAvatar>
-            <ListItemText primary="Marcial M. Norte Jr" />
-          </ListItem>
-          <Divider variant="inset" component="li" />
-          <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-              <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
-            </ListItemAvatar>
-            <ListItemText primary="Marcial M. Norte Jr" />
-          </ListItem>
-        </List> */}
         <List className={classes.root}>
           <ListItem>
             <ListItemAvatar>
@@ -138,7 +47,7 @@ function StudentList() {
             <ListItemText primary="Marcial M. Norte Jr" />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">
-                <CommentIcon />
+                <DeleteIcon style={{ color: "#42b0fe " }} />{" "}
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
@@ -147,13 +56,12 @@ function StudentList() {
 
           <ListItem>
             <ListItemAvatar>
-              {/* <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" /> */}
-              <Avatar>V</Avatar>
+              <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
             </ListItemAvatar>
             <ListItemText primary="Vincent Paul Serra" />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">
-                <CommentIcon />
+                <DeleteIcon style={{ color: "#42b0fe " }} />{" "}
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
@@ -167,7 +75,7 @@ function StudentList() {
             <ListItemText primary="Mark Jowen Mendes" />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">
-                <CommentIcon />
+                <DeleteIcon style={{ color: "#42b0fe " }} />{" "}
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
@@ -181,7 +89,7 @@ function StudentList() {
             <ListItemText primary="Francisco Ifurung" />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">
-                <CommentIcon />
+                <DeleteIcon style={{ color: "#42b0fe " }} />{" "}
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>

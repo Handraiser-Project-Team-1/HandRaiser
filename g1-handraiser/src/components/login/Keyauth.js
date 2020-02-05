@@ -87,11 +87,15 @@ function Keyauth() {
       data: { key: key, token: tokenObj }
     })
       .then(response => {
-        setTimeout(() => {
-          response.data.type
-            ? history.push("/classes")
-            : history.push("/queue");
-        }, 1000);
+        if (tokenObj !== null) {
+          setTimeout(() => {
+            response.data.type
+              ? history.push("/classes")
+              : history.push("/queue");
+          }, 1000);
+        } else {
+          history.push("/");
+        }
       })
       .catch(error => {
         let errorCode = String(error)
@@ -159,7 +163,7 @@ function Keyauth() {
                       marginBottom: "8px"
                     }}
                   >
-                    Authentication key must 5 characters.
+                    Authentication key must be 5 characters.
                   </FormHelperText>
                 )}
               </Grid>
