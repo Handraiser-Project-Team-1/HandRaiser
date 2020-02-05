@@ -116,7 +116,8 @@ export default function Welcome(props) {
   localStorage.setItem("key", keys);
   const [key, setKey] = useState();
 
-  const submit = (e) => {
+  const submit = () => {
+    localStorage.setItem("pass", key.key)
     if(key === undefined){
       history.push('/welcome')
       setError(true)

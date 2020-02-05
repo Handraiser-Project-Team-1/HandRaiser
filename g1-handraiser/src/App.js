@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch} from "react-router-dom";
 import "./App.css";
 import Select from "./components/selectclass/Select";
@@ -9,27 +9,25 @@ import Queue from "./components/mentor/Queue";
 import Que from "./components/studentque/Que";
 import page404 from "./components/includes/Page404";
 import Authentication from "./components/login/Keyauth";
+import Axios from "axios";
 require('dotenv').config()
 
 export const JWTContext = createContext({})
 
 export default function App() {
+  const [key, setKey] = useState()
 
-  var makeid = length => {
-    var result = "";
-    var characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  };
+  useEffect(()=>{
+    Axios
+    .get(`${process.env.REACT_APP_DB_URL}/api/admin`)
+    .then(res=>{
+      setKey(res.data[0].admin_pass)
+    })
+  },[])
 
-  var key = makeid(5);
   return (
     <BrowserRouter>
-      <JWTContext.Provider value={localStorage.getItem('tokenid')}>
+      <JWTContext.Provider>
         <Switch>
           <Route
             exact
@@ -67,7 +65,7 @@ export default function App() {
             render={props => (
               <Admin
                 {...props}
-                keys={localStorage.getItem("key")}
+                keys={localStorage.getItem("pass")}
                 active="admin"
               />
             )}

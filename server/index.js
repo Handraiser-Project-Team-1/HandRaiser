@@ -3,6 +3,7 @@ const massive = require("massive");
 const cors = require("cors");
 const secret = process.env.REACT_APP_SECRET_KEY
 const user = require("./controllers/user/user")
+const admin = require("./controllers/admin/admin")
 require('dotenv').config()
 // console.log(process.env)
 massive({
@@ -41,6 +42,8 @@ massive({
   app.post('/api/key', user.sendUserKey); //<-- this is for sending key to the users
   app.get('/api/keyList', user.getKeyList);
 
+  app.get('/api/admin', admin.getAdminPass);
+  app.patch('/api/admin', admin.updatePass);
   const PORT = 3001;
   app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
