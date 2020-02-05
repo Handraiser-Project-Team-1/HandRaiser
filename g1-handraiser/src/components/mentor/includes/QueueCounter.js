@@ -21,7 +21,7 @@ export default function QueueCounter() {
         <CardActionArea className={classes.userBackground}>
           <CardContent>
             <Typography variant="h2" component="h2">
-              15
+              16
             </Typography>
           </CardContent>
         </CardActionArea>

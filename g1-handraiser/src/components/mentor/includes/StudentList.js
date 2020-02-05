@@ -44,7 +44,7 @@ function StudentList() {
             <ListItemAvatar>
               <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
             </ListItemAvatar>
-            <ListItemText primary="Marcial M. Nore Jr" />
+            <ListItemText primary="Marcial M." />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">
                 <DeleteIcon style={{ color: "#42b0fe " }} />{" "}
@@ -58,7 +58,7 @@ function StudentList() {
             <ListItemAvatar>
               <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
             </ListItemAvatar>
-            <ListItemText primary="Vincent Paul Serra" />
+            <ListItemText primary="Vincent Paul Serr" />
             <ListItemSecondaryAction>
               <IconButton edge="end" aria-label="comments">
                 <DeleteIcon style={{ color: "#42b0fe " }} />{" "}

@@ -42,7 +42,7 @@ function StudentList() {
           <ListItemText primary="Marcial M. Norte Jr" />
           <ListItemSecondaryAction>
             <IconButton edge="end" aria-label="comments">
-              <DeleteIcon />{" "}
+              <DeleteIcon style={{ color: "#42b0fe " }} />
             </IconButton>
           </ListItemSecondaryAction>
         </ListItem>
@@ -51,13 +51,13 @@ function StudentList() {
 
         <ListItem>
           <ListItemAvatar>
-            {/* <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" /> */}
-            <Avatar>V</Avatar>
+            <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
+            {/* <Avatar>V</Avatar> */}
           </ListItemAvatar>
           <ListItemText primary="Vincent Paul Serra" />
           <ListItemSecondaryAction>
             <IconButton edge="end" aria-label="comments">
-              <DeleteIcon />{" "}
+              <DeleteIcon style={{ color: "#42b0fe " }} />
             </IconButton>
           </ListItemSecondaryAction>
         </ListItem>
@@ -71,7 +71,7 @@ function StudentList() {
           <ListItemText primary="Mark Jowen Mendes" />
           <ListItemSecondaryAction>
             <IconButton edge="end" aria-label="comments">
-              <DeleteIcon />{" "}
+              <DeleteIcon style={{ color: "#42b0fe " }} />
             </IconButton>
           </ListItemSecondaryAction>
         </ListItem>
@@ -85,7 +85,7 @@ function StudentList() {
           <ListItemText primary="Francisco Ifurung" />
           <ListItemSecondaryAction>
             <IconButton edge="end" aria-label="comments">
-              <DeleteIcon />{" "}
+              <DeleteIcon style={{ color: "#42b0fe " }} />
             </IconButton>
           </ListItemSecondaryAction>
         </ListItem>
