@@ -8,18 +8,19 @@ import {
   Dialog,
   List,
   ListItem,
-  ListItemText,
+  // ListItemText,
   DialogContent,
-  Badge
+  Badge,
+  Typography
 } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
 import UserType from "./UserType";
-import Paper from "@material-ui/core/Paper";
+// import Paper from "@material-ui/core/Paper";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Notification from "../../includes/Notif";
-import { fontSize } from "@material-ui/system";
+// import { fontSize } from "@material-ui/system";
 require("dotenv").config();
 
 const useStyles = makeStyles(theme => ({
@@ -74,8 +75,6 @@ export default function Request(props) {
   });
 
   const getUserFn = () => {
-    console.log(process.env.DB_URL, "hi");
-    // axios.get(`${process.env.REACT_APP_DB_URL}/api/users`).then(res => {
     axios.get(`${process.env.REACT_APP_DB_URL}/api/users`).then(res => {
       var temp = [];
       res.data.map(x => {
@@ -137,7 +136,6 @@ export default function Request(props) {
           open={notif}
           setOpen={setNotif}
         />
-        {/* <Container component="main"> */}
         <CssBaseline />
         <DialogTitle className={classes.dialogTitle} id="simple-dialog-title">
           Login Requests
@@ -152,7 +150,8 @@ export default function Request(props) {
         <DialogContent dividers>
           <Grid container>
             <List className={classes.list}>
-              {names.map((x, id) => {
+
+              {(names.length !== 0) ? names.map((x, id) => {
                 return (
                   <Grid item key={id}>
                     <ListItem key={id}>
@@ -177,11 +176,10 @@ export default function Request(props) {
                     </ListItem>
                   </Grid>
                 );
-              })}
+              }): <Typography>No Login Requests this time</Typography>}
             </List>
           </Grid>
         </DialogContent>
-        {/* </Container> */}
       </Dialog>
     </React.Fragment>
   );
