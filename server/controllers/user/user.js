@@ -74,6 +74,17 @@ module.exports = {
         })
 
     },
+    getUser: (req, res) => {
+        db = req.app.get('db')
+        const {tokenObj} = req.body;
+        const token = JSON.parse(tokenObj);
+        var decoded = jwt.decode(token.token)
+        db.query(`SELECT * FROM user_details WHERE google_id='${decoded.sub}'`)
+        .then(u => res.status(200).json(u))
+        .catch(err=>{
+            console.log(err)
+        })
+    },
     getUsers: (req, res)=>{
         db = req.app.get('db')
         db.query(`SELECT * FROM user_details AS ud, user_type as ut WHERE NOT EXISTS (SELECT * FROM keys AS k WHERE k.userd_id = ud.userd_id) AND ud.userd_id = ut.userd_id AND ut.user_type = 'pending'`)
