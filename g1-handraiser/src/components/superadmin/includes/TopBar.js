@@ -22,6 +22,7 @@ import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import Request from "../actions/request";
 import KeyList from "../actions/KeyList";
+import Settings from "../actions/Settings";
 
 const config = {
   autoCollapseDisabled: false,
@@ -248,6 +249,7 @@ const Layout = props => {
               >
                 <Request />
                 <KeyList />
+                <Settings />
               </div>
 
               <CollapseBtn className={sidebarStyles.collapseBtn}>

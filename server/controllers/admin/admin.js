@@ -11,10 +11,10 @@ module.exports = {
   },
   updatePass: (req, res) => {
     const db = req.app.get("db");
-    const { admin_pass } = req.body;
+    const { admin_id, admin_pass } = req.body;
 
     db.admin
-      .update({ admin_pass: admin_pass })
+      .update({ admin_id: admin_id, admin_pass: admin_pass })
       .then(u => res.status(200).json(u))
       .catch(err => {
         console.log(err);
