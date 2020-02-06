@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -29,6 +29,7 @@ import {
 } from "@mui-treasury/layout";
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
+import axios from 'axios';
 
 const config = {
   autoCollapseDisabled: false,
@@ -196,13 +197,38 @@ const Layout = props => {
   let history = useHistory();
   const { active } = props;
   const [openSubList, setOpenSubList] = React.useState(true);
+  const [user, setUser] = useState({
+    fname: '',
+    lname: '',
+    image: '',
+    email: ''
+  })
 
   const handleCollapse = () => {
     setOpenSubList(!openSubList);
   };
 
+  useEffect(()=>{
+    axios({
+      method: 'post',
+      url: `${process.env.REACT_APP_DB_URL}/api/user`,
+      data: { tokenObj: localStorage.getItem('tokenid')}
+    })
+    .then(res=>{
+      res.data.map(x=>{
+        setUser({
+          fname: x.user_fname,
+          lname: x.user_lname,
+          image: x.user_image,
+          email: x.user_email
+        })
+        return(setUser)
+      })
+    })
+  },[])
   return (
     <ThemeProvider theme={theme}>
+      {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}
       <Root omitThemeProvider={true} config={config}>
         {({ headerStyles, sidebarStyles, collapsed, opened }) => (
           <>
@@ -219,15 +245,15 @@ const Layout = props => {
               <div className={classes.icon}>
                 <Avatar
                   className={classes.large}
-                  alt="Marcial Norte"
-                  src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg"
+                  alt={`${user.fname} ${user.lname}`}
+                  src={`${user.image}`}
                 />
                 <div style={{ paddingBottom: "15px" }} />
                 <Typography variant="h6" noWrap>
-                  Marcial M. Norte Jr
+                  {user.fname} {user.lname}
                 </Typography>
                 <Typography variant="subtitle1" noWrap>
-                  marcial.norte@boom.camp
+                  {user.email}
                 </Typography>
               </div>
               <Divider />
