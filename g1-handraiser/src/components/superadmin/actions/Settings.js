@@ -53,23 +53,30 @@ export default function Settings() {
   const classes = useStyles();
   const [keyList, setKeyList] = useState([]);
   const [openK, setOpenK] = useState(false);
-  // const [pass, setPass] = useState("");
+  const [cpass, setCPass] = useState("");
+  const [pass, setPass] = useState("")
 
-  // const handlePass = e => {
-  //   console.log(e.value);
-  //   setPass(e.value);
-  // };
-  // const handleClick = () => {
-  //   console.log(pass);
-
-  //   axios({
-  //     method: "PATCH",
-  //     url: `${process.env.REACT_APP_DB_URL}/api/admin`,
-  //     data: { admin_pass: pass }
-  //   }).then(response => {
-  //     console.log("success");
-  //   });
-  // };
+  const handleCPass = e => {
+    console.log(e.value);
+    setCPass(e.value);
+  };
+  const handlePass = e => {
+    console.log(e.value);
+    setPass(e.value);
+  };
+  const handleClick = () => {
+    if(cpass === pass){
+      axios({
+        method: "PATCH",
+        url: `${process.env.REACT_APP_DB_URL}/api/admin`,
+        data: { admin_pass: pass }
+      }).then(response => {
+        console.log("success");
+      });
+    }else{
+      console.log('Password did not match')
+    }
+  };
 
   const fetchKeyListfn = () => {
     axios({
@@ -140,7 +147,7 @@ export default function Settings() {
                   type="password"
                   autoComplete="current-password"
                   variant="outlined"
-                  // onChange={e => handlePass(e.target)}
+                  onChange={e => handleCPass(e.target)}
                 />
                 <TextField
                   id="outlined-password-input"
@@ -148,13 +155,13 @@ export default function Settings() {
                   type="password"
                   autoComplete="confirm-password"
                   variant="outlined"
-                  // onChange={e => handlePass(e.target)}
+                  onChange={e => handlePass(e.target)}
                 />
 
                 <Button
                   variant="contained"
                   color="primary"
-                  // onClick={handleClick}
+                  onClick={handleClick}
                 >
                   Save
                 </Button>
