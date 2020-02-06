@@ -79,6 +79,7 @@ module.exports = {
         const {tokenObj} = req.body;
         const token = JSON.parse(tokenObj);
         var decoded = jwt.decode(token.token)
+        // console.log(tokenObj, token, decoded)
         db.query(`SELECT * FROM user_details WHERE google_id='${decoded.sub}'`)
         .then(u => res.status(200).json(u))
         .catch(err=>{
