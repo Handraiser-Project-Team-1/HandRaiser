@@ -112,9 +112,9 @@ export default function Request(props) {
   };
   return (
     <React.Fragment>
-      <div style={{ padding: "40px" }}>
+      <div style={{ padding: "40px 40px 0 40px" }}>
         <Badge badgeContent={names.length} color="secondary">
-          <NotificationsIcon />
+          <NotificationsIcon color="disabled" fontSize="small" />
         </Badge>
         <Button color="primary" onClick={request}>
           Login Requests

@@ -74,9 +74,9 @@ export default function KeyList() {
 
   return (
     <React.Fragment>
-      <div style={{ padding: "0px 40px 0 40px" }}>
+      <div style={{ padding: "10px 40px 0 40px" }}>
         <Badge badgeContent={keyList.length} color="secondary">
-          <VpnKeyIcon />
+          <VpnKeyIcon color="disabled" fontSize="small" />
         </Badge>
         <Button color="primary" onClick={() => setOpenK(true)}>
           Keys
@@ -116,18 +116,22 @@ export default function KeyList() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {(keyList.length !== 0) ? keyList.map((user, id) => {
-                  return (
-                    <TableRow key={id}>
-                      <TableCell>{++id}</TableCell>
-                      <TableCell>
-                        {user.user_lname + ", " + user.user_fname}
-                      </TableCell>
-                      <TableCell>{user.key_type}</TableCell>
-                      <TableCell>{user.key}</TableCell>
-                    </TableRow>
-                  );
-                }): <Typography>No Key sent yet</Typography>}
+                {keyList.length !== 0 ? (
+                  keyList.map((user, id) => {
+                    return (
+                      <TableRow key={id}>
+                        <TableCell>{++id}</TableCell>
+                        <TableCell>
+                          {user.user_lname + ", " + user.user_fname}
+                        </TableCell>
+                        <TableCell>{user.key_type}</TableCell>
+                        <TableCell>{user.key}</TableCell>
+                      </TableRow>
+                    );
+                  })
+                ) : (
+                  <Typography>No Key sent yet</Typography>
+                )}
               </TableBody>
             </Table>
           </Grid>
