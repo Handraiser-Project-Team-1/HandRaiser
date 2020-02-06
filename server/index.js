@@ -57,6 +57,7 @@ massive({
 
   app.post('/api/users/', user.createUsers)
   app.get('/api/users', user.getUsers)
+  app.post('/api/user', user.getUser)
   app.get('/api/protected/data',
         function(req, res){
             const db = req.app.get('db')

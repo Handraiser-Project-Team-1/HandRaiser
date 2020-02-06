@@ -28,11 +28,23 @@ export default function DialogBox({ handleClose, open }) {
   };
 
   useEffect(() => {
+<<<<<<< HEAD
     socket = io(ENDPOINT);
     console.log(name);
     console.log(socket);
     socket.emit("join", { name, room });
   }, [ENDPOINT, name, room]);
+=======
+
+    socket = io(ENDPOINT)
+    // console.log(name);
+    // console.log(socket);
+    socket.emit('join', { name, room });
+   
+   
+  }, [ENDPOINT, name, room])
+
+>>>>>>> 603deea143adf90c94eeed93acbd17aedbd1d530
 
   useEffect(() => {
     socket.on("message", message => {
@@ -45,7 +57,12 @@ export default function DialogBox({ handleClose, open }) {
     };
   }, [messages]);
 
+<<<<<<< HEAD
   console.log(message, messages);
+=======
+
+  // console.log(message, messages)
+>>>>>>> 603deea143adf90c94eeed93acbd17aedbd1d530
 
   return (
     <React.Fragment>
