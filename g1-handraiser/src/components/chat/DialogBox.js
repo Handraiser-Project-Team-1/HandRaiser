@@ -30,8 +30,8 @@ export default function DialogBox({ handleClose, open }) {
   useEffect(() => {
 
     socket = io(ENDPOINT)
-    console.log(name);
-    console.log(socket);
+    // console.log(name);
+    // console.log(socket);
     socket.emit('join', { name, room });
    
    
@@ -50,7 +50,7 @@ export default function DialogBox({ handleClose, open }) {
   }, [messages]);
 
 
-  console.log(message, messages)
+  // console.log(message, messages)
 
   return (
     <React.Fragment>
