@@ -31,7 +31,7 @@ export default function BeingHelp() {
             <Avatar className={classes.avatar}>M</Avatar>
           </ListItemIcon>
           <ListItemText
-            primary="Martha Dansyle Marbella"
+            primary="Martha Dansyle Marbellad"
             className={classes.itemText}
             secondary="Assisting by: Daniel Nebreja"
           />

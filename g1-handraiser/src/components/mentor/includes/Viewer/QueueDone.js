@@ -1,205 +1,97 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import FaceIcon from '@material-ui/icons/Face';
-import HelpIcon from '@material-ui/icons/Help';
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import GridList from "@material-ui/core/GridList";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Avatar from "@material-ui/core/Avatar";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import IconButton from "@material-ui/core/IconButton";
 
-import Popper from '@material-ui/core/Popper';
-import Fade from '@material-ui/core/Fade';
-import Paper from '@material-ui/core/Paper';
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1,
+    padding: "50%"
   },
-  typography: {
-    padding: theme.spacing(2),
-  },
-  userBackground: {
-    background: '#d6d6d6'
+  gridList: {
+    height: 545
   },
   Card: {
-    '@media (max-width:768px)': {
-      hidden: true
-    }
+    marginTop: 5
+  },
+  bg: {
+    backgroundColor: "#42b0fe",
+    color: "#fff",
+    fontSize: "5px "
   }
-
 }));
 
-function QueueDone() {
+function StudentList() {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [open, setOpen] = React.useState(false);
-  const [placement, setPlacement] = React.useState();
 
-  const handleClick = newPlacement => event => {
-    setAnchorEl(event.currentTarget);
-    setOpen(prev => placement !== newPlacement || !prev);
-    setPlacement(newPlacement);
-  };
   return (
-    <div className={classes.root}>
-      <Popper open={open} anchorEl={anchorEl} placement={placement} transition>
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={350}>
-            <Paper>
-              <Typography className={classes.typography}>Error Handling</Typography>
-            </Paper>
-          </Fade>
-        )}
-      </Popper>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={4} className={classes.Card}>
-          <Card>
-            <CardActionArea className={classes.userBackground}>
-              <CardContent>
-                <div className={classes.root}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={3} >
-                      <FaceIcon fontSize="large" />
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Marcial
-                        </Typography>
-                    </Grid>
-                  </Grid>
-                </div>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Help
-              </Button>
-              <Button size="small" color="primary">
-                Remove
-              </Button>
-              <Button size="small" color="primary">
-                <HelpIcon onClick={handleClick('bottom')} />
-              </Button>
-              <Typography>
-                1
-              </Typography>
+    <GridList cellHeight={80} className={classes.gridList} cols={1}>
+      <List className={classes.root}>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
+          </ListItemAvatar>
+          <ListItemText primary="Marcial M. Norte Jr" />
+          <ListItemSecondaryAction>
+            <IconButton edge="end" aria-label="comments">
+              <DeleteIcon style={{ color: "#42b0fe " }} />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
 
+        <Divider variant="inset" component="li" />
 
-            </CardActions>
-          </Card>
-        </Grid>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
+            {/* <Avatar>V</Avatar> */}
+          </ListItemAvatar>
+          <ListItemText primary="Vincent Paul Serra" />
+          <ListItemSecondaryAction>
+            <IconButton edge="end" aria-label="comments">
+              <DeleteIcon style={{ color: "#42b0fe " }} />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
 
+        <Divider variant="inset" component="li" />
 
-        <Grid item xs={12} sm={4}>
-          <Card>
-            <CardActionArea className={classes.userBackground}>
-              <CardContent>
-                <div className={classes.root}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={3}>
-                      <FaceIcon fontSize="large" />
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Vincent
-                        </Typography>
-                    </Grid>
-                  </Grid>
-                </div>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Help
-              </Button>
-              <Button size="small" color="primary">
-                Remove
-              </Button>
-              <Button size="small" color="primary">
-                <HelpIcon onClick={handleClick('bottom')} />
-              </Button>
-              <Typography>
-                2
-              </Typography>
-            </CardActions>
-          </Card>
-        </Grid>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
+          </ListItemAvatar>
+          <ListItemText primary="Mark Jowen Mendes" />
+          <ListItemSecondaryAction>
+            <IconButton edge="end" aria-label="comments">
+              <DeleteIcon style={{ color: "#42b0fe " }} />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
 
-        <Grid item xs={12} sm={4}>
-          <Card>
-            <CardActionArea className={classes.userBackground}>
-              <CardContent>
-                <div className={classes.root}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={3}>
-                      <FaceIcon fontSize="large" />
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                       Franco
-                        </Typography>
-                    </Grid>
-                  </Grid>
-                </div>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Help
-              </Button>
-              <Button size="small" color="primary">
-                Remove
-              </Button>
-              <Button size="small" color="primary">
-                <HelpIcon onClick={handleClick('bottom')} />
-              </Button>
-              <Typography>
-                3
-              </Typography>
-            </CardActions>
-          </Card>
-        </Grid>
+        <Divider variant="inset" component="li" />
 
-        <Grid item xs={12} sm={4}>
-          <Card>
-            <CardActionArea className={classes.userBackground}>
-              <CardContent>
-                <div className={classes.root}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={3}>
-                      <FaceIcon fontSize="large" />
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Vanessa
-                        </Typography>
-                    </Grid>
-                  </Grid>
-                </div>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Help
-              </Button>
-              <Button size="small" color="primary">
-                Remove
-              </Button>
-              <Button size="small" color="primary">
-                <HelpIcon onClick={handleClick('bottom')} />
-              </Button>
-              <Typography>
-                4
-              </Typography>
-            </CardActions>
-          </Card>
-        </Grid>
-      </Grid>
-    </div>
-  )
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
+          </ListItemAvatar>
+          <ListItemText primary="Francisco Ifurung" />
+          <ListItemSecondaryAction>
+            <IconButton edge="end" aria-label="comments">
+              <DeleteIcon style={{ color: "#42b0fe " }} />
+            </IconButton>
+          </ListItemSecondaryAction>
+        </ListItem>
+      </List>
+    </GridList>
+  );
 }
 
-export default QueueDone
+export default StudentList;

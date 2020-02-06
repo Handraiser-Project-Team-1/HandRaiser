@@ -2,13 +2,11 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   CssBaseline,
-  //Container,
   Button,
   DialogTitle,
   Dialog,
   List,
   ListItem,
-  // ListItemText,
   DialogContent,
   Badge,
   Typography
@@ -17,10 +15,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
 import UserType from "./UserType";
-// import Paper from "@material-ui/core/Paper";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Notification from "../../includes/Notif";
-// import { fontSize } from "@material-ui/system";
 require("dotenv").config();
 
 const useStyles = makeStyles(theme => ({
@@ -150,33 +146,36 @@ export default function Request(props) {
         <DialogContent dividers>
           <Grid container>
             <List className={classes.list}>
-
-              {(names.length !== 0) ? names.map((x, id) => {
-                return (
-                  <Grid item key={id}>
-                    <ListItem key={id}>
-                      <Grid container>
-                        <Grid item xs={12} sm={6} className={classes.grid}>
-                          <img
-                            alt={x.image}
-                            src={x.image}
-                            className={classes.pic}
-                          />
-                          {x.lname}, {x.fname}
+              {names.length !== 0 ? (
+                names.map((x, id) => {
+                  return (
+                    <Grid item key={id}>
+                      <ListItem key={id}>
+                        <Grid container>
+                          <Grid item xs={12} sm={6} className={classes.grid}>
+                            <img
+                              alt={x.image}
+                              src={x.image}
+                              className={classes.pic}
+                            />
+                            {x.lname}, {x.fname}
+                          </Grid>
+                          <Grid item xs={12} sm={6} className={classes.grids}>
+                            <UserType
+                              setNotifDetailsFn={setNotifDetailsFn}
+                              openNofif={openNofif}
+                              getUserFn={getUserFn}
+                              userid={x.uid}
+                            />
+                          </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={6} className={classes.grids}>
-                          <UserType
-                            setNotifDetailsFn={setNotifDetailsFn}
-                            openNofif={openNofif}
-                            getUserFn={getUserFn}
-                            userid={x.uid}
-                          />
-                        </Grid>
-                      </Grid>
-                    </ListItem>
-                  </Grid>
-                );
-              }): <Typography>No Login Requests this time</Typography>}
+                      </ListItem>
+                    </Grid>
+                  );
+                })
+              ) : (
+                <Typography>No Login Requests this time</Typography>
+              )}
             </List>
           </Grid>
         </DialogContent>

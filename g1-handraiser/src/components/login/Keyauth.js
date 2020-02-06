@@ -64,7 +64,6 @@ function Keyauth() {
   const [key, setKey] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
-
   const [notif, setNotif] = useState(false);
   const [notifType, setNotifType] = useState(false);
 
@@ -87,34 +86,34 @@ function Keyauth() {
       url: `${process.env.REACT_APP_DB_URL}/api/user`,
       data: { key: key, token: tokenObj }
     })
-    .then(response => {
-      if(tokenObj !== null){
-        setTimeout(() => {
-          (response.data.type === 'mentor')
-            ? history.push("/queue")
-            : history.push("/classes");
-        }, 1000);
-      }else{
-        history.push('/')
-      }
-    })
-    .catch(error => {
-      let errorCode = String(error)
-        .match(/\w+$/g)
-        .join();
-      if (Number(errorCode) === 401) {
-        setNotif(true);
-        setNotifType(true);
-      } else if (Number(errorCode) === 403) {
-        //wrong token redirect to login
-        localStorage.removeItem("tokenid");
-        history.push("/login");
-      } else {
-        console.error(error);
-        setNotif(true);
-        setNotifType(false);
-      }
-    });
+      .then(response => {
+        if (tokenObj !== null) {
+          setTimeout(() => {
+            response.data.type
+              ? history.push("/classes")
+              : history.push("/queue");
+          }, 1000);
+        } else {
+          history.push("/");
+        }
+      })
+      .catch(error => {
+        let errorCode = String(error)
+          .match(/\w+$/g)
+          .join();
+        if (Number(errorCode) === 401) {
+          setNotif(true);
+          setNotifType(true);
+        } else if (Number(errorCode) === 403) {
+          //wrong token redirect to login
+          localStorage.removeItem("tokenid");
+          history.push("/login");
+        } else {
+          console.error(error);
+          setNotif(true);
+          setNotifType(false);
+        }
+      });
   };
 
   return (
