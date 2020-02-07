@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 import CardClass from "../includes/CardClass";
 import Layout from "../includes/TopBar";
 import Notif from "../includes/Notif";
 
 export default function Select(props) {
+  var history = useHistory()
   const [notif, setNotif] = useState(true);
 
+  useEffect(() => {
+    if(localStorage.getItem('tokenid')){
+      history.push('/classes')
+    }else{
+      history.push('/')
+    }
+  },[history])
   return (
     <Layout {...props}>
       <Notif

@@ -1,5 +1,3 @@
-const argon2 = require("argon2");
-const secret = process.env.SECRET_KEY;
 const jwt = require("jsonwebtoken");
 
 const newVerificationKey = () => {
@@ -101,10 +99,11 @@ module.exports = {
       });
   },
   getUser: (req, res) => {
-    db = req.app.get("db");
+    const db = req.app.get("db");
     const { tokenObj } = req.body;
     const token = JSON.parse(tokenObj);
     var decoded = jwt.decode(token.token);
+    // console.log(tokenObj, token, decoded)
     db.query(`SELECT * FROM user_details WHERE google_id='${decoded.sub}'`)
       .then(u => res.status(200).json(u))
       .catch(err => {
@@ -112,7 +111,7 @@ module.exports = {
       });
   },
   getUsers: (req, res) => {
-    db = req.app.get("db");
+    const db = req.app.get("db");
     db.query(
       `SELECT * FROM user_details AS ud, user_type as ut WHERE NOT EXISTS (SELECT * FROM keys AS k WHERE k.userd_id = ud.userd_id) AND ud.userd_id = ut.userd_id AND ut.user_type = 'pending'`
     )
@@ -123,7 +122,7 @@ module.exports = {
       });
   },
   setUserType: (req, res) => {
-    db = req.app.get("db");
+    const db = req.app.get("db");
     const { key, token } = req.body;
     const tokenObj = JSON.parse(token);
     var decoded = jwt.decode(tokenObj.token);

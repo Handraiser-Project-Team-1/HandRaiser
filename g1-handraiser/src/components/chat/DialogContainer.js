@@ -4,7 +4,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import Messages from './Messages';
 const muiBaseTheme = createMuiTheme();
 
-const DialogContainer = ({ open, state, messages, name }) => {
+const DialogContainer = ({ feedback, open, state, messages, name }) => {
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "auto" });
@@ -17,6 +17,7 @@ const DialogContainer = ({ open, state, messages, name }) => {
     <ThemeProvider theme={muiBaseTheme}>
       {messages.map((message, i) => <div key={i}><Messages message={message} name={name}/></div>)}
       <div ref={messagesEndRef} />
+      {feedback !== '' ? <div><em>{feedback}</em></div> : null}
     </ThemeProvider>
   );
 };

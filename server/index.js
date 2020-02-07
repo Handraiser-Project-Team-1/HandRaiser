@@ -1,5 +1,4 @@
 const express = require("express");
-const socketio = require("socket.io");
 const http = require("http");
 const massive = require("massive");
 const cors = require("cors");
@@ -19,7 +18,7 @@ massive({
 }).then(db => {
   const app = express();
   const server = http.createServer(app);
-  const io = socketio(server);
+  const io = require("socket.io").listen(server);
 
   io.on("connection", socket => {
     console.log("we have a new connection!");
@@ -57,6 +56,14 @@ massive({
           text: `${user.name} has left.`
         });
       }
+    });
+
+    socket.on("typing", data => {
+      socket.broadcast.emit("typing", data);
+    });
+
+    socket.on("not typing", data => {
+      socket.broadcast.emit("typing", data);
     });
   });
 
