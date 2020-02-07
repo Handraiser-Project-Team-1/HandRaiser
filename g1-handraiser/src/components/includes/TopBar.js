@@ -209,23 +209,28 @@ const Layout = props => {
   };
 
   useEffect(()=>{
-    axios({
-      method: 'post',
-      url: `${process.env.REACT_APP_DB_URL}/api/user`,
-      data: { tokenObj: localStorage.getItem('tokenid')}
-    })
-    .then(res=>{
-      res.data.map(x=>{
-        setUser({
-          fname: x.user_fname,
-          lname: x.user_lname,
-          image: x.user_image,
-          email: x.user_email
-        })
-        return(setUser)
+    if(localStorage.getItem('tokenid')){
+      //identify if mentor or student
+      axios({
+        method: 'post',
+        url: `${process.env.REACT_APP_DB_URL}/api/user`,
+        data: { tokenObj: localStorage.getItem('tokenid')}
       })
-    })
-  },[])
+      .then(res=>{
+        res.data.map(x=>{
+          setUser({
+            fname: x.user_fname,
+            lname: x.user_lname,
+            image: x.user_image,
+            email: x.user_email
+          })
+          return(setUser)
+        })
+      })
+    }else{
+      history.push('/')
+    }
+  },[history])
   return (
     <ThemeProvider theme={theme}>
       {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}

@@ -10,34 +10,45 @@ import SendIcon from "@material-ui/icons/Send";
 import io from "socket.io-client";
 
 let socket;
-let user = "mark" + Math.floor(Math.random() * Math.floor(20000));
+let user = 'mark' + Math.floor(Math.random() * Math.floor(20000));
 
 export default function DialogBox({ handleClose, open }) {
   const [state, setState] = useState(1);
-  const [name] = useState(user);
-  const [room] = useState("Room 101");
-  const [messages, setMessages] = useState([]);
-  const [message, setmessage] = useState("");
+  const [name] = useState(user)
+  const [room] = useState('Room 101')
+  const [messages, setMessages] = useState([])
+  const [message, setmessage] = useState('')
+  const [feedback, setFeedbAck] = useState('')
   const ENDPOINT = process.env.REACT_APP_DB_URL;
 
   const handleClick = () => {
     setState(state + 1);
     if (message) {
-      socket.emit("sendMessage", message, () => setmessage(""));
+      const nottyping = '';
+      socket.emit('sendMessage', message, () => setmessage(''));
+      socket.emit('not typing', nottyping);
     }
   };
 
   useEffect(() => {
-    socket = io(ENDPOINT);
+    socket = io(ENDPOINT)
     console.log(name);
     console.log(socket);
-    socket.emit("join", { name, room });
-  }, [ENDPOINT, name, room]);
+    socket.emit('join', { name, room });
+  }, [ENDPOINT, name, room])
 
   useEffect(() => {
-    socket.on("message", message => {
-      setMessages([...messages, message]);
-    });
+    socket.on('typing', (data) => {
+      setFeedbAck(`${data}`);
+    })
+
+    socket.on('not typing', (data) => {
+      setFeedbAck(data);
+    })
+
+    socket.on('message', (message) => {
+      setMessages([...messages, message])
+    })
     return () => {
       socket.emit("disconnect");
 
@@ -45,7 +56,22 @@ export default function DialogBox({ handleClose, open }) {
     };
   }, [messages]);
 
-  console.log(message, messages);
+  const keypress = (data) => {
+    socket.emit('typing', data+' is typing...');
+  }
+  useEffect(() => {
+    const msg = message;
+    if(msg.length > 0){
+      
+    }else{
+      typing()
+    }
+  })
+
+  const typing = () => {
+    const nottyping = '';
+    socket.emit('not typing', nottyping);
+  }
 
   return (
     <React.Fragment>
@@ -60,15 +86,15 @@ export default function DialogBox({ handleClose, open }) {
       >
         <DialogTitle id="alert-dialog-title">{room}</DialogTitle>
         <DialogContent dividers>
-          <DialogContainer
-            messages={messages}
-            name={name}
-            open={open}
-            state={state}
-          />
+          <DialogContainer message={message} feedback={feedback} messages={messages} name={name} open={open} state={state} />
         </DialogContent>
         <DialogActions>
-          <Type message={message} setmessage={setmessage} />
+          <Type
+            message={message}
+            setmessage={setmessage}
+            name={name}
+            keypress={keypress}
+          />
           <Button
             variant="contained"
             color="primary"
