@@ -32,6 +32,7 @@ export default function Chat() {
         className={classes.fab}
         color="primary"
         onClick={handleClickOpen}
+        open={open}
       >
         <ChatIcon />
       </Fab>
