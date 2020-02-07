@@ -98,6 +98,12 @@ massive({
   app.get("/api/admin", admin.getAdminPass);
   app.post("/api/login", admin.login);
   app.patch("/api/admin", admin.updatePass);
+
+  //new endpoint
+  app.get("/api/all/users", user.getAllUsers);
+  app.patch("/api/change/type/:id", user.changeType);
+  app.delete("/api/delete/user/:id", user.delete);
+  app.get("/api/count/keys", user.countTableUserType);
   const PORT = 3001;
   server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

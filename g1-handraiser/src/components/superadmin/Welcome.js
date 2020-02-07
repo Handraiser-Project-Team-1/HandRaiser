@@ -9,6 +9,7 @@ import { withStyles, fade } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   card: {
@@ -73,7 +74,8 @@ const BootstrapInput = withStyles(theme => ({
   }
 }))(InputBase);
 
-export default function Welcome(props) {
+export default function Welcome() {
+  let history = useHistory();
   const [notif, setNotif] = useState(false);
   const [msg, setMsg] = useState("");
   const [password, setPassword] = useState("");
@@ -89,6 +91,7 @@ export default function Welcome(props) {
       })
         .then(res => {
           console.log(res);
+          history.push("/admin");
         })
         .catch(err => {
           setNotif(true);

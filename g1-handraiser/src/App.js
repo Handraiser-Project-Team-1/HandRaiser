@@ -3,8 +3,8 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Select from "./components/selectclass/Select";
 import Login from "./components/login/LoginInterface";
-import Welcome from "./components/superadmin/welcome";
-import Admin from "./components/superadmin/admin";
+import Welcome from "./components/superadmin/Welcome";
+import Admin from "./components/superadmin/Admin";
 import Queue from "./components/mentor/Queue";
 import Que from "./components/studentque/Que";
 import page404 from "./components/includes/Page404";
@@ -46,17 +46,7 @@ export default function App() {
             render={props => <Que {...props} active="1" />}
           />
           <Route exact path="/administrator" component={Welcome} />
-          <Route
-            exact
-            path="/admin"
-            render={props => (
-              <Admin
-                {...props}
-                keys={localStorage.getItem("pass")}
-                active="admin"
-              />
-            )}
-          />
+          <Route exact path="/admin" component={Admin} />
           <Route component={page404} />
         </Switch>
       </JWTContext.Provider>

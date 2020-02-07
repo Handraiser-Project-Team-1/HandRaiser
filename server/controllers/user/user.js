@@ -219,5 +219,55 @@ module.exports = {
         console.error(error);
         res.status(500).end();
       });
+  },
+  countTableUserType: (req, res) => {
+    const db = req.app.get("db");
+    db.user_type.count().then(result => {
+      res.status(200).send(result);
+    });
+  },
+  getAllUsers: (req, res) => {
+    const db = req.app.get("db");
+    db.query(
+      "SELECT user_details.user_fname,user_details.user_lname,user_details.user_email,user_details.userd_id,user_type.user_type FROM user_details INNER JOIN user_type ON user_type.userd_id = user_details.userd_id WHERE user_type.user_type != 'pending'"
+    )
+      .then(results => {
+        res.status(200).send(results);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).end();
+      });
+  },
+  changeType: (req, res) => {
+    const db = req.app.get("db");
+    const { id } = req.params;
+    const { user_type } = req.body;
+    db.user_type
+      .update(
+        { userd_id: id },
+        {
+          user_type
+        }
+      )
+      .then(results => {
+        res.status(201).send(results);
+      })
+      .catch(err => {
+        res.status(500).send(err);
+      });
+  },
+  delete: (req, res) => {
+    const db = req.app.get("db");
+    const { id } = req.params;
+    db.user_details
+      .destroy({ userd_id: id })
+      .then(results => {
+        res.status(201).send(results);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).send(err);
+      });
   }
 };
