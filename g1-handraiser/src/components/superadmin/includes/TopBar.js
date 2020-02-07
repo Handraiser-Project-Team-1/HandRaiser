@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { useHistory } from "react-router-dom";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Divider } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-
+import Notif from "./Notif";
 import {
   Root,
   Header,
@@ -198,69 +198,81 @@ const theme = createMuiTheme({
 const Layout = props => {
   const classes = useStyles();
   let history = useHistory();
-
+  const [notif, setNotif] = useState(false);
   const logout = () => {
     localStorage.clear();
     history.push("/");
   };
+  const handleclick = () => {
+    setNotif(true);
+  };
 
   return (
-    <ThemeProvider theme={theme}>
-      <Root omitThemeProvider={true} config={config}>
-        {({ headerStyles, sidebarStyles, collapsed, opened }) => (
-          <>
-            <CssBaseline />
-            <Header color="primary">
-              <Toolbar>
-                <SidebarTrigger className={headerStyles.leftTrigger}>
-                  {opened ? <ChevronLeftIcon /> : <MenuIcon />}
-                </SidebarTrigger>
-                <Typography variant="h6" style={{ width: "95%" }}>
-                  HandRaiser
-                </Typography>
-                <Button
-                  style={{ color: "white" }}
-                  onClick={logout}
-                  className={classes.logout}
+    <>
+      <Notif
+        type="success"
+        title="Successfully updated"
+        // message="Kindly check again the code in your email"
+        open={notif}
+        setOpen={setNotif}
+      />
+      <ThemeProvider theme={theme}>
+        <Root omitThemeProvider={true} config={config}>
+          {({ headerStyles, sidebarStyles, collapsed, opened }) => (
+            <>
+              <CssBaseline />
+              <Header color="primary">
+                <Toolbar>
+                  <SidebarTrigger className={headerStyles.leftTrigger}>
+                    {opened ? <ChevronLeftIcon /> : <MenuIcon />}
+                  </SidebarTrigger>
+                  <Typography variant="h6" style={{ width: "95%" }}>
+                    HandRaiser
+                  </Typography>
+                  <Button
+                    style={{ color: "white" }}
+                    onClick={logout}
+                    className={classes.logout}
+                  >
+                    Logout
+                  </Button>
+                </Toolbar>
+              </Header>
+              <Sidebar>
+                <div className={classes.icon}>
+                  <Avatar
+                    className={classes.large}
+                    alt="Marcial Norte"
+                    src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg"
+                  />
+                  <div style={{ paddingBottom: "15px" }} />
+                  <Typography variant="h6" noWrap>
+                    Marcial M. Norte Jr
+                  </Typography>
+                  <Typography variant="subtitle1" noWrap>
+                    marcial.norte@boom.camp
+                  </Typography>
+                </div>
+                <Divider />
+                <div
+                  className={sidebarStyles.container}
+                  style={{ height: "100vh" }}
                 >
-                  Log out
-                </Button>
-              </Toolbar>
-            </Header>
-            <Sidebar>
-              <div className={classes.icon}>
-                <Avatar
-                  className={classes.large}
-                  alt="Marcial Norte"
-                  src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg"
-                />
-                <div style={{ paddingBottom: "15px" }} />
-                <Typography variant="h6" noWrap>
-                  Marcial M. Norte Jr
-                </Typography>
-                <Typography variant="subtitle1" noWrap>
-                  marcial.norte@boom.camp
-                </Typography>
-              </div>
-              <Divider />
-              <div
-                className={sidebarStyles.container}
-                style={{ height: "100vh" }}
-              >
-                <Request />
-                <KeyList />
-                <Settings />
-              </div>
+                  <Request />
+                  <KeyList />
+                  <Settings handleclick={handleclick} setNotif={setNotif} />
+                </div>
 
-              <CollapseBtn className={sidebarStyles.collapseBtn}>
-                {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-              </CollapseBtn>
-            </Sidebar>
-            <Content className={classes.content}>{props.children}</Content>
-          </>
-        )}
-      </Root>
-    </ThemeProvider>
+                <CollapseBtn className={sidebarStyles.collapseBtn}>
+                  {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                </CollapseBtn>
+              </Sidebar>
+              <Content className={classes.content}>{props.children}</Content>
+            </>
+          )}
+        </Root>
+      </ThemeProvider>
+    </>
   );
 };
 
