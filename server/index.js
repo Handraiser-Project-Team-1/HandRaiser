@@ -89,6 +89,7 @@ massive({
   app.get("/api/keyList", user.getKeyList);
 
   app.get("/api/admin", admin.getAdminPass);
+  app.post("/api/login", admin.login);
   app.patch("/api/admin", admin.updatePass);
   const PORT = 3001;
   server.listen(PORT, () => {
