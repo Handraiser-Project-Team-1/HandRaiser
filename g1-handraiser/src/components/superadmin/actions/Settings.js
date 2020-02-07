@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   CssBaseline,
@@ -15,6 +15,7 @@ import { Badge } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import { FormHelperText } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -46,55 +47,66 @@ const useStyles = makeStyles(theme => ({
     color: "#fff",
     position: "absolute",
     right: theme.spacing(1)
+  },
+  paper: {
+    padding: 10
   }
 }));
 
-export default function Settings() {
+export default function Settings({ setNotif }) {
   const classes = useStyles();
-  const [keyList, setKeyList] = useState([]);
   const [openK, setOpenK] = useState(false);
   const [cpass, setCPass] = useState("");
-  const [pass, setPass] = useState("")
+  const [pass, setPass] = useState("");
+  const [disabled, setDisabled] = useState(true);
+  const [passValid, setPassValid] = useState(true);
+  const [error, setError] = useState(false);
 
   const handleCPass = e => {
-    console.log(e.value);
     setCPass(e.value);
+    if (e.value === "") {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
   };
   const handlePass = e => {
-    console.log(e.value);
     setPass(e.value);
-  };
-  const handleClick = () => {
-    if(cpass === pass){
-      axios({
-        method: "PATCH",
-        url: `${process.env.REACT_APP_DB_URL}/api/admin`,
-        data: { admin_pass: pass }
-      }).then(response => {
-        console.log("success");
-      });
-    }else{
-      console.log('Password did not match')
+    if (e.value && pass === "") {
+      setPassValid(true);
+    }
+    if (e.value !== "") {
+      setDisabled(false);
+      setError(false);
+    } else {
+      setDisabled(true);
+      setError(true);
     }
   };
 
-  const fetchKeyListfn = () => {
-    axios({
-      url: `${process.env.REACT_APP_DB_URL}/api/keyList`,
-      method: "GET"
-    })
-      .then(response => {
-        setKeyList(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+  const handleClick = e => {
+    if (cpass && pass !== "") {
+      if (cpass === pass) {
+        axios({
+          method: "PATCH",
+          url: `${process.env.REACT_APP_DB_URL}/api/admin`,
+          data: { admin_pass: pass }
+        }).then(response => {
+          setTimeout(() => {
+            setOpenK(false);
+            setNotif(true);
+          }, 1000);
+        });
+      } else {
+        setPassValid(false);
+        setError(true);
+      }
+    } else {
+      setError(true);
+      setPassValid(true);
+      console.log("no input");
+    }
   };
-
-  useEffect(() => {
-    fetchKeyListfn();
-    //eslint-disable-next-line
-  }, []);
 
   const closeAdd = () => {
     setOpenK(false);
@@ -103,7 +115,7 @@ export default function Settings() {
   return (
     <React.Fragment>
       <div style={{ padding: "10px 40px 0 40px" }}>
-        <Badge badgeContent={keyList.length} color="secondary">
+        <Badge color="secondary">
           <SettingsIcon color="disabled" fontSize="small" />
         </Badge>
         <Button color="primary" onClick={() => setOpenK(true)}>
@@ -135,13 +147,12 @@ export default function Settings() {
             justify="center"
             alignItems="stretch"
           >
-            {/* INSERT DESIGN HERE */}
-
             <form className={classes.root} noValidate autoComplete="off">
               <>
                 <Typography>Update Password</Typography>
 
                 <TextField
+                  required={true}
                   id="password-input"
                   label="Update password"
                   type="password"
@@ -150,6 +161,7 @@ export default function Settings() {
                   onChange={e => handleCPass(e.target)}
                 />
                 <TextField
+                  error={error}
                   id="outlined-password-input"
                   label="Confirm password"
                   type="password"
@@ -157,11 +169,24 @@ export default function Settings() {
                   variant="outlined"
                   onChange={e => handlePass(e.target)}
                 />
+                {passValid ? null : (
+                  <FormHelperText
+                    error={true}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginBottom: "8px"
+                    }}
+                  >
+                    Pawsword did not match
+                  </FormHelperText>
+                )}
 
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={handleClick}
+                  disabled={disabled}
                 >
                   Save
                 </Button>

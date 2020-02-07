@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import { BrowserRouter, Route, Switch} from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Select from "./components/selectclass/Select";
 import Login from "./components/login/LoginInterface";
@@ -10,20 +10,18 @@ import Que from "./components/studentque/Que";
 import page404 from "./components/includes/Page404";
 import Authentication from "./components/login/Keyauth";
 import Axios from "axios";
-require('dotenv').config()
+require("dotenv").config();
 
-export const JWTContext = createContext({})
+export const JWTContext = createContext({});
 
 export default function App() {
-  const [key, setKey] = useState()
+  const [key, setKey] = useState();
 
-  useEffect(()=>{
-    Axios
-    .get(`${process.env.REACT_APP_DB_URL}/api/admin`)
-    .then(res=>{
-      setKey(res.data[0].admin_pass)
-    })
-  },[])
+  useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_DB_URL}/api/admin`).then(res => {
+      setKey(res.data[0].admin_pass);
+    });
+  }, []);
 
   return (
     <BrowserRouter>
@@ -31,13 +29,15 @@ export default function App() {
         <Switch>
           <Route
             exact
-            path="/login"
+            path="/"
             render={props => <Login {...props} active="login" />}
           />
           <Route
             exact
             path="/authentication"
-            render={props => <Authentication {...props} active="authentication" />}
+            render={props => (
+              <Authentication {...props} active="authentication" />
+            )}
           />
           <Route
             exact
@@ -70,7 +70,7 @@ export default function App() {
               />
             )}
           />
-          <Route path="/" component={page404} />
+          <Route component={page404} />
         </Switch>
       </JWTContext.Provider>
     </BrowserRouter>

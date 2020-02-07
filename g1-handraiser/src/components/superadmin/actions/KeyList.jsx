@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   CssBaseline,
-  Typography,
   Button,
   DialogTitle,
   Dialog,
@@ -130,7 +129,9 @@ export default function KeyList() {
                     );
                   })
                 ) : (
-                  <Typography>No Key sent yet</Typography>
+                  <TableRow>
+                    <TableCell>No key</TableCell>
+                  </TableRow>
                 )}
               </TableBody>
             </Table>

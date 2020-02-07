@@ -117,11 +117,11 @@ export default function Welcome(props) {
   const [key, setKey] = useState();
 
   const submit = () => {
-    localStorage.setItem("pass", key.key)
-    if(key === undefined){
-      history.push('/welcome')
-      setError(true)
-    }else if (localStorage.getItem("key") === key.key) {
+    localStorage.setItem("pass", key.key);
+    if (key === undefined) {
+      history.push("/welcome");
+      setError(true);
+    } else if (localStorage.getItem("key") === key.key) {
       history.push("/admin");
     } else {
       setNotif(true);
@@ -129,9 +129,9 @@ export default function Welcome(props) {
   };
 
   const handlechange = e => {
-    if(e.target.value === null){
-      setKey('undefined')
-    }else{
+    if (e.target.value === null) {
+      setKey("undefined");
+    } else {
       let prevdata = Object.assign({}, key);
       prevdata[e.target.name] = e.target.value;
       setKey(prevdata);
