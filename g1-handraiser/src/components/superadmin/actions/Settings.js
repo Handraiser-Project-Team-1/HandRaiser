@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   CssBaseline,
@@ -47,18 +47,20 @@ const useStyles = makeStyles(theme => ({
     color: "#fff",
     position: "absolute",
     right: theme.spacing(1)
+  },
+  paper: {
+    padding: 10
   }
 }));
 
 export default function Settings({ setNotif }) {
   const classes = useStyles();
-  const [keyList, setKeyList] = useState([]);
   const [openK, setOpenK] = useState(false);
   const [cpass, setCPass] = useState("");
   const [pass, setPass] = useState("");
-  const [error] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [passValid, setPassValid] = useState(true);
+  const [error, setError] = useState(false);
 
   const handleCPass = e => {
     setCPass(e.value);
@@ -75,8 +77,10 @@ export default function Settings({ setNotif }) {
     }
     if (e.value !== "") {
       setDisabled(false);
+      setError(false);
     } else {
       setDisabled(true);
+      setError(true);
     }
   };
 
@@ -95,29 +99,14 @@ export default function Settings({ setNotif }) {
         });
       } else {
         setPassValid(false);
+        setError(true);
       }
     } else {
+      setError(true);
+      setPassValid(true);
       console.log("no input");
     }
   };
-
-  const fetchKeyListfn = () => {
-    axios({
-      url: `${process.env.REACT_APP_DB_URL}/api/keyList`,
-      method: "GET"
-    })
-      .then(response => {
-        setKeyList(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  };
-
-  useEffect(() => {
-    fetchKeyListfn();
-    //eslint-disable-next-line
-  }, []);
 
   const closeAdd = () => {
     setOpenK(false);
@@ -126,7 +115,7 @@ export default function Settings({ setNotif }) {
   return (
     <React.Fragment>
       <div style={{ padding: "10px 40px 0 40px" }}>
-        <Badge badgeContent={keyList.length} color="secondary">
+        <Badge color="secondary">
           <SettingsIcon color="disabled" fontSize="small" />
         </Badge>
         <Button color="primary" onClick={() => setOpenK(true)}>
@@ -158,8 +147,6 @@ export default function Settings({ setNotif }) {
             justify="center"
             alignItems="stretch"
           >
-            {/* INSERT DESIGN HERE */}
-
             <form className={classes.root} noValidate autoComplete="off">
               <>
                 <Typography>Update Password</Typography>
@@ -174,13 +161,13 @@ export default function Settings({ setNotif }) {
                   onChange={e => handleCPass(e.target)}
                 />
                 <TextField
+                  error={error}
                   id="outlined-password-input"
                   label="Confirm password"
                   type="password"
                   autoComplete="confirm-password"
                   variant="outlined"
                   onChange={e => handlePass(e.target)}
-                  error={error}
                 />
                 {passValid ? null : (
                   <FormHelperText
@@ -194,18 +181,6 @@ export default function Settings({ setNotif }) {
                     Pawsword did not match
                   </FormHelperText>
                 )}
-                {/* {error && (
-                  <FormHelperText
-                    error={true}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      marginBottom: "8px"
-                    }}
-                  >
-                    Pawsword did not match
-                  </FormHelperText>
-                )} */}
 
                 <Button
                   variant="contained"
