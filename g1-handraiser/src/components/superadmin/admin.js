@@ -76,7 +76,12 @@ export default function Dashboard(props) {
                 </CardContent>
               </CardActionArea>
               <CardActions>
-                <Button size="small" color="primary" onClick={show}>
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={show}
+                  variant="outlined"
+                >
                   Show Students
                 </Button>
                 <ShowStudents open={open} setOpen={setOpen} />

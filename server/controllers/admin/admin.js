@@ -13,8 +13,9 @@ module.exports = {
     const db = req.app.get("db");
     const { admin_pass } = req.body;
 
-    db.admin
-      .update({ admin_pass: admin_pass })
+    // db.admin
+    //   .update({ admin_id: req.params.id, admin_pass: admin_pass })
+    db.query(`UPDATE admin SET admin_pass = '${admin_pass}'`)
       .then(u => res.status(200).json(u))
       .catch(err => {
         console.log(err);

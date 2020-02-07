@@ -7,7 +7,7 @@ import Button from "@material-ui/core/Button";
 import Type from "./Type";
 import DialogContainer from "./DialogContainer";
 import SendIcon from "@material-ui/icons/Send";
-import io from 'socket.io-client';
+import io from "socket.io-client";
 
 let socket;
 let user = 'mark' + Math.floor(Math.random() * Math.floor(20000));
@@ -50,10 +50,10 @@ export default function DialogBox({ handleClose, open }) {
       setMessages([...messages, message])
     })
     return () => {
-      socket.emit('disconnect');
+      socket.emit("disconnect");
 
       socket.off();
-    }
+    };
   }, [messages]);
 
   const keypress = (data) => {
@@ -84,9 +84,7 @@ export default function DialogBox({ handleClose, open }) {
         maxWidth="sm"
         fullWidth={true}
       >
-        <DialogTitle id="alert-dialog-title">
-          {room}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{room}</DialogTitle>
         <DialogContent dividers>
           <DialogContainer message={message} feedback={feedback} messages={messages} name={name} open={open} state={state} />
         </DialogContent>
