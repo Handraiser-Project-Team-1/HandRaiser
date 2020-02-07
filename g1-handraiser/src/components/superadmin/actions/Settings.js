@@ -15,6 +15,7 @@ import { Badge } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
+import { FormHelperText } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -49,32 +50,54 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Settings() {
+export default function Settings({ setNotif }) {
   const classes = useStyles();
   const [keyList, setKeyList] = useState([]);
   const [openK, setOpenK] = useState(false);
   const [cpass, setCPass] = useState("");
-  const [pass, setPass] = useState("")
+  const [pass, setPass] = useState("");
+  const [error] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const [passValid, setPassValid] = useState(true);
 
   const handleCPass = e => {
-    console.log(e.value);
     setCPass(e.value);
+    if (e.value === "") {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
   };
   const handlePass = e => {
-    console.log(e.value);
     setPass(e.value);
+    if (e.value && pass === "") {
+      setPassValid(true);
+    }
+    if (e.value !== "") {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
   };
-  const handleClick = () => {
-    if(cpass === pass){
-      axios({
-        method: "PATCH",
-        url: `${process.env.REACT_APP_DB_URL}/api/admin`,
-        data: { admin_pass: pass }
-      }).then(response => {
-        console.log("success");
-      });
-    }else{
-      console.log('Password did not match')
+
+  const handleClick = e => {
+    if (cpass && pass !== "") {
+      if (cpass === pass) {
+        axios({
+          method: "PATCH",
+          url: `${process.env.REACT_APP_DB_URL}/api/admin`,
+          data: { admin_pass: pass }
+        }).then(response => {
+          setTimeout(() => {
+            setOpenK(false);
+            setNotif(true);
+          }, 1000);
+        });
+      } else {
+        setPassValid(false);
+      }
+    } else {
+      console.log("no input");
     }
   };
 
@@ -142,6 +165,7 @@ export default function Settings() {
                 <Typography>Update Password</Typography>
 
                 <TextField
+                  required={true}
                   id="password-input"
                   label="Update password"
                   type="password"
@@ -156,12 +180,38 @@ export default function Settings() {
                   autoComplete="confirm-password"
                   variant="outlined"
                   onChange={e => handlePass(e.target)}
+                  error={error}
                 />
+                {passValid ? null : (
+                  <FormHelperText
+                    error={true}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginBottom: "8px"
+                    }}
+                  >
+                    Pawsword did not match
+                  </FormHelperText>
+                )}
+                {/* {error && (
+                  <FormHelperText
+                    error={true}
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      marginBottom: "8px"
+                    }}
+                  >
+                    Pawsword did not match
+                  </FormHelperText>
+                )} */}
 
                 <Button
                   variant="contained"
                   color="primary"
                   onClick={handleClick}
+                  disabled={disabled}
                 >
                   Save
                 </Button>
