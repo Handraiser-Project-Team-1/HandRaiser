@@ -4,7 +4,7 @@ import "./App.css";
 import Select from "./components/selectclass/Select";
 import Login from "./components/login/LoginInterface";
 import Welcome from "./components/superadmin/Welcome";
-import Admin from "./components/superadmin/Admin";
+import Admin from "./components/superadmin/admin";
 import Queue from "./components/mentor/Queue";
 import Que from "./components/studentque/Que";
 import page404 from "./components/includes/Page404";
