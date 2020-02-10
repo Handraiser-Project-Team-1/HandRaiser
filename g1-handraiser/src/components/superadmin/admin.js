@@ -34,7 +34,7 @@ export default function Dashboard(props) {
     }else{
       history.push('/administrator')
     }
-  },[])
+  },[history])
   return (
     <React.Fragment>
       <ThemeProvider theme={theme}>
