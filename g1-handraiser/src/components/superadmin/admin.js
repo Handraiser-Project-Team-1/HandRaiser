@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {useHistory} from "react-router-dom";
 import Navigation from "./includes/Dashboard";
 import UsersTable from "./Table";
 import Request from "./Request";
@@ -25,7 +26,15 @@ const theme = createMuiTheme({
 
 export default function Dashboard(props) {
   const [active, setActive] = useState("users");
+  let history = useHistory()
 
+  useEffect(()=>{
+    if(localStorage.getItem('pass')){
+      history.push('/admin')
+    }else{
+      history.push('/administrator')
+    }
+  },[])
   return (
     <React.Fragment>
       <ThemeProvider theme={theme}>

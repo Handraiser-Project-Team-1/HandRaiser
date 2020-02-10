@@ -13,6 +13,10 @@ exports.up = (pgm) => {
             references: "user_type",
             notNull: true,
             onDelete: "cascade"
+        },
+        status: {
+            type: "boolean",
+            notNull: true,
         }
     })
 };
