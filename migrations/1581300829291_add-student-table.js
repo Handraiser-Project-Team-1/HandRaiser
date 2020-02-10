@@ -3,8 +3,8 @@
 exports.shorthands = undefined;
 
 exports.up = (pgm) => {
-    pgm.createTable("mentor", {
-        mentor_id: {
+    pgm.createTable("student",{
+        student_id: {
             type: "serial",
             primaryKey: true,
         },
@@ -13,6 +13,14 @@ exports.up = (pgm) => {
             references: "user_type",
             notNull: true,
             onDelete: "cascade"
+        },
+        status: {
+            type: "boolean",
+<<<<<<< HEAD:migrations/1581298979055_add-student-table.js
+            notNull: true
+=======
+            notNull: true,
+>>>>>>> g1-develop:migrations/1581300829291_add-student-table.js
         }
     })
 };

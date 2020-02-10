@@ -90,12 +90,12 @@ export default function Welcome() {
         password
       })
         .then(res => {
-          console.log(res);
+          localStorage.setItem('pass', res.data.admin_pass)
           history.push("/admin");
         })
         .catch(err => {
           setNotif(true);
-          setMsg(err.response.data.error);
+          setMsg(err);
         });
     } else {
       setNotif(true);

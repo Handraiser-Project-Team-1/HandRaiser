@@ -52,10 +52,9 @@ function Login() {
       }
     })
       .then(response => {
-        // console.log(response)
         setTimeout(() => {
           if (response.status === 200) {
-            response.data.userType === "mentor"
+            response.data.user_type === "mentor"
               ? history.push("/queue")
               : history.push("/classes");
           } else {

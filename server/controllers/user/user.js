@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const email = require("../email/email");
 
 const newVerificationKey = () => {
   let random = Math.random()
@@ -155,19 +156,49 @@ module.exports = {
                 }
               )
               .then(user => {
-                db.keys
-                  .destroy({
-                    userd_id: user[0].userd_id
-                  })
-                  .then(() => {
-                    res
-                      .status(200)
-                      .send({ name: decoded.name, type: user[0].user_type });
-                  })
-                  .catch(error => {
-                    console.error(error);
-                    res.status(500).end();
-                  });
+                if(user.user_type === 'mentor'){
+                    db.mentor
+                    .insert({
+                        user_id: user[0].userd_id,
+                        status: true
+                    })
+                    .then(() => {
+                        db.keys
+                        .destroy({
+                            userd_id: user[0].userd_id
+                        })
+                        .then(() => {
+                            res
+                            .status(200)
+                            .send({ name: decoded.name, type: user[0].user_type });
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            res.status(500).end();
+                        });
+                    })
+                }else{
+                    db.student
+                    .insert({
+                        user_id: user[0].userd_id,
+                        status: true
+                    })
+                    .then(() => {
+                        db.keys
+                        .destroy({
+                            userd_id: user[0].userd_id
+                        })
+                        .then(() => {
+                            res
+                            .status(200)
+                            .send({ name: decoded.name, type: user[0].user_type });
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            res.status(500).end();
+                        });
+                    })
+                }
               })
               .catch(error => {
                 console.error(error);
@@ -180,31 +211,43 @@ module.exports = {
   sendUserKey: (req, res) => {
     const db = req.app.get("db");
     const { id, type } = req.body;
-
-    db.keys
-      .insert(
-        {
-          userd_id: id,
-          key_type: type,
-          key: newVerificationKey()
-        },
-        {
-          fields: ["userd_id"]
-        }
-      )
-      .then(key => {
-        db.user_details
-          .findOne({ userd_id: key.userd_id })
-          .then(user =>
-            res
-              .status(201)
-              .send({ givenName: user.user_fname, familyName: user.user_lname })
-          )
+    const newKey = newVerificationKey();
+    db.user_details.findOne({ userd_id: 1 }).then(user => {
+      if (!user) {
+        res.status(404).end();
+      } else {
+        const name = user.user_fname + " " + user.user_lname;
+        email
+          .main(name, user.user_email, newKey)
+          .then((response) => {
+            console.log(response);
+            if(response === 'permission'){
+              res.status(400).end();
+              return;
+            }
+            db.keys
+              .insert({
+                userd_id: id,
+                key_type: type,
+                key: newKey
+              })
+              .then(() => {
+                res.status(200).send({
+                  givenName: user.user_fname,
+                  familyName: user.user_lname
+                });
+              })
+              .catch(error => {
+                console.error(error);
+                res.status(500).end();
+              });
+          })
           .catch(error => {
-            console.error(error);
+            console.log(error);
             res.status(500).end();
           });
-      });
+      }
+    });
   },
   getKeyList: (req, res) => {
     const db = req.app.get("db");

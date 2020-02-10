@@ -3,8 +3,8 @@
 exports.shorthands = undefined;
 
 exports.up = (pgm) => {
-    pgm.createTable("student",{
-        student_id: {
+    pgm.createTable("mentor", {
+        mentor_id: {
             type: "serial",
             primaryKey: true,
         },
@@ -13,6 +13,10 @@ exports.up = (pgm) => {
             references: "user_type",
             notNull: true,
             onDelete: "cascade"
+        },
+        status: {
+            type: "boolean",
+            notNull: true,
         }
     })
 };
