@@ -87,12 +87,15 @@ function Keyauth() {
       data: { key: key, token: tokenObj }
     })
       .then(response => {
+        console.log(response);
+        localStorage.setItem("id", JSON.stringify(response.data.id));
         if (tokenObj !== null) {
           setTimeout(() => {
-            console.log(response);
-            response.data.type === "student"
-              ? history.push("/classes")
-              : history.push("/queue");
+            if (response.data.type === "student") {
+              history.push("/classes");
+            } else {
+              history.push("/myclasslist");
+            }
           }, 1000);
         } else {
           history.push("/");

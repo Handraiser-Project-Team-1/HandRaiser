@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Axios from "axios";
 import TopBar from "./TopBar";
 import { Grid, Paper } from "@material-ui/core";
 import { fade, withStyles, makeStyles } from "@material-ui/core/styles";
@@ -7,6 +8,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
+import CustomizedSnackbars from "../includes/Notif";
 
 const BootstrapInput = withStyles(theme => ({
   root: {
@@ -57,6 +59,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ClassList(props) {
   const classes = useStyles();
+  const [open,setOpen] =useState(false)
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -64,12 +67,27 @@ export default function ClassList(props) {
 
   const submit = () => {
     if (name && description && startDate && endDate) {
-      console.log(name, description, startDate, endDate);
+      let id = localStorage.getItem("id");
+      console.log(id);
+      Axios.post(`${process.env.REACT_APP_DB_URL}/api/create/class/${id}`, {
+        name,
+        description,
+        startDate,
+        endDate
+      })
+        .then(res => {
+          setOpen(true)
+          console.log(res);
+        })
+        .catch(err => {
+          console.error(err);
+        });
     }
   };
 
   return (
     <TopBar active={props.active}>
+    <CustomizedSnackbars open={open} setOpen={setOpen} type="success" title="Success" message="Class successfully created!" />
       <Grid container spacing={1}>
         <Grid item xs={8}>
           ClassList

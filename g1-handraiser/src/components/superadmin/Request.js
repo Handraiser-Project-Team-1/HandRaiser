@@ -42,7 +42,6 @@ export default function Request() {
   };
 
   const submit = val => {
-    console.log(type);
     Axios.post(`${process.env.REACT_APP_DB_URL}/api/key`, {
       id: val,
       type: type

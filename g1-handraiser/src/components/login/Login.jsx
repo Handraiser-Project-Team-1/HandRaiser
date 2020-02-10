@@ -62,6 +62,8 @@ function Login() {
             history.push("/authentication");
           }
         }, 2000);
+
+        localStorage.setItem("id", JSON.stringify(response.data.userd_id));
       })
       .then(() => {
         let token = {
