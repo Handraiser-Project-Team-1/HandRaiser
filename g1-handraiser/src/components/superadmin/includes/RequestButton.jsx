@@ -35,7 +35,7 @@ function RequestButton({permissionFn,getUserFn,pendingList,val,setNotifDetailsFn
     })
     .then(res => {
       getUserFn();
-      setNotifDetailsFn("success", "Success!", "Authentication key sent!");
+      setNotifDetailsFn("success", "Success!", `Authentication key sent to ${res.data.givenName} ${res.data.familyName}!`);
       openNofif();
       setLoading(false);
       pendingList();
