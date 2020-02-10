@@ -38,14 +38,16 @@ function UserType({ setNotifDetailsFn, openNofif, getUserFn, userid }) {
       method: "POST",
       data: { id: userid, type: userType }
     })
-      .then(() => {
-        getUserFn();
-        setNotifDetailsFn("success", "Success!", "Authentication key sent!  ");
-        openNofif();
+      .then(response => {
+        console.log(response)
+        // getUserFn();
+        // setNotifDetailsFn("success", "Success!", "Authentication key sent!  ");
+        // openNofif();
       })
       .catch(error => {
-        setNotifDetailsFn("error", "Oops!", "Please try again later!");
-        openNofif();
+        console.error(error);
+        // setNotifDetailsFn("error", "Oops!", "Please try again later!");
+        // openNofif();
       });
   };
   return (
