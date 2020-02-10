@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import TopBar from "./TopBar";
 import { Grid, Paper } from "@material-ui/core";
 import { fade, withStyles, makeStyles } from "@material-ui/core/styles";
@@ -57,6 +57,17 @@ const useStyles = makeStyles(theme => ({
 
 export default function ClassList(props) {
   const classes = useStyles();
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+  const submit = () => {
+    if (name && description && startDate && endDate) {
+      console.log(name, description, startDate, endDate);
+    }
+  };
+
   return (
     <TopBar active={props.active}>
       <Grid container spacing={1}>
@@ -75,6 +86,9 @@ export default function ClassList(props) {
                     id="name"
                     placeholder="name"
                     fullWidth={true}
+                    onChange={e => {
+                      setName(e.target.value);
+                    }}
                   />
                 </FormControl>
               </Grid>
@@ -87,6 +101,9 @@ export default function ClassList(props) {
                     id="description"
                     placeholder="Description"
                     fullWidth={true}
+                    onChange={e => {
+                      setDescription(e.target.value);
+                    }}
                   />
                 </FormControl>
               </Grid>
@@ -101,6 +118,9 @@ export default function ClassList(props) {
                       placeholder="Start Date"
                       type="date"
                       fullWidth={true}
+                      onChange={e => {
+                        setStartDate(e.target.value);
+                      }}
                     />
                   </FormControl>
                 </Grid>
@@ -114,6 +134,9 @@ export default function ClassList(props) {
                       placeholder="End Date"
                       fullWidth={true}
                       type="date"
+                      onChange={e => {
+                        setEndDate(e.target.value);
+                      }}
                       style={{ width: "94%" }}
                     />
                   </FormControl>
@@ -125,6 +148,7 @@ export default function ClassList(props) {
                   color="primary"
                   className={classes.button}
                   startIcon={<AddIcon />}
+                  onClick={() => submit()}
                 >
                   Create Class
                 </Button>
