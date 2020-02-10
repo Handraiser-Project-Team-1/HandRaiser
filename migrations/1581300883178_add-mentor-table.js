@@ -16,7 +16,7 @@ exports.up = (pgm) => {
         },
         status: {
             type: "boolean",
-            notNull: true
+            notNull: true,
         }
     })
 };

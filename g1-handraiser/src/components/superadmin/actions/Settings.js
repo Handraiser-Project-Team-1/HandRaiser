@@ -11,11 +11,13 @@ import {
 import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
-import { Badge } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { FormHelperText } from "@material-ui/core";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -53,7 +55,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Settings({ setNotif }) {
+export default function Settings() {
   const classes = useStyles();
   const [openK, setOpenK] = useState(false);
   const [cpass, setCPass] = useState("");
@@ -94,7 +96,7 @@ export default function Settings({ setNotif }) {
         }).then(response => {
           setTimeout(() => {
             setOpenK(false);
-            setNotif(true);
+            // setNotif(true);
           }, 1000);
         });
       } else {
@@ -114,14 +116,15 @@ export default function Settings({ setNotif }) {
 
   return (
     <React.Fragment>
-      <div style={{ padding: "10px 40px 0 40px" }}>
-        <Badge color="secondary">
-          <SettingsIcon color="disabled" fontSize="small" />
-        </Badge>
-        <Button color="primary" onClick={() => setOpenK(true)}>
-          Settings
-        </Button>
-      </div>
+      <ListItem 
+        onClick={() => setOpenK(true)}
+        button
+      >
+        <ListItemIcon>
+          <SettingsIcon/>
+        </ListItemIcon>
+        <ListItemText primary="Settings" />
+      </ListItem>
       <Dialog
         aria-labelledby="simple-dialog-title"
         open={openK}

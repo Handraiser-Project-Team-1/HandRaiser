@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Axios from "axios";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -20,7 +21,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import PeopleIcon from "@material-ui/icons/People";
 import Badge from "@material-ui/core/Badge";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import SettingsIcon from "@material-ui/icons/Settings";
+import Settings from "../actions/Settings";
 
 const drawerWidth = 240;
 
@@ -86,6 +87,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Navigation(props) {
+  let history = useHistory();
   const classes = useStyles();
   const theme = useTheme();
   const { active, setActive } = props;
@@ -117,6 +119,11 @@ export default function Navigation(props) {
       })
       .catch(err => console.error(err));
   });
+
+  var logout = () => {
+    localStorage.clear()
+    history.push('/administrator')
+  }
 
   return (
     <div className={classes.root}>
@@ -194,21 +201,9 @@ export default function Navigation(props) {
             </ListItemIcon>
             <ListItemText primary="Request" />
           </ListItem>
+          <Settings/>
           <ListItem
-            onClick={() => {
-              alert("Change Password");
-            }}
-            button
-          >
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Password" />
-          </ListItem>
-          <ListItem
-            onClick={() => {
-              alert("Logout");
-            }}
+            onClick={logout}
             button
           >
             <ListItemIcon>
