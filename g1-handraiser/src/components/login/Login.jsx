@@ -52,7 +52,6 @@ function Login() {
       }
     })
       .then(response => {
-        // console.log(response)
         setTimeout(() => {
           if (response.status === 200) {
             console.log(response);
