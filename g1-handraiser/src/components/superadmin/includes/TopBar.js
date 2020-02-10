@@ -34,7 +34,7 @@ const config = {
       hidden: false,
       inset: false,
       variant: "temporary",
-      width: 240,
+      width: 250,
       collapsedWidth: 64
     },
     header: {
@@ -262,7 +262,6 @@ const Layout = props => {
                   <KeyList />
                   <Settings handleclick={handleclick} setNotif={setNotif} />
                 </div>
-
                 <CollapseBtn className={sidebarStyles.collapseBtn}>
                   {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
                 </CollapseBtn>

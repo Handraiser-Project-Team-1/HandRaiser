@@ -12,10 +12,14 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
+import ListSubheader from "@material-ui/core/ListSubheader";
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%"
+  },
+  sub: {
+    background: "#FAFAFA"
   }
 }));
 
@@ -23,7 +27,20 @@ export default function NeedHelp() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <List className={classes.root}>
+      <List
+        className={classes.root}
+        component="nav"
+        aria-labelledby="nested-list-subheader"
+        subheader={
+          <ListSubheader
+            component="div"
+            id="nested-list-subheader"
+            className={classes.sub}
+          >
+            In queue
+          </ListSubheader>
+        }
+      >
         <ListItem>
           <ListItemIcon>
             <Avatar>M</Avatar>

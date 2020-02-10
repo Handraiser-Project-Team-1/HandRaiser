@@ -1,42 +1,59 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { ListItemIcon } from "@material-ui/core";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import {
+  Card,
+  Grid,
+  CardActionArea,
+  CardContent,
+  CardActions
+} from "@material-ui/core";
+import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import { green } from "@material-ui/core/colors";
 
+import { Typography } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
-  root: {
-    width: "100%"
+  card: {
+    padding: 10,
+    marginTop: 5,
+    fontSize: "15px"
   },
-  avatar: {
-    backgroundColor: green[500],
-    width: theme.spacing(7),
-    height: theme.spacing(7)
+  userBackground: {
+    background: "#f3f5f7"
   },
-  itemText: {
-    paddingLeft: theme.spacing(2)
+  typo: {
+    color: "#42b0fe "
+  },
+  header: {
+    display: "flex"
   }
 }));
 
-export default function BeingHelp() {
+export default function CardClass(props) {
   const classes = useStyles();
   return (
-    <React.Fragment>
-      <List className={classes.root}>
-        <ListItem>
-          <ListItemIcon>
-            <Avatar className={classes.avatar}>M</Avatar>
-          </ListItemIcon>
-          <ListItemText
-            primary="Martha Dansyle Marbella"
-            className={classes.itemText}
-            secondary="Assisting by: Daniel Nebreja"
-          />
-        </ListItem>
-      </List>
-    </React.Fragment>
+    <>
+      <Card className={classes.card} variant="outlined">
+        <CardActionArea className={classes.userBackground}>
+          <CardContent>
+            <div className={classes.root}>
+              <Grid container spacing={3}>
+                <CardHeader
+                  className={classes.header}
+                  avatar={
+                    <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg"></Avatar>
+                  }
+                  title="Marcial M. Norte Jr"
+                />
+              </Grid>
+            </div>
+          </CardContent>
+        </CardActionArea>
+        <CardActions>
+          <Typography variant="overline" className={classes.typo}>
+            BEING HELP
+          </Typography>
+        </CardActions>
+      </Card>
+    </>
   );
 }

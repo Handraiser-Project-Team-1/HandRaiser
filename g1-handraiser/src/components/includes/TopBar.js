@@ -29,7 +29,7 @@ import {
 } from "@mui-treasury/layout";
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-import axios from 'axios';
+import axios from "axios";
 
 const config = {
   autoCollapseDisabled: false,
@@ -198,39 +198,38 @@ const Layout = props => {
   const { active } = props;
   const [openSubList, setOpenSubList] = React.useState(true);
   const [user, setUser] = useState({
-    fname: '',
-    lname: '',
-    image: '',
-    email: ''
-  })
+    fname: "",
+    lname: "",
+    image: "",
+    email: ""
+  });
 
   const handleCollapse = () => {
     setOpenSubList(!openSubList);
   };
 
-  useEffect(()=>{
-    if(localStorage.getItem('tokenid')){
+  useEffect(() => {
+    if (localStorage.getItem("tokenid")) {
       //identify if mentor or student
       axios({
-        method: 'post',
+        method: "post",
         url: `${process.env.REACT_APP_DB_URL}/api/user`,
-        data: { tokenObj: localStorage.getItem('tokenid')}
-      })
-      .then(res=>{
-        res.data.map(x=>{
+        data: { tokenObj: localStorage.getItem("tokenid") }
+      }).then(res => {
+        res.data.map(x => {
           setUser({
             fname: x.user_fname,
             lname: x.user_lname,
             image: x.user_image,
             email: x.user_email
-          })
-          return(setUser)
-        })
-      })
-    }else{
-      history.push('/')
+          });
+          return setUser;
+        });
+      });
+    } else {
+      history.push("/");
     }
-  },[history])
+  }, [history]);
   return (
     <ThemeProvider theme={theme}>
       {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}
