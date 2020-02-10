@@ -1,6 +1,7 @@
 const argon2 = require('argon2');
 const secret = process.env.SECRET_KEY
 const jwt = require('jsonwebtoken');
+const email = require("../email/email");
 
 const newVerificationKey = () => {
   let random = Math.random().toString(36).substring(9);
