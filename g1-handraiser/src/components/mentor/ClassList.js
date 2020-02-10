@@ -84,7 +84,7 @@ export default function ClassList(props) {
                   </InputLabel>
                   <BootstrapInput
                     id="name"
-                    placeholder="name"
+                    placeholder="Name"
                     fullWidth={true}
                     onChange={e => {
                       setName(e.target.value);

@@ -10,7 +10,9 @@ exports.up = pgm => {
     },
     mentor_id: {
       type: "integer",
-      notNull: true
+      references: "mentor",
+      notNull: true,
+      onDelete: "cascade"
     },
 
     class_name: {
