@@ -20,6 +20,7 @@
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
     "massive": "^6.1.4",
+    "material-table": "^1.57.1",
     "node-pg-migrate": "^3.21.1",
     "pg": "^7.17.1",
     "react": "^16.12.0",

@@ -2,11 +2,8 @@ import React from "react";
 import Layout from "../includes/TopBar";
 import {
   Grid,
-  Paper,
   Typography,
-  Box,
   Card,
-  CardActionArea,
   CardMedia,
   CardContent
 } from "@material-ui/core";
@@ -42,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     width: "100%",
     height: 250,
-    background: "#fafafa" /* fallback for old browsers */,
+    backgroundColor: "#fafafa" /* fallback for old browsers */,
     background:
       "-webkit-linear-gradient(to right,#e3f2fd , #C9D6FF)" /* Chrome 10-25, Safari 5.1-6 */,
     background:
@@ -50,6 +47,9 @@ const useStyles = makeStyles(theme => ({
   },
   content: {
     flex: "1 0 auto"
+  },
+  que: {
+    padding: "2%"
   }
 }));
 
@@ -62,8 +62,8 @@ export default function Que(props) {
           {" "}
           <Card className={classes.card}>
             <CardContent className={classes.content}>
-              <Typography component="h2" variant="h2">
-                Class 1
+              <Typography component="h2" variant="h3" color="#fafafa">
+                Class name here!
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
                 Handraiser
@@ -76,16 +76,7 @@ export default function Que(props) {
               height="220"
               src={Img}
             />
-
-            {/* <img className={classes.img} src={Img} alt="" /> */}
           </Card>
-          {/* <Paper className={classes.cover}>
-            <img
-              className={classes.img}
-              src="https://images.pexels.com/photos/392018/pexels-photo-392018.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-              alt=""
-            />
-          </Paper> */}
           <Grid item xs={12} sm={3}>
             <Grid
               container
@@ -102,55 +93,10 @@ export default function Que(props) {
             </Grid>
           </Grid>
           <Grid item xs={12} sm={9}>
-            <NeedHelp />
-          </Grid>
-          {/* <Grid container>
-            <div style={{ paddingBottom: "15px" }} />
-          </Grid>
-          <Grid item container spacing={1}>
-            <Grid xl={2} lg={2} xs={6} item>
-              <Paper elevation={0} className={classes.widget}>
-                <Typography variant="subtitle1" gutterBottom>
-                  In Que
-                </Typography>
-                <Typography variant="h4" gutterBottom>
-                  <Box textAlign="center" m={1}>
-                    3
-                  </Box>
-                </Typography>
-              </Paper>
-            </Grid>
-            <Grid xl={2} lg={2} xs={6} item>
-              <Paper elevation={0} className={classes.widget}>
-                <Typography variant="subtitle1" gutterBottom>
-                  Your Position
-                </Typography>
-                <Typography variant="h4" gutterBottom>
-                  <Box textAlign="center" m={1}>
-                    1
-                  </Box>
-                </Typography>
-              </Paper>
-            </Grid>
-          </Grid>
-
-          <Grid item xs={12} lg={6} md={6}>
-            <Paper elevation={0} className={classes.root}>
-              <Typography
-                variant="h6"
-                style={{ fontWeight: "500", padding: "6px" }}
-                gutterBottom
-              >
-                Que
-              </Typography>
+            <Card className={classes.que}>
               <NeedHelp />
-            </Paper>
+            </Card>
           </Grid>
-          <Grid item xs={12} lg={6} md={6}>
-            <Paper elevation={0} className={classes.root}>
-              <BeingHelp />
-            </Paper>
-          </Grid> */}
         </Grid>
 
         <Chat />

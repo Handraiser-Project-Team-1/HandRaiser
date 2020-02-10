@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%"
   },
   sub: {
-    background: "#FAFAFA"
+    background: "#fafafa"
   }
 }));
 
@@ -32,16 +32,12 @@ export default function NeedHelp() {
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
-          <ListSubheader
-            component="div"
-            id="nested-list-subheader"
-            className={classes.sub}
-          >
+          <ListSubheader component="div" id="nested-list-subheader">
             In queue
           </ListSubheader>
         }
       >
-        <ListItem>
+        <ListItem className={classes.sub}>
           <ListItemIcon>
             <Avatar>M</Avatar>
           </ListItemIcon>
@@ -59,14 +55,12 @@ export default function NeedHelp() {
             </Tooltip>
           </ListItemSecondaryAction>
         </ListItem>
-        <Divider />
         <ListItem>
           <ListItemIcon>
             <Avatar>M</Avatar>
           </ListItemIcon>
           <ListItemText primary="Martha Dansyle Marbella" />
         </ListItem>
-        <Divider />
         <ListItem>
           <ListItemIcon>
             <Avatar>L</Avatar>
