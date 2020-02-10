@@ -16,7 +16,11 @@ exports.up = (pgm) => {
         },
         status: {
             type: "boolean",
+<<<<<<< HEAD:migrations/1581298979055_add-student-table.js
+            notNull: true
+=======
             notNull: true,
+>>>>>>> g1-develop:migrations/1581300829291_add-student-table.js
         }
     })
 };
