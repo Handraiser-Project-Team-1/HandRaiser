@@ -18,11 +18,15 @@ module.exports = {
 
     // db.admin
     //   .update({ admin_id: req.params.id, admin_pass: admin_pass })
-    db.query(`UPDATE admin SET admin_pass = '${admin_pass}'`)
-      .then(u => res.status(200).json(u))
-      .catch(err => {
-        console.log(err);
-      });
+    argon2.
+      hash(admin_pass)
+      .then(hash=>{
+        return db.query(`UPDATE admin SET admin_pass = '${hash}'`)
+                .then(u => res.status(200).json(u))
+                .catch(err => {
+                  console.log(err);
+              });
+      })
   },
   login: (req, res) => {
     const db = req.app.get("db");

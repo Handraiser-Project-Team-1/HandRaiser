@@ -89,7 +89,7 @@ function Keyauth() {
       .then(response => {
         if (tokenObj !== null) {
           setTimeout(() => {
-            response.data.type
+            response.data.type = 'student'
               ? history.push("/classes")
               : history.push("/queue");
           }, 1000);
