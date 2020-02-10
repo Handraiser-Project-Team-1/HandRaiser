@@ -72,7 +72,6 @@ export default function Request() {
       let err = String(error).match(/\w+$/g).join();
       if(err === '400'){
         permissionFn();
-        return;
       }
       console.error(error);
     });
