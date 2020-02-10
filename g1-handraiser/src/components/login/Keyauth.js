@@ -89,7 +89,8 @@ function Keyauth() {
       .then(response => {
         if (tokenObj !== null) {
           setTimeout(() => {
-            response.data.type
+            console.log(response);
+            response.data.type === "student"
               ? history.push("/classes")
               : history.push("/queue");
           }, 1000);
@@ -153,6 +154,7 @@ function Keyauth() {
                   name="key"
                   onChange={onChangeFn}
                   error={error}
+                  autoComplete="off"
                 />
                 {error && (
                   <FormHelperText

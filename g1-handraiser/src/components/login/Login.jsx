@@ -55,8 +55,9 @@ function Login() {
         // console.log(response)
         setTimeout(() => {
           if (response.status === 200) {
-            response.data.userType === "mentor"
-              ? history.push("/queue")
+            console.log(response);
+            response.data.user_type === "mentor"
+              ? history.push("/myclasslist")
               : history.push("/classes");
           } else {
             history.push("/authentication");

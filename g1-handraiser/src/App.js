@@ -6,6 +6,7 @@ import Login from "./components/login/LoginInterface";
 import Welcome from "./components/superadmin/Welcome";
 import Admin from "./components/superadmin/admin";
 import Queue from "./components/mentor/Queue";
+import ClassList from "./components/mentor/ClassList";
 import Que from "./components/studentque/Que";
 import page404 from "./components/includes/Page404";
 import Authentication from "./components/login/Keyauth";
@@ -47,6 +48,11 @@ export default function App() {
           />
           <Route exact path="/administrator" component={Welcome} />
           <Route exact path="/admin" component={Admin} />
+          <Route
+            exact
+            path="/myclasslist"
+            render={props => <ClassList {...props} active="classlist" />}
+          />
           <Route component={page404} />
         </Switch>
       </JWTContext.Provider>

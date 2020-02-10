@@ -1,5 +1,5 @@
 import React from "react";
-import TopBar from "../includes/TopBar";
+import TopBar from "./TopBar";
 import QueueCounter from "./includes/QueueCounter";
 import QueueViewer from "./includes/QueueViewer";
 import { makeStyles } from "@material-ui/core/styles";
