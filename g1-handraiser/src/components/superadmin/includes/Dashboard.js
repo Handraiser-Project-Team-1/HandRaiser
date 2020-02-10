@@ -107,9 +107,15 @@ export default function Navigation(props) {
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_DB_URL}/api/users`)
       .then(res => {
-        setReqCount(res.data);
+        setReqCount(res.data)
+        // console.log(res)
+        // if(res.data.length === null) {
+        //   return setReqCount(0)
+        // }else{
+        //   setReqCount(res.data)
+        // }
       })
-      .catch(err => console.error(err.response.data.error));
+      .catch(err => console.error(err));
   });
 
   return (

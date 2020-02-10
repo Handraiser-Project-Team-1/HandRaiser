@@ -156,19 +156,49 @@ module.exports = {
                 }
               )
               .then(user => {
-                db.keys
-                  .destroy({
-                    userd_id: user[0].userd_id
-                  })
-                  .then(() => {
-                    res
-                      .status(200)
-                      .send({ name: decoded.name, type: user[0].user_type });
-                  })
-                  .catch(error => {
-                    console.error(error);
-                    res.status(500).end();
-                  });
+                if(user.user_type === 'mentor'){
+                    db.mentor
+                    .insert({
+                        user_id: user[0].userd_id,
+                        status: true
+                    })
+                    .then(() => {
+                        db.keys
+                        .destroy({
+                            userd_id: user[0].userd_id
+                        })
+                        .then(() => {
+                            res
+                            .status(200)
+                            .send({ name: decoded.name, type: user[0].user_type });
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            res.status(500).end();
+                        });
+                    })
+                }else{
+                    db.student
+                    .insert({
+                        user_id: user[0].userd_id,
+                        status: true
+                    })
+                    .then(() => {
+                        db.keys
+                        .destroy({
+                            userd_id: user[0].userd_id
+                        })
+                        .then(() => {
+                            res
+                            .status(200)
+                            .send({ name: decoded.name, type: user[0].user_type });
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            res.status(500).end();
+                        });
+                    })
+                }
               })
               .catch(error => {
                 console.error(error);
@@ -182,16 +212,16 @@ module.exports = {
     const db = req.app.get("db");
     const { id, type } = req.body;
     const newKey = newVerificationKey();
-    db.user_details.findOne({ userd_id: 2 }).then(user => {
+    db.user_details.findOne({ userd_id: 1 }).then(user => {
       if (!user) {
         res.status(404).end();
       } else {
         const name = user.user_fname + " " + user.user_lname;
         email
           .main(name, user.user_email, newKey)
-          .then((res) => {
-            console.log(res);
-            if(res === 'permission'){
+          .then((response) => {
+            console.log(response);
+            if(response === 'permission'){
               res.status(400).end();
               return;
             }
@@ -213,7 +243,7 @@ module.exports = {
               });
           })
           .catch(error => {
-            console.error(error);
+            console.log(error);
             res.status(500).end();
           });
       }

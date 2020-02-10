@@ -133,7 +133,7 @@ module.exports = {
   fetchToken: (req, res) => {
     getToken(res.req.query.code)
     .then(result => {
-      res.status(200).send(result);
+      res.redirect(`${process.env.URL}/permission`)
     })
     .catch(error => {
       res.status(500).end();

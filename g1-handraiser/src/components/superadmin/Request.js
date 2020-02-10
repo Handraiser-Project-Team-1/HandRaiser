@@ -41,17 +41,41 @@ export default function Request() {
       });
   };
 
+  const permissionFn = () => {
+    Axios({
+      url: `${process.env.REACT_APP_DB_URL}/permission`,
+      method: 'GET'
+    })
+    .then(response => {
+      window.open(
+        response.data,
+        "Request Permission",
+        "width=1000, height=700, left=500, top=170"
+      );
+    })
+    .catch(error => {
+      console.error(error);
+    })
+  }
+
   const submit = val => {
-    console.log(type);
     Axios.post(`${process.env.REACT_APP_DB_URL}/api/key`, {
       id: val,
       type: type
     })
-      .then(res => {
-        getUserFn();
-        pendingList();
-      })
-      .catch(err => console.error(err.response.data.error));
+    .then(res => {
+      getUserFn();
+      pendingList();
+    })
+    .catch(error => {
+      //console.error(err.response.data.error)
+      let err = String(error).match(/\w+$/g).join();
+      if(err === '400'){
+        permissionFn();
+        return;
+      }
+      console.error(error);
+    });
   };
 
   return (
