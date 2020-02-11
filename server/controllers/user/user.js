@@ -335,44 +335,54 @@ module.exports = {
       )
       .then(results => {
         db.user_type.findOne({ userd_id: id }).then(results => {
+          let id = results.user_id;
           if (user_type === "student") {
-            db.mentor
-              .destroy({
-                user_id: results.user_id
-              })
-              .catch(err => {
-                console.log(err);
-                res.status(500).send(err);
-              });
+            db.student.findOne({ user_id: results.user_id }).then(results => {
+              if (!results) {
+                db.mentor
+                  .destroy({
+                    user_id: id
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    res.status(500).send(err);
+                  });
 
-            db.student
-              .insert({
-                user_id: results.user_id,
-                status: false
-              })
-              .catch(err => {
-                console.log(err);
-                res.status(500).send(err);
-              });
+                db.student
+                  .insert({
+                    user_id: id,
+                    status: false
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    res.status(500).send(err);
+                  });
+              }
+            });
           } else if (user_type === "mentor") {
-            db.student
-              .destroy({
-                user_id: results.user_id
-              })
-              .catch(err => {
-                console.log(err);
-                res.status(500).send(err);
-              });
+            let id = results.user_id;
+            db.mentor.findOne({ user_id: results.user_id }).then(results => {
+              if (!results) {
+                db.student
+                  .destroy({
+                    user_id: id
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    res.status(500).send(err);
+                  });
 
-            db.mentor
-              .insert({
-                user_id: results.user_id,
-                status: false
-              })
-              .catch(err => {
-                console.log(err);
-                res.status(500).send(err);
-              });
+                db.mentor
+                  .insert({
+                    user_id: id,
+                    status: false
+                  })
+                  .catch(err => {
+                    console.log(err);
+                    res.status(500).send(err);
+                  });
+              }
+            });
           }
         });
 

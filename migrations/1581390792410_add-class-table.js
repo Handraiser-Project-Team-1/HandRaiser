@@ -34,7 +34,7 @@ exports.up = pgm => {
     class_status: {
       type: "text",
       notNull: "true",
-      default: "off"
+      default: "on"
     }
   });
 };
