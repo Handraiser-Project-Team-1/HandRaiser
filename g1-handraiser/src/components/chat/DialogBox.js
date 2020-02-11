@@ -34,7 +34,7 @@ export default function DialogBox({ handleClose, open }) {
     socket = io(ENDPOINT);
     console.log(name);
     console.log(socket);
-    //socket.emit('join', { name, room });
+    socket.emit('join', { name, room });
   }, [ENDPOINT, name, room]);
 
   useEffect(() => {
