@@ -208,6 +208,11 @@ const Layout = props => {
       history.push("/");
     }
   }, [history]);
+
+  var logout = () => {
+    localStorage.clear();
+    history.push('/')
+  }
   return (
     <ThemeProvider theme={theme}>
       {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}
@@ -248,7 +253,7 @@ const Layout = props => {
                     selected={active === "classlist" ? true : false}
                     button
                     onClick={() => {
-                      history.push("/classes");
+                      history.push("/myclasslist");
                     }}
                   >
                     <ListItemIcon>
@@ -258,7 +263,7 @@ const Layout = props => {
                   </ListItem>
                 </List>
                 <List>
-                  <ListItem button>
+                  <ListItem onClick={logout} button>
                     <ListItemIcon>
                       <PowerSettingsNewIcon />
                     </ListItemIcon>
