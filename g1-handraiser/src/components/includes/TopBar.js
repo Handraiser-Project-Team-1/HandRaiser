@@ -234,6 +234,10 @@ const Layout = props => {
       history.push("/");
     }
   }, [history]);
+  var logout = () => {
+    localStorage.clear();
+    history.push('/')
+  }
   return (
     <ThemeProvider theme={theme}>
       {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}
@@ -335,7 +339,7 @@ const Layout = props => {
                   </List>
                 </Collapse>
                 <List>
-                  <ListItem button>
+                  <ListItem onClick={logout} button>
                     <ListItemIcon>
                       <PowerSettingsNewIcon />
                     </ListItemIcon>

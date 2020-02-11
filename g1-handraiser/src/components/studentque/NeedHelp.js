@@ -50,7 +50,7 @@ export default function NeedHelp() {
           />
 
           <ListItemSecondaryAction>
-            <Tooltip title="Remove myself from Que">
+            <Tooltip title="Remove myself from Queue">
               <IconButton>
                 <DeleteIcon />
               </IconButton>

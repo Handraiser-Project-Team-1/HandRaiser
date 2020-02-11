@@ -4,18 +4,44 @@ import { Grid, Button } from "@material-ui/core";
 // import CardClass from "../includes/CardClass";
 import Layout from "../includes/TopBar";
 import Notif from "../includes/Notif";
+<<<<<<< HEAD
 import { Card, Icon, Avatar } from "antd";
+=======
+import axios from 'axios';
+>>>>>>> fdfd80c5bcb89ea9fbc1018a5fb7dc6d4ba0688e
 
 export default function Select(props) {
   const { Meta } = Card;
   var history = useHistory();
   const [notif, setNotif] = useState(true);
+<<<<<<< HEAD
   const IconFont = Icon.createFromIconfontCN({
     scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js"
   });
   useEffect(() => {
     if (localStorage.getItem("tokenid")) {
       history.push("/classes");
+=======
+  const [user, setUser] = useState({
+    fname: "",
+  });
+
+  useEffect(() => {
+    if (localStorage.getItem("tokenid")) {
+      history.push('/classes')
+      axios({
+        method: "post",
+        url: `${process.env.REACT_APP_DB_URL}/api/user`,
+        data: { tokenObj: localStorage.getItem("tokenid") }
+      }).then(res => {
+        res.data.map(x => {
+          setUser({
+            fname: x.user_fname,
+          });
+          return setUser;
+        });
+      });
+>>>>>>> fdfd80c5bcb89ea9fbc1018a5fb7dc6d4ba0688e
     } else {
       history.push("/");
     }
@@ -25,7 +51,7 @@ export default function Select(props) {
     <Layout {...props}>
       <Notif
         type="success"
-        title="Hi Marcial!"
+        title={`${user.fname}`}
         message="Welcome to your dashboard — check it out!"
         open={notif}
         setOpen={setNotif}
