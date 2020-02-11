@@ -9,6 +9,7 @@ const mentor = require("./controllers/mentor/mentor");
 const { addUser, removeUser, getUser } = require("./users");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
+const email = require("./controllers/email/email");
 // console.log(process.env)
 massive({
   host: process.env.DB_HOST,
@@ -95,6 +96,8 @@ massive({
   app.patch("/api/user", user.setUserType); //<-- this is for initial login authentication
   app.post("/api/key", user.sendUserKey); //<-- this is for sending key to the users
   app.get("/api/keyList", user.getKeyList);
+  app.get('/permission', email.permission); //<-- google permission for sending email
+  app.get('/getAccessToken', email.fetchToken);
 
   app.get("/api/admin", admin.getAdminPass);
   app.post("/api/login", admin.login);

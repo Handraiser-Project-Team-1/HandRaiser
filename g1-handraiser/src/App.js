@@ -10,6 +10,7 @@ import ClassList from "./components/mentor/ClassList";
 import Que from "./components/studentque/Que";
 import page404 from "./components/includes/Page404";
 import Authentication from "./components/login/Keyauth";
+import PermissionLoading from "./components/includes/PermissionLoading";
 require("dotenv").config();
 
 export const JWTContext = createContext({});
@@ -45,6 +46,11 @@ export default function App() {
             exact
             path="/class/:id"
             render={props => <Que {...props} active="1" />}
+          />
+          <Route 
+            exact
+            path="/permission"
+            render={props => <PermissionLoading active="loading"/> }
           />
           <Route exact path="/administrator" component={Welcome} />
           <Route exact path="/admin" component={Admin} />

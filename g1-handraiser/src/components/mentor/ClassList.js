@@ -59,7 +59,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function ClassList(props) {
   const classes = useStyles();
-  const [open,setOpen] =useState(false)
+  const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [startDate, setStartDate] = useState("");
@@ -76,7 +76,11 @@ export default function ClassList(props) {
         endDate
       })
         .then(res => {
-          setOpen(true)
+          setOpen(true);
+          setDescription("");
+          setName("");
+          setStartDate("");
+          setEndDate("");
           console.log(res);
         })
         .catch(err => {
@@ -87,7 +91,13 @@ export default function ClassList(props) {
 
   return (
     <TopBar active={props.active}>
-    <CustomizedSnackbars open={open} setOpen={setOpen} type="success" title="Success" message="Class successfully created!" />
+      <CustomizedSnackbars
+        open={open}
+        setOpen={setOpen}
+        type="success"
+        title="Success"
+        message="Class successfully created!"
+      />
       <Grid container spacing={1}>
         <Grid item xs={8}>
           ClassList
@@ -104,6 +114,7 @@ export default function ClassList(props) {
                     id="name"
                     placeholder="Name"
                     fullWidth={true}
+                    value={name}
                     onChange={e => {
                       setName(e.target.value);
                     }}
@@ -119,6 +130,7 @@ export default function ClassList(props) {
                     id="description"
                     placeholder="Description"
                     fullWidth={true}
+                    value={description}
                     onChange={e => {
                       setDescription(e.target.value);
                     }}
@@ -135,6 +147,7 @@ export default function ClassList(props) {
                       id="startDate"
                       placeholder="Start Date"
                       type="date"
+                      value={startDate}
                       fullWidth={true}
                       onChange={e => {
                         setStartDate(e.target.value);
@@ -152,6 +165,7 @@ export default function ClassList(props) {
                       placeholder="End Date"
                       fullWidth={true}
                       type="date"
+                      value={endDate}
                       onChange={e => {
                         setEndDate(e.target.value);
                       }}
