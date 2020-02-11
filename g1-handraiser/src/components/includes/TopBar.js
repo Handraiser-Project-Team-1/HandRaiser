@@ -14,11 +14,15 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import Collapse from "@material-ui/core/Collapse";
 import SchoolIcon from "@material-ui/icons/School";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Divider } from "@material-ui/core";
+import { green } from "@material-ui/core/colors";
+
 import { useHistory } from "react-router-dom";
+import { Card, Icon } from "antd";
+
 import {
   Root,
   Header,
@@ -29,8 +33,8 @@ import {
 } from "@mui-treasury/layout";
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-import axios from 'axios';
-
+import axios from "axios";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 const config = {
   autoCollapseDisabled: false,
   collapsedBreakpoint: "sm",
@@ -157,7 +161,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(4)
   },
   icon: {
-    padding: theme.spacing(2),
+    background: "#fafafa",
     transition: "all 0.3s ease 0s",
     [theme.breakpoints.between("sm", "md")]: {
       padding: theme.spacing(1)
@@ -198,39 +202,42 @@ const Layout = props => {
   const { active } = props;
   const [openSubList, setOpenSubList] = React.useState(true);
   const [user, setUser] = useState({
-    fname: '',
-    lname: '',
-    image: '',
-    email: ''
-  })
+    fname: "",
+    lname: "",
+    image: "",
+    email: ""
+  });
 
   const handleCollapse = () => {
     setOpenSubList(!openSubList);
   };
 
-  useEffect(()=>{
-    if(localStorage.getItem('tokenid')){
+  useEffect(() => {
+    if (localStorage.getItem("tokenid")) {
       //identify if mentor or student
       axios({
-        method: 'post',
+        method: "post",
         url: `${process.env.REACT_APP_DB_URL}/api/user`,
-        data: { tokenObj: localStorage.getItem('tokenid')}
-      })
-      .then(res=>{
-        res.data.map(x=>{
+        data: { tokenObj: localStorage.getItem("tokenid") }
+      }).then(res => {
+        res.data.map(x => {
           setUser({
             fname: x.user_fname,
             lname: x.user_lname,
             image: x.user_image,
             email: x.user_email
-          })
-          return(setUser)
-        })
-      })
-    }else{
-      history.push('/')
+          });
+          return setUser;
+        });
+      });
+    } else {
+      history.push("/");
     }
-  },[history])
+  }, [history]);
+  var logout = () => {
+    localStorage.clear();
+    history.push('/')
+  }
   return (
     <ThemeProvider theme={theme}>
       {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}
@@ -246,21 +253,48 @@ const Layout = props => {
                 <Typography variant="h6">HandRaiser</Typography>
               </Toolbar>
             </Header>
-            <Sidebar>
-              <div className={classes.icon}>
+            <Sidebar color="primary">
+              <Card
+                className={classes.icon}
+                actions={[
+                  <FiberManualRecordIcon
+                    style={{ color: green[500] }} //ACTIVE ICON
+                    fontSize="small"
+                  />,
+                  <Icon type="setting" key="setting" />,
+                  <Icon type="edit" key="edit" />
+                ]}
+              >
                 <Avatar
                   className={classes.large}
                   alt={`${user.fname} ${user.lname}`}
                   src={`${user.image}`}
                 />
-                <div style={{ paddingBottom: "15px" }} />
-                <Typography variant="h6" noWrap>
+                <div
+                  style={{
+                    paddingBottom: "15px"
+                  }}
+                />
+                <Typography
+                  variant="h6"
+                  style={{
+                    marginLeft: "15%"
+                  }}
+                  noWrap
+                >
                   {user.fname} {user.lname}
                 </Typography>
-                <Typography variant="subtitle1" noWrap>
+                <Typography
+                  variant="body2"
+                  style={{
+                    marginLeft: "3%"
+                  }}
+                  noWrap
+                >
                   {user.email}
                 </Typography>
-              </div>
+              </Card>
+
               <Divider />
               <div
                 className={sidebarStyles.container}
@@ -305,9 +339,9 @@ const Layout = props => {
                   </List>
                 </Collapse>
                 <List>
-                  <ListItem button>
+                  <ListItem onClick={logout} button>
                     <ListItemIcon>
-                      <ExitToAppIcon />
+                      <PowerSettingsNewIcon />
                     </ListItemIcon>
                     <ListItemText primary="Logout" />
                   </ListItem>

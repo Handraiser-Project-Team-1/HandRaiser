@@ -50,7 +50,6 @@ export default function CardClass(props) {
         </CardActionArea>
         <CardActions>
           <Typography variant="overline" className={classes.typo}>
-            {/* <FiberManualRecordRoundedIcon /> */}
             BEING HELP
           </Typography>
         </CardActions>

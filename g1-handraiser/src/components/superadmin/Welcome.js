@@ -90,7 +90,7 @@ export default function Welcome() {
         password
       })
         .then(res => {
-          localStorage.setItem('pass', res.data.admin_pass)
+          localStorage.setItem("pass", res.data.admin_pass);
           history.push("/admin");
         })
         .catch(err => {

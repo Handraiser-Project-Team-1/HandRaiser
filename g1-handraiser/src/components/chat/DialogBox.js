@@ -10,7 +10,7 @@ import SendIcon from "@material-ui/icons/Send";
 import io from "socket.io-client";
 
 let socket;
-let user = 'mark' + Math.floor(Math.random() * Math.floor(20000));
+let user = "mark" + Math.floor(Math.random() * Math.floor(20000));
 
 export default function DialogBox({ handleClose, open }) {
   const [state, setState] = useState(1);
@@ -24,9 +24,9 @@ export default function DialogBox({ handleClose, open }) {
   const handleClick = () => {
     setState(state + 1);
     if (message) {
-      const nottyping = '';
-      socket.emit('sendMessage', message, () => setmessage(''));
-      socket.emit('not typing', nottyping);
+      const nottyping = "";
+      socket.emit("sendMessage", message, () => setmessage(""));
+      socket.emit("not typing", nottyping);
     }
   };
 
@@ -60,17 +60,17 @@ export default function DialogBox({ handleClose, open }) {
   })
 
   useEffect(() => {
-    socket.on('typing', (data) => {
+    socket.on("typing", data => {
       setFeedbAck(`${data}`);
-    })
+    });
 
-    socket.on('not typing', (data) => {
+    socket.on("not typing", data => {
       setFeedbAck(data);
-    })
+    });
 
-    socket.on('message', (message) => {
-      setMessages([...messages, message])
-    })
+    socket.on("message", message => {
+      setMessages([...messages, message]);
+    });
     return () => {
       socket.emit("disconnect");
 
@@ -88,12 +88,12 @@ export default function DialogBox({ handleClose, open }) {
     } else {
       typing()
     }
-  })
+  });
 
   const typing = () => {
-    const nottyping = '';
-    socket.emit('not typing', nottyping);
-  }
+    const nottyping = "";
+    socket.emit("not typing", nottyping);
+  };
 
   return (
     <React.Fragment>
@@ -108,7 +108,14 @@ export default function DialogBox({ handleClose, open }) {
       >
         <DialogTitle id="alert-dialog-title">{room}</DialogTitle>
         <DialogContent dividers>
-          <DialogContainer message={message} feedback={feedback} messages={messages} name={name} open={open} state={state} />
+          <DialogContainer
+            message={message}
+            feedback={feedback}
+            messages={messages}
+            name={name}
+            open={open}
+            state={state}
+          />
         </DialogContent>
         <DialogActions>
           <Type

@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import { useHistory } from "react-router-dom";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Typography from "@material-ui/core/Typography";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
+import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Divider } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Notif from "./Notif";
+import { useHistory } from "react-router-dom";
 import {
   Root,
   Header,
@@ -20,9 +24,7 @@ import {
 } from "@mui-treasury/layout";
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-import Request from "../actions/request";
-import KeyList from "../actions/KeyList";
-import Settings from "../actions/Settings";
+import axios from "axios";
 
 const config = {
   autoCollapseDisabled: false,
@@ -34,7 +36,7 @@ const config = {
       hidden: false,
       inset: false,
       variant: "temporary",
-      width: 250,
+      width: 240,
       collapsedWidth: 64
     },
     header: {
@@ -165,16 +167,6 @@ const useStyles = makeStyles(theme => ({
       width: theme.spacing(6),
       height: theme.spacing(6)
     }
-  },
-  logout: {
-    display: "flex",
-    justifyContent: "flex-end",
-    width: "25%",
-    "@media (max-width: 320px)": {
-      display: "flex",
-      width: "50%",
-      justifyContent: "flex-end"
-    }
   }
 }));
 
@@ -198,80 +190,97 @@ const theme = createMuiTheme({
 const Layout = props => {
   const classes = useStyles();
   let history = useHistory();
-  const [notif, setNotif] = useState(false);
-  const logout = () => {
-    localStorage.clear();
-    history.push("/");
-  };
-  const handleclick = () => {
-    setNotif(true);
-  };
+  const { active } = props;
+  const [user, setUser] = useState([]);
 
+  useEffect(() => {
+    if (localStorage.getItem("tokenid")) {
+      //identify if mentor or student
+      history.push('/myclasslist')
+      axios({
+        method: "post",
+        url: `${process.env.REACT_APP_DB_URL}/api/user`,
+        data: { tokenObj: localStorage.getItem("tokenid") }
+      }).then(res => {
+        //console.log(res);
+        setUser(res.data[0]);
+      });
+    } else {
+      history.push("/");
+    }
+  }, [history]);
+
+  var logout = () => {
+    localStorage.clear();
+    history.push('/')
+  }
   return (
-    <>
-      <Notif
-        type="success"
-        title="Successfully updated"
-        // message="Kindly check again the code in your email"
-        open={notif}
-        setOpen={setNotif}
-      />
-      <ThemeProvider theme={theme}>
-        <Root omitThemeProvider={true} config={config}>
-          {({ headerStyles, sidebarStyles, collapsed, opened }) => (
-            <>
-              <CssBaseline />
-              <Header color="primary">
-                <Toolbar>
-                  <SidebarTrigger className={headerStyles.leftTrigger}>
-                    {opened ? <ChevronLeftIcon /> : <MenuIcon />}
-                  </SidebarTrigger>
-                  <Typography variant="h6" style={{ width: "95%" }}>
-                    HandRaiser
-                  </Typography>
-                  <Button
-                    style={{ color: "white" }}
-                    onClick={logout}
-                    className={classes.logout}
+    <ThemeProvider theme={theme}>
+      {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}
+      <Root omitThemeProvider={true} config={config}>
+        {({ headerStyles, sidebarStyles, collapsed, opened }) => (
+          <>
+            <CssBaseline />
+            <Header color="primary">
+              <Toolbar>
+                <SidebarTrigger className={headerStyles.leftTrigger}>
+                  {opened ? <ChevronLeftIcon /> : <MenuIcon />}
+                </SidebarTrigger>
+                <Typography variant="h6">HandRaiser</Typography>
+              </Toolbar>
+            </Header>
+            <Sidebar>
+              <div className={classes.icon}>
+                <Avatar
+                  className={classes.large}
+                  alt={`${user.user_fname} ${user.user_lname}`}
+                  src={`${user.user_image}`}
+                />
+                <div style={{ paddingBottom: "15px" }} />
+                <Typography variant="h6" noWrap>
+                  {user.user_fname} {user.user_lname}
+                </Typography>
+                <Typography variant="subtitle1" noWrap>
+                  {user.user_email}
+                </Typography>
+              </div>
+              <Divider />
+              <div
+                className={sidebarStyles.container}
+                style={{ height: "100vh" }}
+              >
+                <List>
+                  <ListItem
+                    selected={active === "classlist" ? true : false}
+                    button
+                    onClick={() => {
+                      history.push("/myclasslist");
+                    }}
                   >
-                    Logout
-                  </Button>
-                </Toolbar>
-              </Header>
-              <Sidebar>
-                <div className={classes.icon}>
-                  <Avatar
-                    className={classes.large}
-                    alt="Marcial Norte"
-                    src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg"
-                  />
-                  <div style={{ paddingBottom: "15px" }} />
-                  <Typography variant="h6" noWrap>
-                    Marcial M. Norte Jr
-                  </Typography>
-                  <Typography variant="subtitle1" noWrap>
-                    marcial.norte@boom.camp
-                  </Typography>
-                </div>
-                <Divider />
-                <div
-                  className={sidebarStyles.container}
-                  style={{ height: "100vh" }}
-                >
-                  <Request />
-                  <KeyList />
-                  <Settings handleclick={handleclick} setNotif={setNotif} />
-                </div>
-                <CollapseBtn className={sidebarStyles.collapseBtn}>
-                  {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-                </CollapseBtn>
-              </Sidebar>
-              <Content className={classes.content}>{props.children}</Content>
-            </>
-          )}
-        </Root>
-      </ThemeProvider>
-    </>
+                    <ListItemIcon>
+                      <ImportContactsIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="My Class" />
+                  </ListItem>
+                </List>
+                <List>
+                  <ListItem onClick={logout} button>
+                    <ListItemIcon>
+                      <PowerSettingsNewIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Logout" />
+                  </ListItem>
+                </List>
+              </div>
+              <CollapseBtn className={sidebarStyles.collapseBtn}>
+                {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+              </CollapseBtn>
+            </Sidebar>
+            <Content className={classes.content}>{props.children}</Content>
+          </>
+        )}
+      </Root>
+    </ThemeProvider>
   );
 };
 
