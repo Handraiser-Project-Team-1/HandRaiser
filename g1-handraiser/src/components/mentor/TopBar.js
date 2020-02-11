@@ -9,13 +9,8 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import LocalLibraryIcon from "@material-ui/icons/LocalLibrary";
-import ExpandLess from "@material-ui/icons/ExpandLess";
-import ExpandMore from "@material-ui/icons/ExpandMore";
-import Collapse from "@material-ui/core/Collapse";
-import SchoolIcon from "@material-ui/icons/School";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
-import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
+import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Divider } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
@@ -196,17 +191,7 @@ const Layout = props => {
   const classes = useStyles();
   let history = useHistory();
   const { active } = props;
-  const [openSubList, setOpenSubList] = React.useState(true);
-  const [user, setUser] = useState({
-    fname: "",
-    lname: "",
-    image: "",
-    email: ""
-  });
-
-  const handleCollapse = () => {
-    setOpenSubList(!openSubList);
-  };
+  const [user, setUser] = useState([]);
 
   useEffect(() => {
     if (localStorage.getItem("tokenid")) {
@@ -216,15 +201,8 @@ const Layout = props => {
         url: `${process.env.REACT_APP_DB_URL}/api/user`,
         data: { tokenObj: localStorage.getItem("tokenid") }
       }).then(res => {
-        res.data.map(x => {
-          setUser({
-            fname: x.user_fname,
-            lname: x.user_lname,
-            image: x.user_image,
-            email: x.user_email
-          });
-          return setUser;
-        });
+        //console.log(res);
+        setUser(res.data[0]);
       });
     } else {
       history.push("/");
@@ -249,15 +227,15 @@ const Layout = props => {
               <div className={classes.icon}>
                 <Avatar
                   className={classes.large}
-                  alt={`${user.fname} ${user.lname}`}
-                  src={`${user.image}`}
+                  alt={`${user.user_fname} ${user.user_lname}`}
+                  src={`${user.user_image}`}
                 />
                 <div style={{ paddingBottom: "15px" }} />
                 <Typography variant="h6" noWrap>
-                  {user.fname} {user.lname}
+                  {user.user_fname} {user.user_lname}
                 </Typography>
                 <Typography variant="subtitle1" noWrap>
-                  {user.email}
+                  {user.user_email}
                 </Typography>
               </div>
               <Divider />
@@ -267,42 +245,18 @@ const Layout = props => {
               >
                 <List>
                   <ListItem
-                    selected={active === "classes" ? true : false}
+                    selected={active === "classlist" ? true : false}
                     button
                     onClick={() => {
                       history.push("/classes");
                     }}
                   >
                     <ListItemIcon>
-                      <SchoolIcon />
+                      <ImportContactsIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Classes" />
+                    <ListItemText primary="My Class" />
                   </ListItem>
                 </List>
-                <ListItem button onClick={handleCollapse}>
-                  <ListItemIcon>
-                    <LocalLibraryIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Enrolled" />
-                  {openSubList ? <ExpandLess /> : <ExpandMore />}
-                </ListItem>
-                <Collapse in={openSubList} timeout="auto" unmountOnExit>
-                  <List component="div" disablePadding>
-                    <ListItem
-                      selected={active === "1" ? true : false}
-                      button
-                      className={classes.nested}
-                      onClick={() => {
-                        history.push("/class/1");
-                      }}
-                    >
-                      <ListItemIcon>
-                        <StarBorderOutlinedIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="BoomCamp 2019" />
-                    </ListItem>
-                  </List>
-                </Collapse>
                 <List>
                   <ListItem button>
                     <ListItemIcon>

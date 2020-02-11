@@ -54,13 +54,16 @@ function Login() {
       .then(response => {
         setTimeout(() => {
           if (response.status === 200) {
+            console.log(response);
             response.data.user_type === "mentor"
-              ? history.push("/queue")
+              ? history.push("/myclasslist")
               : history.push("/classes");
           } else {
             history.push("/authentication");
           }
         }, 2000);
+
+        localStorage.setItem("id", JSON.stringify(response.data.userd_id));
       })
       .then(() => {
         let token = {
