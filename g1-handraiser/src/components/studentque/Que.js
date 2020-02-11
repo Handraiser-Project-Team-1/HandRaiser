@@ -28,7 +28,7 @@ export default function Que(props) {
             <Grid xl={2} lg={2} xs={6} item>
               <Paper elevation={0} className={classes.widget}>
                 <Typography variant="subtitle1" gutterBottom>
-                  In Que
+                  In Queue
                 </Typography>
                 <Typography variant="h4" gutterBottom>
                   <Box textAlign="center" m={1}>
@@ -58,7 +58,7 @@ export default function Que(props) {
                 style={{ fontWeight: "500", padding: "6px" }}
                 gutterBottom
               >
-                Que
+                Queue
               </Typography>
               <NeedHelp />
             </Paper>
@@ -76,7 +76,6 @@ export default function Que(props) {
             </Paper>
           </Grid>
         </Grid>
-
         <Chat />
       </Layout>
     </React.Fragment>
