@@ -15,22 +15,22 @@ export default function Request() {
   const [pending, setPending] = useState([]);
   const [notif, setNotif] = useState(false);
   const [notifDetails, setNotifDetails] = useState({
-    type: '',
-    title: '',
-    message: '',
-  })
+    type: "",
+    title: "",
+    message: ""
+  });
 
-  const setNotifDetailsFn = (type,title,message) => {
+  const setNotifDetailsFn = (type, title, message) => {
     setNotifDetails({
       type: type,
       title: title,
-      message: message,
-    })
-  }
+      message: message
+    });
+  };
 
   const openNofif = () => {
     setNotif(true);
-  }
+  };
 
   useEffect(() => {
     getUserFn();
@@ -60,19 +60,19 @@ export default function Request() {
   const permissionFn = () => {
     Axios({
       url: `${process.env.REACT_APP_DB_URL}/permission`,
-      method: 'GET'
+      method: "GET"
     })
-    .then(response => {
-      window.open(
-        response.data,
-        "Request Permission",
-        "width=1000, height=700, left=500, top=170"
-      );
-    })
-    .catch(error => {
-      console.error(error);
-    })
-  }
+      .then(response => {
+        window.open(
+          response.data,
+          "Request Permission",
+          "width=1000, height=700, left=500, top=170"
+        );
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   return (
     <Grid container spacing={1}>
@@ -99,7 +99,15 @@ export default function Request() {
                     primary={`${val.user_fname} ${val.user_lname}`}
                     secondary={val.user_email}
                   />
-                  <RequestButton key={val.userd_id} val={val} setNotifDetailsFn={setNotifDetailsFn} openNofif={openNofif} permissionFn={permissionFn} getUserFn={getUserFn} pendingList={pendingList}/>
+                  <RequestButton
+                    key={val.userd_id}
+                    val={val}
+                    setNotifDetailsFn={setNotifDetailsFn}
+                    openNofif={openNofif}
+                    permissionFn={permissionFn}
+                    getUserFn={getUserFn}
+                    pendingList={pendingList}
+                  />
                 </ListItem>
                 <Divider />
               </React.Fragment>
