@@ -211,8 +211,8 @@ const Layout = props => {
 
   var logout = () => {
     localStorage.clear();
-    history.push('/')
-  }
+    history.push("/");
+  };
   return (
     <ThemeProvider theme={theme}>
       {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}

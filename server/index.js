@@ -96,8 +96,8 @@ massive({
   app.patch("/api/user", user.setUserType); //<-- this is for initial login authentication
   app.post("/api/key", user.sendUserKey); //<-- this is for sending key to the users
   app.get("/api/keyList", user.getKeyList);
-  app.get('/permission', email.permission); //<-- google permission for sending email
-  app.get('/getAccessToken', email.fetchToken);
+  app.get("/permission", email.permission); //<-- google permission for sending email
+  app.get("/getAccessToken", email.fetchToken);
 
   app.get("/api/admin", admin.getAdminPass);
   app.post("/api/login", admin.login);
@@ -110,6 +110,9 @@ massive({
   app.get("/api/count/keys", user.countTableUserType);
 
   app.post("/api/create/class/:id", mentor.addClass);
+  app.get("/api/mentor/class/:id", mentor.getClass);
+  app.delete('/api/delete/class/:id',mentor.removeClass)
+
   const PORT = 3001;
   server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

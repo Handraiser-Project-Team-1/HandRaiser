@@ -9,7 +9,6 @@ const addClass = (req, res) => {
         user_id: results.user_id
       })
       .then(results => {
-        console.log(results.mentor_id);
         db.class
           .insert({
             mentor_id: results.mentor_id,
@@ -31,4 +30,28 @@ const addClass = (req, res) => {
   });
 };
 
-module.exports = { addClass };
+const getClass = (req, res) => {
+  const db = req.app.get("db");
+  const { id } = req.params;
+
+  db.mentor
+    .findOne({ user_id: id })
+    .then(results => {
+      db.class
+        .find({ mentor_id: results.mentor_id })
+        .then(results => res.status(200).send(results))
+        .catch(err => res.status(500).send(err));
+    })
+    .catch(err => res.status(500).send(err));
+};
+
+const removeClass = (req, res) => {
+  const db = req.app.get("db");
+  const { id } = req.params;
+
+  db.class
+    .destroy(id)
+    .then(results => res.status(200).send(results))
+    .catch(err => res.status(500).send(err));
+};
+module.exports = { addClass, getClass, removeClass };
