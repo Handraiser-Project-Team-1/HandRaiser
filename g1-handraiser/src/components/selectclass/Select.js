@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Grid } from "@material-ui/core";
+import { Grid, Button } from "@material-ui/core";
 // import CardClass from "../includes/CardClass";
 import Layout from "../includes/TopBar";
 import Notif from "../includes/Notif";
@@ -8,10 +8,11 @@ import { Card, Icon, Avatar } from "antd";
 
 export default function Select(props) {
   const { Meta } = Card;
-
   var history = useHistory();
   const [notif, setNotif] = useState(true);
-
+  const IconFont = Icon.createFromIconfontCN({
+    scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js"
+  });
   useEffect(() => {
     if (localStorage.getItem("tokenid")) {
       history.push("/classes");
@@ -19,6 +20,7 @@ export default function Select(props) {
       history.push("/");
     }
   }, [history]);
+
   return (
     <Layout {...props}>
       <Notif
@@ -29,14 +31,7 @@ export default function Select(props) {
         setOpen={setNotif}
       />
       <Grid container spacing={2}>
-        {/* <Grid item>
-          <CardClass
-            title="BoomCamp 2019"
-            date="Joined: September 14, 2016"
-            description="This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like"
-            mentor="Daniel Nebreja"
-          />
-        </Grid> */}
+        {/* <CardClass /> */}
         <Grid item>
           <Card
             style={{ width: 320 }}
@@ -47,8 +42,10 @@ export default function Select(props) {
               />
             }
             actions={[
-              <Icon type="folder" theme="filled" />,
-              <Icon type="ellipsis" key="ellipsis" />
+              <IconFont type="icon-tuichu" />, //ENTER CLASS ICON
+              <Button color="primary" size="small">
+                Join
+              </Button>
             ]}
           >
             <Meta

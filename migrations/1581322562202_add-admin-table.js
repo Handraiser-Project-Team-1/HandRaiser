@@ -17,7 +17,7 @@ exports.up = pgm => {
       notNull: true
     }
   });
-  pgm.sql(`INSERT INTO admin (admin_user, admin_pass) VALUES ('admin', 'adminpass')`);
+  pgm.sql(`INSERT INTO admin (admin_user, admin_pass) VALUES ('admin', '${process.env.ADMIN_PASS}')`);
 };
 
 exports.down = pgm => {};

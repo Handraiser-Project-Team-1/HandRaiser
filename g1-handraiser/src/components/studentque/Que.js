@@ -9,11 +9,12 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import NeedHelp from "./NeedHelp";
-import BeingHelp from "./BeingHelp";
+import BeingHelp from "../includes/BeingHelp";
 import Chat from "../chat/Fab";
 // import QueueViewer from "../mentor/includes/QueueViewer";
 import QueueCounter from "../mentor/includes/QueueCounter";
 import Img from "../login/img/undraw_software_engineer_lvl5.svg";
+import Help from "./HelpFab";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,7 +40,6 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     width: "100%",
     height: 250,
-    // backgroundColor: "#fafafa" /* fallback for old browsers */,
     backgroundColor:
       "-webkit-linear-gradient(to right,#e3f2fd , #C9D6FF)" /* Chrome 10-25, Safari 5.1-6 */,
     background:
@@ -50,6 +50,9 @@ const useStyles = makeStyles(theme => ({
   },
   que: {
     padding: "2%"
+  },
+  help: {
+    marginTop: "5%"
   }
 }));
 
@@ -93,12 +96,13 @@ export default function Que(props) {
             </Grid>
           </Grid>
           <Grid item xs={12} sm={9}>
+            {" "}
             <Card className={classes.que}>
               <NeedHelp />
             </Card>
           </Grid>
         </Grid>
-
+        <Help />
         <Chat />
       </Layout>
     </React.Fragment>

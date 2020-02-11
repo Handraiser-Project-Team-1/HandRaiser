@@ -12,8 +12,6 @@ import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import PanToolIcon from "@material-ui/icons/PanTool";
-import { yellow } from "@material-ui/core/colors";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,10 +36,6 @@ export default function NeedHelp() {
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
             In queue
-            <PanToolIcon
-              style={{ color: yellow[600] }}
-              className={classes.hand}
-            />
           </ListSubheader>
         }
       >

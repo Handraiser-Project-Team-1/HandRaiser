@@ -9,6 +9,11 @@ const useStyles = makeStyles(theme => ({
     position: "fixed",
     bottom: theme.spacing(2),
     right: theme.spacing(2)
+  },
+  fa: {
+    position: "fixed",
+    bottom: theme.spacing(2),
+    right: theme.spacing(12)
   }
 }));
 

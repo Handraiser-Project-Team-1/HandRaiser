@@ -4,7 +4,7 @@ import QueueCounter from "./includes/QueueCounter";
 import QueueViewer from "./includes/QueueViewer";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import BeingHelp from "./includes/BeingHelp";
+import BeingHelp from "../includes/BeingHelp";
 import Chat from "../chat/Fab";
 
 const useStyles = makeStyles(theme => ({

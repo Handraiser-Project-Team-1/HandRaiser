@@ -218,7 +218,7 @@ module.exports = {
     const db = req.app.get("db");
     const { id, type } = req.body;
     const newKey = newVerificationKey();
-    db.user_details.findOne({ userd_id: 1 }).then(user => {
+    db.user_details.findOne({ userd_id: id }).then(user => {
       if (!user) {
         res.status(404).end();
       } else {
