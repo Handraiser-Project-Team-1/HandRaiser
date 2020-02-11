@@ -156,48 +156,54 @@ module.exports = {
                 }
               )
               .then(user => {
-                if(user.user_type === 'mentor'){
-                    db.mentor
+                if (user.user_type === "mentor") {
+                  db.mentor
                     .insert({
-                        user_id: user[0].userd_id,
-                        status: true
+                      user_id: user[0].userd_id,
+                      status: true
                     })
                     .then(() => {
-                        db.keys
+                      db.keys
                         .destroy({
-                            userd_id: user[0].userd_id
+                          userd_id: user[0].userd_id
                         })
                         .then(() => {
-                            res
+                          res
                             .status(200)
-                            .send({ name: decoded.name, type: user[0].user_type });
+                            .send({
+                              name: decoded.name,
+                              type: user[0].user_type
+                            });
                         })
                         .catch(error => {
-                            console.error(error);
-                            res.status(500).end();
+                          console.error(error);
+                          res.status(500).end();
                         });
-                    })
-                }else{
-                    db.student
+                    });
+                } else {
+                  db.student
                     .insert({
-                        user_id: user[0].userd_id,
-                        status: true
+                      user_id: user[0].userd_id,
+                      status: true
                     })
                     .then(() => {
-                        db.keys
+                      db.keys
                         .destroy({
-                            userd_id: user[0].userd_id
+                          userd_id: user[0].userd_id
                         })
                         .then(() => {
-                            res
+                          res
                             .status(200)
-                            .send({ name: decoded.name, type: user[0].user_type });
+                            .send({
+                              name: decoded.name,
+                              type: user[0].user_type
+                            });
                         })
                         .catch(error => {
-                            console.error(error);
-                            res.status(500).end();
+                          console.error(error);
+                          res.status(500).end();
                         });
-                    })
+                    });
                 }
               })
               .catch(error => {
@@ -219,9 +225,9 @@ module.exports = {
         const name = user.user_fname + " " + user.user_lname;
         email
           .main(name, user.user_email, newKey)
-          .then((response) => {
+          .then(response => {
             console.log(response);
-            if(response === 'permission'){
+            if (response === "permission") {
               res.status(400).end();
               return;
             }

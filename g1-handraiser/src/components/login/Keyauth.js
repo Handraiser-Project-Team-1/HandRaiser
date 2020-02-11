@@ -42,65 +42,6 @@ const useStyles = makeStyles({
 });
 function Keyauth() {
   const classes = useStyles();
-<<<<<<< HEAD
-=======
-  const history = useHistory();
-  const [key, setKey] = useState("");
-  const [disabled, setDisabled] = useState(true);
-  const [error, setError] = useState(false);
-  const [notif, setNotif] = useState(false);
-  const [notifType, setNotifType] = useState(false);
-
-  const onChangeFn = e => {
-    setKey(e.target.value);
-    if (e.target.value.length === 5) {
-      setDisabled(false);
-      setError(false);
-    } else {
-      setDisabled(true);
-      setError(true);
-    }
-  };
-
-  const onSubmitFn = e => {
-    e.preventDefault();
-    let tokenObj = localStorage.getItem("tokenid");
-    axios({
-      method: "PATCH",
-      url: `${process.env.REACT_APP_DB_URL}/api/user`,
-      data: { key: key, token: tokenObj }
-    })
-      .then(response => {
-        if (tokenObj !== null) {
-          setTimeout(() => {
-            response.data.type = 'student'
-              ? history.push("/classes")
-              : history.push("/queue");
-          }, 1000);
-        } else {
-          history.push("/");
-        }
-      })
-      .catch(error => {
-        let errorCode = String(error)
-          .match(/\w+$/g)
-          .join();
-        if (Number(errorCode) === 401) {
-          setNotif(true);
-          setNotifType(true);
-        } else if (Number(errorCode) === 403) {
-          //wrong token redirect to login
-          localStorage.removeItem("tokenid");
-          history.push("/login");
-        } else {
-          console.error(error);
-          setNotif(true);
-          setNotifType(false);
-        }
-      });
-  };
-
->>>>>>> 3eed5046d973e5c4bf60da754e9da7a340ee3923
   return (
     <>
       <div className={classes.root}>
@@ -130,4 +71,5 @@ function Keyauth() {
     </>
   );
 }
+
 export default Keyauth;

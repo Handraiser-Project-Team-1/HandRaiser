@@ -11,7 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import NeedHelp from "./NeedHelp";
 import BeingHelp from "./BeingHelp";
 import Chat from "../chat/Fab";
-import QueueViewer from "../mentor/includes/QueueViewer";
+// import QueueViewer from "../mentor/includes/QueueViewer";
 import QueueCounter from "../mentor/includes/QueueCounter";
 import Img from "../login/img/undraw_software_engineer_lvl5.svg";
 
@@ -39,8 +39,8 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     width: "100%",
     height: 250,
-    backgroundColor: "#fafafa" /* fallback for old browsers */,
-    background:
+    // backgroundColor: "#fafafa" /* fallback for old browsers */,
+    backgroundColor:
       "-webkit-linear-gradient(to right,#e3f2fd , #C9D6FF)" /* Chrome 10-25, Safari 5.1-6 */,
     background:
       "linear-gradient(to right, #E1F5FE, #42A5F5 )" /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -62,7 +62,7 @@ export default function Que(props) {
           {" "}
           <Card className={classes.card}>
             <CardContent className={classes.content}>
-              <Typography component="h2" variant="h3" color="#fafafa">
+              <Typography component="h2" variant="h3">
                 Class name here!
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">

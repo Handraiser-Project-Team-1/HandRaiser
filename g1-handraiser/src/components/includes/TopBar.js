@@ -246,9 +246,7 @@ const Layout = props => {
                 <SidebarTrigger className={headerStyles.leftTrigger}>
                   {opened ? <ChevronLeftIcon /> : <MenuIcon />}
                 </SidebarTrigger>
-                <Typography variant="h6" color="#fff">
-                  HandRaiser
-                </Typography>
+                <Typography variant="h6">HandRaiser</Typography>
               </Toolbar>
             </Header>
             <Sidebar color="primary">
@@ -256,7 +254,7 @@ const Layout = props => {
                 className={classes.icon}
                 actions={[
                   <FiberManualRecordIcon
-                    style={{ color: green[500] }}
+                    style={{ color: green[500] }} //ACTIVE ICON
                     fontSize="small"
                   />,
                   <Icon type="setting" key="setting" />,
@@ -268,11 +266,27 @@ const Layout = props => {
                   alt={`${user.fname} ${user.lname}`}
                   src={`${user.image}`}
                 />
-                <div style={{ paddingBottom: "15px" }} />
-                <Typography variant="h6" noWrap>
+                <div
+                  style={{
+                    paddingBottom: "15px"
+                  }}
+                />
+                <Typography
+                  variant="h6"
+                  style={{
+                    marginLeft: "15%"
+                  }}
+                  noWrap
+                >
                   {user.fname} {user.lname}
                 </Typography>
-                <Typography variant="body2" noWrap>
+                <Typography
+                  variant="body2"
+                  style={{
+                    marginLeft: "3%"
+                  }}
+                  noWrap
+                >
                   {user.email}
                 </Typography>
               </Card>

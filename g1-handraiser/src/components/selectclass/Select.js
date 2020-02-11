@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
-import CardClass from "../includes/CardClass";
+// import CardClass from "../includes/CardClass";
 import Layout from "../includes/TopBar";
 import Notif from "../includes/Notif";
 import { Card, Icon, Avatar } from "antd";
@@ -29,14 +29,14 @@ export default function Select(props) {
         setOpen={setNotif}
       />
       <Grid container spacing={2}>
-        <Grid item>
+        {/* <Grid item>
           <CardClass
             title="BoomCamp 2019"
             date="Joined: September 14, 2016"
             description="This impressive paella is a perfect party dish and a fun meal to cook together with your guests. Add 1 cup of frozen peas along with the mussels, if you like"
             mentor="Daniel Nebreja"
           />
-        </Grid>
+        </Grid> */}
         <Grid item>
           <Card
             style={{ width: 320 }}
@@ -81,7 +81,6 @@ export default function Select(props) {
               }
               title="Boom Camp"
               description="Mentor: Daniel Nebreja "
-              date={false}
             />
           </Card>
         </Grid>

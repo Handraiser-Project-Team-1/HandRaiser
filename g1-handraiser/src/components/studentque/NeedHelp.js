@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Divider,
   ListItemIcon,
   ListItemSecondaryAction,
   IconButton
@@ -13,6 +12,8 @@ import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import PanToolIcon from "@material-ui/icons/PanTool";
+import { yellow } from "@material-ui/core/colors";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,6 +21,9 @@ const useStyles = makeStyles(theme => ({
   },
   sub: {
     background: "#fafafa"
+  },
+  hand: {
+    marginLeft: "90%"
   }
 }));
 
@@ -34,6 +38,10 @@ export default function NeedHelp() {
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
             In queue
+            <PanToolIcon
+              style={{ color: yellow[600] }}
+              className={classes.hand}
+            />
           </ListSubheader>
         }
       >
@@ -52,7 +60,7 @@ export default function NeedHelp() {
               <IconButton>
                 <DeleteIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip>{" "}
           </ListItemSecondaryAction>
         </ListItem>
         <ListItem>
