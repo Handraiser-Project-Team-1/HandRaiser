@@ -63,7 +63,7 @@ const useStyles = makeStyles({
     height: "70vh",
     width: "40%",
     marginTop: "15%",
-    
+
     "@media (max-width: 425px)": {
       display: "flex",
       width: "90%",
@@ -72,8 +72,8 @@ const useStyles = makeStyles({
     },
     "@media(max-width: 768px)": {
       padding: "5%",
-      marginTop: "15%",
-    },
+      marginTop: "15%"
+    }
   },
 
   avatar: {

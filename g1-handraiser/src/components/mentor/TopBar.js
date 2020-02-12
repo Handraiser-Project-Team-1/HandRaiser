@@ -196,6 +196,7 @@ const Layout = props => {
   useEffect(() => {
     if (localStorage.getItem("tokenid")) {
       //identify if mentor or student
+      history.push('/myclasslist')
       axios({
         method: "post",
         url: `${process.env.REACT_APP_DB_URL}/api/user`,

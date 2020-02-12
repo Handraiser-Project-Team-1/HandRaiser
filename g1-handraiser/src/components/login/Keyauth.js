@@ -65,7 +65,19 @@ function Keyauth() {
   const [disabled, setDisabled] = useState(true);
   const [error, setError] = useState(false);
   const [notif, setNotif] = useState(false);
-  const [notifType, setNotifType] = useState(false);
+  const [notifDetails, setNotifDetails] = useState({
+    type: "",
+    title: "",
+    message: ""
+  });
+
+  const setNotifDetailsFn = (type, title, message) => {
+    setNotifDetails({
+      type: type,
+      title: title,
+      message: message
+    });
+  };
 
   const onChangeFn = e => {
     setKey(e.target.value);
@@ -87,7 +99,6 @@ function Keyauth() {
       data: { key: key, token: tokenObj }
     })
       .then(response => {
-        console.log(response);
         localStorage.setItem("id", JSON.stringify(response.data.id));
         if (tokenObj !== null) {
           setTimeout(() => {
@@ -106,39 +117,29 @@ function Keyauth() {
           .match(/\w+$/g)
           .join();
         if (Number(errorCode) === 401) {
+          setNotifDetailsFn("warning", "Wrong Authentication Code", `Kindly check again the code in your email`);
           setNotif(true);
-          setNotifType(true);
         } else if (Number(errorCode) === 403) {
           //wrong token redirect to login
           localStorage.removeItem("tokenid");
           history.push("/login");
         } else {
           console.error(error);
+          setNotifDetailsFn("error", "Something's wrong", `Please try again later.`);
           setNotif(true);
-          setNotifType(false);
         }
       });
   };
 
   return (
     <>
-      {notif && notifType ? (
-        <Notification
-          type="error"
-          title="Wrong Authentication Code"
-          message="Kindly check again the code in your email"
-          open={notif}
-          setOpen={setNotif}
-        />
-      ) : (
-        <Notification
-          type="error"
-          title="Something's wrong"
-          message="Please try again later."
-          open={notif}
-          setOpen={setNotif}
-        />
-      )}
+      <Notification
+        type={notifDetails.type}
+        title={notifDetails.title}
+        message={notifDetails.message}
+        open={notif}
+        setOpen={setNotif}
+      />
       <div className={classes.root}>
         <Card className={classes.card}>
           <Grid container justify="center" alignItems="center" spacing={3}>

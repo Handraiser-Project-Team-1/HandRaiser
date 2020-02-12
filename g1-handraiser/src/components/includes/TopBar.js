@@ -18,7 +18,11 @@ import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Divider } from "@material-ui/core";
+import { green } from "@material-ui/core/colors";
+
 import { useHistory } from "react-router-dom";
+import { Card, Icon } from "antd";
+
 import {
   Root,
   Header,
@@ -30,7 +34,7 @@ import {
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import axios from "axios";
-
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 const config = {
   autoCollapseDisabled: false,
   collapsedBreakpoint: "sm",
@@ -157,7 +161,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(4)
   },
   icon: {
-    padding: theme.spacing(2),
+    background: "#fafafa",
     transition: "all 0.3s ease 0s",
     [theme.breakpoints.between("sm", "md")]: {
       padding: theme.spacing(1)
@@ -230,6 +234,10 @@ const Layout = props => {
       history.push("/");
     }
   }, [history]);
+  var logout = () => {
+    localStorage.clear();
+    history.push('/')
+  }
   return (
     <ThemeProvider theme={theme}>
       {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}
@@ -245,21 +253,48 @@ const Layout = props => {
                 <Typography variant="h6">HandRaiser</Typography>
               </Toolbar>
             </Header>
-            <Sidebar>
-              <div className={classes.icon}>
+            <Sidebar color="primary">
+              <Card
+                className={classes.icon}
+                actions={[
+                  <FiberManualRecordIcon
+                    style={{ color: green[500] }} //ACTIVE ICON
+                    fontSize="small"
+                  />,
+                  <Icon type="setting" key="setting" />,
+                  <Icon type="edit" key="edit" />
+                ]}
+              >
                 <Avatar
                   className={classes.large}
                   alt={`${user.fname} ${user.lname}`}
                   src={`${user.image}`}
                 />
-                <div style={{ paddingBottom: "15px" }} />
-                <Typography variant="h6" noWrap>
+                <div
+                  style={{
+                    paddingBottom: "15px"
+                  }}
+                />
+                <Typography
+                  variant="h6"
+                  style={{
+                    marginLeft: "15%"
+                  }}
+                  noWrap
+                >
                   {user.fname} {user.lname}
                 </Typography>
-                <Typography variant="subtitle1" noWrap>
+                <Typography
+                  variant="body2"
+                  style={{
+                    marginLeft: "3%"
+                  }}
+                  noWrap
+                >
                   {user.email}
                 </Typography>
-              </div>
+              </Card>
+
               <Divider />
               <div
                 className={sidebarStyles.container}
@@ -304,7 +339,7 @@ const Layout = props => {
                   </List>
                 </Collapse>
                 <List>
-                  <ListItem button>
+                  <ListItem onClick={logout} button>
                     <ListItemIcon>
                       <PowerSettingsNewIcon />
                     </ListItemIcon>

@@ -44,6 +44,7 @@ function RequestButton({permissionFn,getUserFn,pendingList,val,setNotifDetailsFn
       let err = String(error).match(/\w+$/g).join();
       if(err === '400'){
         permissionFn();
+        setLoading(false);
         return;
       }
       setNotifDetailsFn("error", "Oops!", "Please try again later!");

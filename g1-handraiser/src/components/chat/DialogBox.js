@@ -14,11 +14,11 @@ let user = "mark" + Math.floor(Math.random() * Math.floor(20000));
 
 export default function DialogBox({ handleClose, open }) {
   const [state, setState] = useState(1);
-  const [name] = useState(user);
-  const [room] = useState("Room 101");
-  const [messages, setMessages] = useState([]);
-  const [message, setmessage] = useState("");
-  const [feedback, setFeedbAck] = useState("");
+  const [name] = useState(user)
+  const [room] = useState('')
+  const [messages, setMessages] = useState([])
+  const [message, setmessage] = useState('')
+  const [feedback, setFeedbAck] = useState('')
   const ENDPOINT = process.env.REACT_APP_DB_URL;
 
   const handleClick = () => {
@@ -30,12 +30,34 @@ export default function DialogBox({ handleClose, open }) {
     }
   };
 
+  // useEffect(() => {
+  //   socket = io(ENDPOINT)
+  //   console.log(name);
+  //   console.log(socket);
+  //   socket.emit('join', { name, room });
+  // }, [ENDPOINT, name, room])
+
   useEffect(() => {
-    socket = io(ENDPOINT);
-    console.log(name);
+    socket = io(ENDPOINT)
     console.log(socket);
-    //socket.emit('join', { name, room });
-  }, [ENDPOINT, name, room]);
+    let session_id;
+
+    let data = sessionStorage.getItem('sessionId');
+    if (data == null) {
+      session_id = null
+      socket.emit('join', { name, sessionId: session_id })
+    } else {
+      console.log('show prev '+data)
+      session_id = data
+      socket.emit('join', { name, sessionId: session_id })
+    }
+  }, [ENDPOINT, name])
+
+  useEffect(() => {
+    socket.on("set-session-acknowledgement", function (data) {
+      sessionStorage.setItem('sessionId', data.sessionId);
+    })
+  })
 
   useEffect(() => {
     socket.on("typing", data => {
@@ -56,14 +78,15 @@ export default function DialogBox({ handleClose, open }) {
     };
   }, [messages]);
 
-  const keypress = data => {
-    socket.emit("typing", data + " is typing...");
-  };
+  const keypress = (data) => {
+    socket.emit('typing', data + ' is typing...');
+  }
   useEffect(() => {
     const msg = message;
     if (msg.length > 0) {
+
     } else {
-      typing();
+      typing()
     }
   });
 
