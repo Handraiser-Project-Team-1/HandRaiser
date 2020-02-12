@@ -52,6 +52,7 @@ function Login() {
       }
     })
       .then(response => {
+        console.log(response);
         setTimeout(() => {
           if (response.status === 200) {
             console.log(response);
@@ -62,8 +63,8 @@ function Login() {
             history.push("/authentication");
           }
         }, 2000);
-
         localStorage.setItem("id", JSON.stringify(response.data.userd_id));
+        localStorage.setItem("uid", JSON.stringify(response.data.user_id));
       })
       .then(() => {
         let token = {
