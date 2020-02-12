@@ -196,13 +196,13 @@ const Layout = props => {
   useEffect(() => {
     if (localStorage.getItem("tokenid")) {
       //identify if mentor or student
-      history.push('/myclasslist')
+      history.push("/myclasslist");
       axios({
         method: "post",
         url: `${process.env.REACT_APP_DB_URL}/api/user`,
         data: { tokenObj: localStorage.getItem("tokenid") }
       }).then(res => {
-        //console.log(res);
+        console.log(res);
         setUser(res.data[0]);
       });
     } else {
@@ -212,8 +212,8 @@ const Layout = props => {
 
   var logout = () => {
     localStorage.clear();
-    history.push('/')
-  }
+    history.push("/");
+  };
   return (
     <ThemeProvider theme={theme}>
       {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}
@@ -226,7 +226,7 @@ const Layout = props => {
                 <SidebarTrigger className={headerStyles.leftTrigger}>
                   {opened ? <ChevronLeftIcon /> : <MenuIcon />}
                 </SidebarTrigger>
-                <Typography variant="h6">HandRaiser</Typography>
+                <Typography>HandRaiser</Typography>
               </Toolbar>
             </Header>
             <Sidebar>

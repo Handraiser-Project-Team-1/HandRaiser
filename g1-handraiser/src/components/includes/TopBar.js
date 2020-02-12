@@ -236,8 +236,8 @@ const Layout = props => {
   }, [history]);
   var logout = () => {
     localStorage.clear();
-    history.push('/')
-  }
+    history.push("/");
+  };
   return (
     <ThemeProvider theme={theme}>
       {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}
@@ -250,7 +250,7 @@ const Layout = props => {
                 <SidebarTrigger className={headerStyles.leftTrigger}>
                   {opened ? <ChevronLeftIcon /> : <MenuIcon />}
                 </SidebarTrigger>
-                <Typography variant="h6">HandRaiser</Typography>
+                <Typography level={5}>HandRaiser</Typography>
               </Toolbar>
             </Header>
             <Sidebar color="primary">

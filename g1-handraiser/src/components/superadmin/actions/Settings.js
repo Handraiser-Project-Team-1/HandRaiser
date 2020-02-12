@@ -116,12 +116,9 @@ export default function Settings() {
 
   return (
     <React.Fragment>
-      <ListItem 
-        onClick={() => setOpenK(true)}
-        button
-      >
+      <ListItem onClick={() => setOpenK(true)} button>
         <ListItemIcon>
-          <SettingsIcon/>
+          <SettingsIcon />
         </ListItemIcon>
         <ListItemText primary="Settings" />
       </ListItem>

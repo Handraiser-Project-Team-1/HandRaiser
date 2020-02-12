@@ -52,7 +52,10 @@ const useStyles = makeStyles(theme => ({
     padding: "2%"
   },
   help: {
-    marginTop: "5%"
+    display: "flex",
+    marginTop: "6%",
+    marginLeft: "2%",
+    color: "gray"
   }
 }));
 
@@ -65,12 +68,15 @@ export default function Que(props) {
           {" "}
           <Card className={classes.card}>
             <CardContent className={classes.content}>
-              <Typography component="h2" variant="h3">
-                Class name here!
+              <Typography component="h2" variant="h4">
+                BoomCamp 2019
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
                 Handraiser
               </Typography>
+              <div className={classes.help}>
+                <Help />
+              </div>{" "}
             </CardContent>
             <CardMedia
               className={classes.img}
@@ -102,7 +108,6 @@ export default function Que(props) {
             </Card>
           </Grid>
         </Grid>
-        <Help />
         <Chat />
       </Layout>
     </React.Fragment>
