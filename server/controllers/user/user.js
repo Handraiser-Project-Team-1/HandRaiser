@@ -294,7 +294,7 @@ module.exports = {
   getAllUsers: (req, res) => {
     const db = req.app.get("db");
     db.query(
-      "SELECT user_details.user_fname,user_details.user_lname,user_details.user_email,user_details.userd_id,user_type.user_type FROM user_details INNER JOIN user_type ON user_type.userd_id = user_details.userd_id WHERE user_type.user_type != 'pending'"
+      "SELECT user_details.user_image,user_details.user_fname,user_details.user_lname,user_details.user_email,user_details.userd_id,user_type.user_type FROM user_details INNER JOIN user_type ON user_type.userd_id = user_details.userd_id WHERE user_type.user_type != 'pending'"
     )
       .then(results => {
         res.status(200).send(results);
