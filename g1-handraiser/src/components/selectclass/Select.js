@@ -25,7 +25,6 @@ export default function Select(props) {
         url: `${process.env.REACT_APP_DB_URL}/api/type`
       }).then(res=>{
         res.data.map(x=>{
-          console.log(x)
           if(x.user_type === "student"){
             history.push('/classes')
             axios({
@@ -40,6 +39,8 @@ export default function Select(props) {
                 return setUser;
               });
             });
+          }else if(x.user_type === "mentor"){
+            history.push('/myclasslist')
           }
         })
       })
