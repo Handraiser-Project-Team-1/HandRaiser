@@ -237,7 +237,6 @@ module.exports = {
         email
           .main(name, user.user_email, newKey)
           .then(response => {
-            console.log(response);
             if (response === "permission") {
               res.status(400).end();
               return;
