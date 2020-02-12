@@ -72,10 +72,11 @@ module.exports = {
                 userd_id: user.userd_id
               },
               {
-                fields: ["user_type"]
+                fields: ["user_type", "user_id"]
               }
             )
             .then(fetchedUserType => {
+              console.log(fetchedUserType);
               switch (fetchedUserType.user_type) {
                 case "mentor":
                   res.status(200).send({ ...user, ...fetchedUserType });
