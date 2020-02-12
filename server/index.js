@@ -6,6 +6,7 @@ const secret = process.env.REACT_APP_SECRET_KEY;
 const user = require("./controllers/user/user");
 const admin = require("./controllers/admin/admin");
 const mentor = require("./controllers/mentor/mentor");
+const student = require("./controllers/student/student");
 const { addUser, removeUser, getUser } = require("./users");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
@@ -125,6 +126,7 @@ massive({
   app.delete("/api/delete/class/:id", mentor.removeClass);
   app.patch("/api/update/class/status/:id", mentor.updateStatus);
 
+  app.get("/api/class/list", student.getAllClass);
   const PORT = 3001;
   server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
