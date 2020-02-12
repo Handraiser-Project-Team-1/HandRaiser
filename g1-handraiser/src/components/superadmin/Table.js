@@ -44,7 +44,7 @@ export default function MaterialTableDemo() {
       user_type: newVal
     })
       .then(res => {
-        console.log(res);
+        // console.log(res);
         if (res.data) {
           setNotif(true);
           setMessage(`User type was changed to ${res.data[0].user_type}`);

@@ -118,6 +118,7 @@ massive({
   app.patch("/api/change/type/:id", user.changeType);
   app.delete("/api/delete/user/:id", user.delete);
   app.get("/api/count/keys", user.countTableUserType);
+  app.get("/api/type", user.getType)
 
   app.post("/api/create/class/:id", mentor.addClass);
   const PORT = 3001;
