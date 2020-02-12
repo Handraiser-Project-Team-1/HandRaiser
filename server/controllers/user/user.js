@@ -387,5 +387,18 @@ module.exports = {
         console.log(err);
         res.status(500).send(err);
       });
+  },
+  getType: (req, res) => {
+    const db = req.app.get("db")
+
+    db.user_type
+    .find()
+    .then(results => {
+      res.status(201).send(results);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err);
+    });
   }
 };
