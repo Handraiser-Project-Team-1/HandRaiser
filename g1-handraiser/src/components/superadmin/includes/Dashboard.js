@@ -109,7 +109,7 @@ export default function Navigation(props) {
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_DB_URL}/api/users`)
       .then(res => {
-        setReqCount(res.data)
+        setReqCount(res.data);
         // console.log(res)
         // if(res.data.length === null) {
         //   return setReqCount(0)
@@ -121,9 +121,9 @@ export default function Navigation(props) {
   });
 
   var logout = () => {
-    localStorage.clear()
-    history.push('/administrator')
-  }
+    localStorage.clear();
+    history.push("/administrator");
+  };
 
   return (
     <div className={classes.root}>
@@ -146,9 +146,7 @@ export default function Navigation(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Administrator Dashboard
-          </Typography>
+          <Typography noWrap>Administrator Dashboard</Typography>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -201,11 +199,8 @@ export default function Navigation(props) {
             </ListItemIcon>
             <ListItemText primary="Request" />
           </ListItem>
-          <Settings/>
-          <ListItem
-            onClick={logout}
-            button
-          >
+          <Settings />
+          <ListItem onClick={logout} button>
             <ListItemIcon>
               <PowerSettingsNewIcon />
             </ListItemIcon>

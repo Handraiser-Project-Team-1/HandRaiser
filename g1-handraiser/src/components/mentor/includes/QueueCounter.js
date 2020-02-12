@@ -4,7 +4,6 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import CardActionArea from "@material-ui/core/CardActionArea";
-
 const useStyles = makeStyles(theme => ({
   typo: {
     color: "#42B0FF"

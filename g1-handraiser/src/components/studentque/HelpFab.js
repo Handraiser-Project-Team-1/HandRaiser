@@ -1,26 +1,16 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Fab from "@material-ui/core/Fab";
-import PanToolIcon from "@material-ui/icons/PanTool";
-import Tooltip from "@material-ui/core/Tooltip";
-const useStyles = makeStyles(theme => ({
-  fab: {
-    background: "#ffd600",
-    position: "fixed",
-    bottom: theme.spacing(2),
-    right: theme.spacing(12)
-  }
-}));
+import "./App.scss";
+import { Tooltip } from "@material-ui/core";
 function HelpFab() {
-  const classes = useStyles();
-
   return (
     <>
-      <Tooltip title="Ask for Help" placement="top-start">
-        <Fab className={classes.fab}>
-          <PanToolIcon style={{ color: "#fff" }} />
-        </Fab>
-      </Tooltip>
+      <div className="request-loader">
+        <Tooltip title="Ask for help">
+          <span role="img" aria-label="Hand">
+            👋
+          </span>
+        </Tooltip>
+      </div>
     </>
   );
 }
