@@ -72,10 +72,11 @@ module.exports = {
                 userd_id: user.userd_id
               },
               {
-                fields: ["user_type"]
+                fields: ["user_type", "user_id"]
               }
             )
             .then(fetchedUserType => {
+              console.log(fetchedUserType);
               switch (fetchedUserType.user_type) {
                 case "mentor":
                   res.status(200).send({ ...user, ...fetchedUserType });
@@ -142,86 +143,91 @@ module.exports = {
         .then(key => {
           if (!key) {
             res.status(401).end();
-          } else {
-            db.user_type
-              .update(
-                {
-                  userd_id: key.userd_id
-                },
-                {
-                  user_type: key.key_type
-                },
-                {
-                  fields: ["userd_id", "user_type"]
-                }
-              )
-              .then(user => {
-                db.keys
-                  .destroy({
-                    userd_id: user[0].userd_id
-                  })
-                  .then(() => {
-                    res.status(200).send({
-                      name: decoded.name,
-                      type: user[0].user_type,
-                      id: user[0].userd_id
-                    });
-                  })
-                  .catch(error => {
-                    console.error(error);
-                    res.status(500).end();
-                  });
-                if (user.user_type === "mentor") {
-                  db.mentor
-                    .insert({
-                      user_id: user[0].userd_id,
-                      status: true
-                    })
-                    .then(() => {
-                      db.keys
-                        .destroy({
-                          userd_id: user[0].userd_id
-                        })
-                        .then(() => {
-                          res.status(200).send({
-                            name: decoded.name,
-                            type: user[0].user_type
-                          });
-                        })
-                        .catch(error => {
-                          console.error(error);
-                          res.status(500).end();
-                        });
-                    });
-                } else {
-                  db.student
-                    .insert({
-                      user_id: user[0].userd_id,
-                      status: true
-                    })
-                    .then(() => {
-                      db.keys
-                        .destroy({
-                          userd_id: user[0].userd_id
-                        })
-                        .then(() => {
-                          res.status(200).send({
-                            name: decoded.name,
-                            type: user[0].user_type
-                          });
-                        })
-                        .catch(error => {
-                          console.error(error);
-                          res.status(500).end();
-                        });
-                    });
-                }
-              })
-              .catch(error => {
-                console.error(error);
-                res.status(500).end();
-              });
+            return;
           }
+          db.user_details
+            .findOne({
+              user_email: decoded.email
+            })
+            .then(findUser => {
+              if (findUser.userd_id !== key.userd_id) {
+                res.status(401).end();
+                return;
+              }
+              db.user_type
+                .update(
+                  {
+                    userd_id: key.userd_id
+                  },
+                  {
+                    user_type: key.key_type
+                  },
+                  {
+                    fields: ["user_id", "userd_id", "user_type"]
+                  }
+                )
+                .then(user => {
+                  if (user[0].user_type === "mentor") {
+                    db.mentor
+                      .insert({
+                        user_id: user[0].user_id,
+                        status: true
+                      })
+                      .then(() => {
+                        db.keys
+                          .destroy({
+                            userd_id: user[0].userd_id
+                          })
+                          .then(() => {
+                            res.status(200).send({
+                              name: decoded.name,
+                              type: user[0].user_type,
+                              id: user[0].userd_id
+                            });
+                          })
+                          .catch(error => {
+                            console.error(error);
+                            res.status(500).end();
+                          });
+                      });
+                  } else {
+                    db.student
+                      .insert({
+                        user_id: user[0].user_id,
+                        status: true
+                      })
+                      .then(() => {
+                        db.keys
+                          .destroy({
+                            userd_id: user[0].userd_id
+                          })
+                          .then(() => {
+                            res.status(200).send({
+                              name: decoded.name,
+                              type: user[0].user_type,
+                              id: user[0].userd_id
+                            });
+                          })
+                          .catch(error => {
+                            console.error(error);
+                            res.status(500).end();
+                          });
+                      });
+                  }
+                })
+                .catch(error => {
+                  console.error(error);
+                  res.status(500).end();
+                });
+            })
+            .catch(error => {
+              console.error(error);
+              res.status(500).end();
+            });
+        })
+        .catch(error => {
+          console.error(error);
+          res.status(500).end();
         });
     }
   },
@@ -237,7 +243,6 @@ module.exports = {
         email
           .main(name, user.user_email, newKey)
           .then(response => {
-            console.log(response);
             if (response === "permission") {
               res.status(400).end();
               return;
@@ -263,28 +268,6 @@ module.exports = {
             console.log(error);
             res.status(500).end();
           });
-
-        db.user_type.findOne({ userd_id: id }).then(results => {
-          if (type === "mentor") {
-            db.mentor
-              .insert({
-                user_id: results.user_id,
-                status: false
-              })
-              .catch(err => {
-                console.log(err);
-              });
-          } else if (type === "student") {
-            db.student
-              .insert({
-                user_id: results.user_id,
-                status: false
-              })
-              .catch(err => {
-                console.log(err);
-              });
-          }
-        });
       }
     });
   },
@@ -404,5 +387,18 @@ module.exports = {
         console.log(err);
         res.status(500).send(err);
       });
+  },
+  getType: (req, res) => {
+    const db = req.app.get("db")
+
+    db.user_type
+    .find()
+    .then(results => {
+      res.status(201).send(results);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err);
+    });
   }
 };

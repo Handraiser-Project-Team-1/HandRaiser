@@ -5,32 +5,45 @@ import { Grid, Button } from "@material-ui/core";
 import Layout from "../includes/TopBar";
 import Notif from "../includes/Notif";
 import { Card, Icon, Avatar } from "antd";
-import axios from 'axios';
+import axios from "axios";
 
 export default function Select(props) {
   const { Meta } = Card;
   var history = useHistory();
   const [notif, setNotif] = useState(true);
   const [user, setUser] = useState({
-    fname: "",
+    fname: ""
   });
   const IconFont = Icon.createFromIconfontCN({
     scriptUrl: "//at.alicdn.com/t/font_8d5l8fzk5b87iudi.js"
-  });  
+  });
 
   useEffect(() => {
     if (localStorage.getItem("tokenid")) {
-      history.push('/classes')
       axios({
-        method: "post",
-        url: `${process.env.REACT_APP_DB_URL}/api/user`,
-        data: { tokenObj: localStorage.getItem("tokenid") }
+        method: "get",
+        url: `${process.env.REACT_APP_DB_URL}/api/type`
       }).then(res => {
         res.data.map(x => {
-          setUser({
-            fname: x.user_fname,
-          });
-          return setUser;
+          if (x.user_type === "student") {
+            history.push("/classes");
+            axios({
+              method: "post",
+              url: `${process.env.REACT_APP_DB_URL}/api/user`,
+              data: { tokenObj: localStorage.getItem("tokenid") }
+            }).then(res => {
+              res.data.map(x => {
+                setUser({
+                  fname: x.user_fname
+                });
+                return setUser;
+              });
+            });
+          } else if (x.user_type === "mentor") {
+            history.push("/myclasslist");
+          }
+
+          return x;
         });
       });
     } else {

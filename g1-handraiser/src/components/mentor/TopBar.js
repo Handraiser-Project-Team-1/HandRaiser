@@ -24,6 +24,7 @@ import {
 } from "@mui-treasury/layout";
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
+import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
 import axios from "axios";
 
 const config = {
@@ -191,19 +192,43 @@ const Layout = props => {
   const classes = useStyles();
   let history = useHistory();
   const { active } = props;
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({
+    fname: "",
+    lname: "",
+    image: "",
+    email: ""
+  });
 
   useEffect(() => {
     if (localStorage.getItem("tokenid")) {
-      //identify if mentor or student
-      history.push("/myclasslist");
       axios({
-        method: "post",
-        url: `${process.env.REACT_APP_DB_URL}/api/user`,
-        data: { tokenObj: localStorage.getItem("tokenid") }
+        method: "get",
+        url: `${process.env.REACT_APP_DB_URL}/api/type`
       }).then(res => {
-        console.log(res);
-        setUser(res.data[0]);
+        res.data.map(x => {
+          if (x.user_type === "mentor") {
+            // history.push('/myclasslist')
+            // history.push('/queue')
+            axios({
+              method: "post",
+              url: `${process.env.REACT_APP_DB_URL}/api/user`,
+              data: { tokenObj: localStorage.getItem("tokenid") }
+            }).then(res => {
+              res.data.map(x => {
+                setUser({
+                  fname: x.user_fname,
+                  lname: x.user_lname,
+                  image: x.user_image,
+                  email: x.user_email
+                });
+                return setUser;
+              });
+            });
+          } else if (x.user_type === "student") {
+            history.push("/classes");
+          }
+          return x;
+        });
       });
     } else {
       history.push("/");
@@ -216,7 +241,6 @@ const Layout = props => {
   };
   return (
     <ThemeProvider theme={theme}>
-      {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}
       <Root omitThemeProvider={true} config={config}>
         {({ headerStyles, sidebarStyles, collapsed, opened }) => (
           <>
@@ -233,15 +257,15 @@ const Layout = props => {
               <div className={classes.icon}>
                 <Avatar
                   className={classes.large}
-                  alt={`${user.user_fname} ${user.user_lname}`}
-                  src={`${user.user_image}`}
+                  alt={`${user.fname} ${user.lname}`}
+                  src={`${user.image}`}
                 />
                 <div style={{ paddingBottom: "15px" }} />
                 <Typography variant="h6" noWrap>
-                  {user.user_fname} {user.user_lname}
+                  {user.fname} {user.lname}
                 </Typography>
                 <Typography variant="subtitle1" noWrap>
-                  {user.user_email}
+                  {user.email}
                 </Typography>
               </div>
               <Divider />
@@ -262,8 +286,20 @@ const Layout = props => {
                     </ListItemIcon>
                     <ListItemText primary="My Class" />
                   </ListItem>
-                </List>
-                <List>
+
+                  <ListItem
+                    selected={active === "queue" ? true : false}
+                    button
+                    onClick={() => {
+                      history.push("/queue");
+                    }}
+                  >
+                    <ListItemIcon>
+                      <FormatListNumberedIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Queue" />
+                  </ListItem>
+
                   <ListItem onClick={logout} button>
                     <ListItemIcon>
                       <PowerSettingsNewIcon />
