@@ -162,14 +162,14 @@ module.exports = {
                     user_type: key.key_type
                   },
                   {
-                    fields: ["userd_id", "user_type"]
+                    fields: ["user_id", "userd_id", "user_type"]
                   }
                 )
                 .then(user => {
                   if (user[0].user_type === "mentor") {
                     db.mentor
                       .insert({
-                        user_id: user[0].userd_id,
+                        user_id: user[0].user_id,
                         status: true
                       })
                       .then(() => {
@@ -192,7 +192,7 @@ module.exports = {
                   } else {
                     db.student
                       .insert({
-                        user_id: user[0].userd_id,
+                        user_id: user[0].user_id,
                         status: true
                       })
                       .then(() => {
