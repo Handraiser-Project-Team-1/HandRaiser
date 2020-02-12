@@ -1,4 +1,5 @@
 import React from "react";
+import Axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -9,6 +10,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Switch from "@material-ui/core/Switch";
+import update from "immutability-helper";
 
 import IconButton from "@material-ui/core/IconButton";
 import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
@@ -21,11 +23,21 @@ const useStyles = makeStyles({
 
 export default function SimpleTable({ myClass, handleDelete, setClasses }) {
   const classes = useStyles();
-  console.log(myClass);
-
-  const handleSwitch = data => {
-    console.log(data);
+  const handleSwitch = (i, cId) => event => {
+    const newVal = event.target.checked ? "on" : "off";
+    Axios.patch(
+      `${process.env.REACT_APP_DB_URL}/api/update/class/status/${cId}`,
+      { class_status: newVal }
+    )
+      .then(res => {
+        const arr = update(myClass, {
+          [i]: { class_status: { $set: newVal } }
+        });
+        setClasses(arr);
+      })
+      .catch(err => console.error(err));
   };
+
   return (
     <TableContainer component={Paper} elevation={0} variant="outlined">
       <Table className={classes.table} aria-label="simple table">
@@ -44,12 +56,13 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
         </TableHead>
         <TableBody>
           {myClass.map((row, i) => (
-            <TableRow key={row.class_id}>
+            <TableRow key={i}>
               <TableCell component="th" scope="row">
                 <Switch
                   checked={row.class_status === "on" ? true : false}
+                  value={row.i}
                   color="primary"
-                  onChange={handleSwitch(i)}
+                  onChange={handleSwitch(i, row.class_id)}
                 />
               </TableCell>
               <TableCell component="th" scope="row">
@@ -74,6 +87,15 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
               </TableCell>
             </TableRow>
           ))}
+          {myClass.length === 0 ? (
+            <TableRow>
+              <TableCell align="center" colSpan={5}>
+                No Classes yet!
+              </TableCell>
+            </TableRow>
+          ) : (
+            false
+          )}
         </TableBody>
       </Table>
     </TableContainer>

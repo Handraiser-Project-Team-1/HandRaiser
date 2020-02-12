@@ -53,7 +53,11 @@ export default function ClassList(props) {
         </Grid>
         <Grid item xs={12} md={11}>
           <TabPanel value={value} index={0}>
-            <MyClass myClass={classes} handleDelete={handleDelete} />
+            <MyClass
+              myClass={classes}
+              setClasses={setClasses}
+              handleDelete={handleDelete}
+            />
           </TabPanel>
           <TabPanel value={value} index={1}>
             <Grid item xs={12} md={4}>

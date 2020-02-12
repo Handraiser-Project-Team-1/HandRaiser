@@ -111,7 +111,8 @@ massive({
 
   app.post("/api/create/class/:id", mentor.addClass);
   app.get("/api/mentor/class/:id", mentor.getClass);
-  app.delete('/api/delete/class/:id',mentor.removeClass)
+  app.delete("/api/delete/class/:id", mentor.removeClass);
+  app.patch("/api/update/class/status/:id", mentor.updateStatus);
 
   const PORT = 3001;
   server.listen(PORT, () => {
