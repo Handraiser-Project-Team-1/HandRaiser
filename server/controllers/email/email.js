@@ -122,10 +122,10 @@ const main = async (name, email, key) => {
   try {
     const sent = await sendEmailFn();
     console.log(sent);
-    return 'true';
+    return true;
   } catch (error) {
     console.error(error);
-    return 'false';
+    return false;
   }
 };
 

@@ -68,6 +68,8 @@ export default function Request() {
           "Request Permission",
           "width=1000, height=700, left=500, top=170"
         );
+        setNotifDetailsFn("warning", "Try again", `Please try again sending keys!`);
+        openNofif();
       })
       .catch(error => {
         console.error(error);
