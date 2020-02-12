@@ -11,7 +11,7 @@ const oauth2Client = new google.auth.OAuth2(
 );
 
 const generateAuthURL = () => {
-  const GMAIL_SCOPES = process.env.SCOPES.split(",");
+  const GMAIL_SCOPES = process.env.SCOPES;
 
   const url = oauth2Client.generateAuthUrl({
     access_type: "offline",
