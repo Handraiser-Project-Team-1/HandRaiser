@@ -68,7 +68,7 @@ export default function ClassList(props) {
   const submit = () => {
     if (name && description && startDate && endDate) {
       let id = localStorage.getItem("id");
-      console.log(id);
+      // console.log(id);
       Axios.post(`${process.env.REACT_APP_DB_URL}/api/create/class/${id}`, {
         name,
         description,
@@ -81,7 +81,7 @@ export default function ClassList(props) {
           setName("");
           setStartDate("");
           setEndDate("");
-          console.log(res);
+          // console.log(res);
         })
         .catch(err => {
           console.error(err);

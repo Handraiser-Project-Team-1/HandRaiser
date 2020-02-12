@@ -20,19 +20,30 @@ export default function Select(props) {
 
   useEffect(() => {
     if (localStorage.getItem("tokenid")) {
-      history.push('/classes')
       axios({
-        method: "post",
-        url: `${process.env.REACT_APP_DB_URL}/api/user`,
-        data: { tokenObj: localStorage.getItem("tokenid") }
-      }).then(res => {
-        res.data.map(x => {
-          setUser({
-            fname: x.user_fname,
-          });
-          return setUser;
-        });
-      });
+        method: 'get',
+        url: `${process.env.REACT_APP_DB_URL}/api/type`
+      }).then(res=>{
+        res.data.map(x=>{
+          console.log(x)
+          if(x.user_type === "student"){
+            history.push('/classes')
+            axios({
+              method: "post",
+              url: `${process.env.REACT_APP_DB_URL}/api/user`,
+              data: { tokenObj: localStorage.getItem("tokenid") }
+            }).then(res => {
+              res.data.map(x => {
+                setUser({
+                  fname: x.user_fname,
+                });
+                return setUser;
+              });
+            });
+          }
+        })
+      })
+      
     } else {
       history.push("/");
     }
