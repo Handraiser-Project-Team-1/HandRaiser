@@ -40,8 +40,9 @@ export default function Dashboard(props) {
       <ThemeProvider theme={theme}>
         <Navigation active={active} setActive={setActive}>
           {active === "users" ? <UsersTable /> : <Request />}
-        </Navigation>
+        </Navigation>  
       </ThemeProvider>
     </React.Fragment>
   );
 }
+  

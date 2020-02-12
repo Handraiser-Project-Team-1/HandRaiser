@@ -250,7 +250,7 @@ const Layout = props => {
                 <SidebarTrigger className={headerStyles.leftTrigger}>
                   {opened ? <ChevronLeftIcon /> : <MenuIcon />}
                 </SidebarTrigger>
-                <Typography variant="h6">HandRaiser</Typography>
+                <Typography>HandRaiser</Typography>
               </Toolbar>
             </Header>
             <Sidebar>

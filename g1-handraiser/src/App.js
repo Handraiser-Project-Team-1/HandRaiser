@@ -48,10 +48,10 @@ export default function App() {
             path="/class/:id"
             render={props => <Que {...props} active="1" />}
           />
-          <Route 
+          <Route
             exact
             path="/permission"
-            render={props => <PermissionLoading active="loading"/> }
+            render={props => <PermissionLoading active="loading" />}
           />
           <Route exact path="/administrator" component={Welcome} />
           <Route exact path="/admin" component={Admin} />
