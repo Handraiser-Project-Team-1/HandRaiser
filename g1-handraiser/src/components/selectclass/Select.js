@@ -46,12 +46,6 @@ export default function Select(props) {
               }).catch(err => {
                 console.log(err)
               })
-            axios.get(`${process.env.REACT_APP_DB_URL}/api/all/users`)
-              .then(res => {
-                setAllUsers(res.data);
-              }).catch(err => {
-                console.log(err)
-              })
           }else if(x.user_type === "mentor"){
             history.push('/myclasslist')
           }
