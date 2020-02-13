@@ -1,14 +1,16 @@
 import React from "react";
 import "./App.scss";
-import { Tooltip } from "@material-ui/core";
+import { Tooltip, IconButton } from "@material-ui/core";
 function HelpFab() {
   return (
     <>
       <div className="request-loader">
         <Tooltip title="Ask for help">
-          <span role="img" aria-label="Hand">
-            👋
-          </span>
+          <IconButton>
+            <span role="img" aria-label="Hand">
+              👋
+            </span>
+          </IconButton>
         </Tooltip>
       </div>
     </>

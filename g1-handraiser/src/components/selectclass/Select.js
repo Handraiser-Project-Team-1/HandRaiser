@@ -5,14 +5,14 @@ import { Grid, Button } from "@material-ui/core";
 import Layout from "../includes/TopBar";
 import Notif from "../includes/Notif";
 import { Card, Icon, Avatar } from "antd";
-import axios from 'axios';
+import axios from "axios";
 
 export default function Select(props) {
   const { Meta } = Card;
   var history = useHistory();
   const [notif, setNotif] = useState(true);
   const [user, setUser] = useState({
-    fname: "",
+    fname: ""
   });
   const [allUsers, setAllUsers] = useState([]);
   const [classlist, setClassList] = useState([]);
@@ -24,11 +24,13 @@ export default function Select(props) {
     if (localStorage.getItem("tokenid")) {
       axios({
         method: "get",
-        url: `${process.env.REACT_APP_DB_URL}/api/type/${localStorage.getItem('uid')}`
+        url: `${process.env.REACT_APP_DB_URL}/api/type/${localStorage.getItem(
+          "uid"
+        )}`
       }).then(res => {
         res.data.map(x => {
           if (x.user_type === "student") {
-            history.push('/classes')
+            history.push("/classes");
             axios({
               method: "post",
               url: `${process.env.REACT_APP_DB_URL}/api/user`,
@@ -36,35 +38,39 @@ export default function Select(props) {
             }).then(res => {
               res.data.map(x => {
                 setUser({
-                  fname: x.user_fname,
+                  fname: x.user_fname
                 });
                 return setUser;
               });
             });
-            axios.get(`${process.env.REACT_APP_DB_URL}/api/class/list`)
+            axios
+              .get(`${process.env.REACT_APP_DB_URL}/api/class/list`)
               .then(res => {
                 setClassList(res.data);
-              }).catch(err => {
-                console.log(err)
               })
-            axios.get(`${process.env.REACT_APP_DB_URL}/api/all/users`)
+              .catch(err => {
+                console.log(err);
+              });
+            axios
+              .get(`${process.env.REACT_APP_DB_URL}/api/all/users`)
               .then(res => {
                 setAllUsers(res.data);
-              }).catch(err => {
-                console.log(err)
               })
+              .catch(err => {
+                console.log(err);
+              });
           }
           return x;
-        })
-      })
+        });
+      });
     } else {
       history.push("/");
     }
   }, [history]);
 
-  const onJoin = (data) => {
-    console.log(user.fname + ' request to join class ' + data)
-  }
+  const onJoin = data => {
+    console.log(user.fname + " request to join class " + data);
+  };
 
   return (
     <Layout {...props}>
@@ -77,8 +83,8 @@ export default function Select(props) {
       />
       <Grid container spacing={2}>
         {/* <CardClass /> */}
-        {classlist.map(res => (
-          res.class_status === 'on' ?
+        {classlist.map(res =>
+          res.class_status === "on" ? (
             <Grid item key={res.class_id}>
               <Card
                 style={{ width: 320 }}
@@ -90,34 +96,35 @@ export default function Select(props) {
                 }
                 actions={[
                   <IconFont type="icon-tuichu" />, //ENTER CLASS ICON
-                  <Button color="primary" size="small" onClick={() => onJoin(res.class_name)}>
+                  <Button
+                    color="primary"
+                    size="small"
+                    onClick={() => onJoin(res.class_name)}
+                  >
                     Join
-              </Button>
+                  </Button>
                 ]}
               >
                 {allUsers.map(ress => {
                   if (ress.userd_id === res.mentor_id) {
                     return (
                       <Meta
-                      key={ress.userd_id}
-                        avatar={
-                          <Avatar src={ress.user_image} />
-                        }
+                        key={ress.userd_id}
+                        avatar={<Avatar src={ress.user_image} />}
                         title={res.class_name}
-                        description={"Mentor: " + ress.user_fname + " " + ress.user_lname}
+                        description={
+                          "Mentor: " + ress.user_fname + " " + ress.user_lname
+                        }
                       />
-                    )
+                    );
                   } else {
-                    return null
+                    return null;
                   }
                 })}
-
               </Card>
             </Grid>
-            :
-            null
-        ))}
-
+          ) : null
+        )}
       </Grid>
     </Layout>
   );
