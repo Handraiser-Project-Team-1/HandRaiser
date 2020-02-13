@@ -26,29 +26,29 @@ massive({
   io.on("connection", socket => {
     console.log("we have a new connection!");
 
-    socket.on('join', function ({ name, sessionId }) {
+    socket.on("join", function({ name, sessionId }) {
       if (sessionId == null) {
-        var session_id = '101';
+        var session_id = "101";
         const { user } = addUser({ id: socket.id, name, room: session_id });
-        socket.join(user.room, function (res) {
+        socket.join(user.room, function(res) {
           socket.emit("message", {
             user: "admin",
             text: `${user.name}, welcome to the room`
           });
-          console.log("joined successfully ")
-          socket.emit("set-session-acknowledgement", { sessionId: session_id })
-        })
+          console.log("joined successfully ");
+          socket.emit("set-session-acknowledgement", { sessionId: session_id });
+        });
       } else {
         socket.room = sessionId;
         const { user } = addUser({ id: socket.id, name, room: socket.room });
-        socket.join(user.room, function (res) {
+        socket.join(user.room, function(res) {
           socket.emit("message", {
             user: "admin",
             text: `${name}, welcome to the room`
           });
-          console.log("joined successfully ")
-          socket.emit("set-session-acknowledgement", { sessionId: sessionId })
-        })
+          console.log("joined successfully ");
+          socket.emit("set-session-acknowledgement", { sessionId: sessionId });
+        });
       }
     });
 
@@ -87,7 +87,7 @@ massive({
   app.post("/api/users/", user.createUsers);
   app.get("/api/users", user.getUsers);
   app.post("/api/user", user.getUser);
-  app.get("/api/protected/data", function (req, res) {
+  app.get("/api/protected/data", function(req, res) {
     if (!req.headers.authorization) {
       return res.status(401).end();
     }
@@ -119,7 +119,7 @@ massive({
   app.patch("/api/change/type/:id", user.changeType);
   app.delete("/api/delete/user/:id", user.delete);
   app.get("/api/count/keys", user.countTableUserType);
-  app.get("/api/type/:id", user.getType)
+  app.get("/api/type/:id", user.getType);
 
   app.post("/api/create/class/:id", mentor.addClass);
   app.get("/api/mentor/class/:id", mentor.getClass);
@@ -128,6 +128,9 @@ massive({
 
   app.get("/api/class/list", student.getAllClass);
   app.post("/api/class/:id", student.getClass);
+  app.post("/api/join/class", student.joinClass);
+  app.get("/api/joined/class/:user_id", student.joinedClass);
+
   const PORT = 3001;
   server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
