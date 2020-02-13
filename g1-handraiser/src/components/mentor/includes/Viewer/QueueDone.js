@@ -9,7 +9,7 @@ import GridList from "@material-ui/core/GridList";
 // import Avatar from "@material-ui/core/Avatar";
 // import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 // import IconButton from "@material-ui/core/IconButton";
-import { List, Avatar } from "antd";
+import { List, Avatar, Button } from "antd";
 
 import DeleteIcon from "@material-ui/icons/Delete";
 
@@ -61,69 +61,15 @@ function StudentList() {
               title="Marcial M. Norte Jr"
             />
             <List.Item
-              actions={[<DeleteIcon style={{ color: "#42b0fe " }} />]}
+              actions={[
+                <Button>Accept</Button>,
+                <Button>Decline</Button>,
+                <DeleteIcon style={{ color: "#42b0fe " }} />
+              ]}
             ></List.Item>
           </List.Item>
         )}
       />
-      ,
-      {/* <List className={classes.root}>
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
-          </ListItemAvatar>
-          <ListItemText primary="Marcial M. Norte Jr" />
-          <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="comments">
-              <DeleteIcon style={{ color: "#42b0fe " }} />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-
-        <Divider variant="inset" component="li" />
-
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
-            {/* <Avatar>V</Avatar> */}
-      {/* </ListItemAvatar>
-          <ListItemText primary="Vincent Paul Serra" />
-          <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="comments">
-              <DeleteIcon style={{ color: "#42b0fe " }} />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-
-        <Divider variant="inset" component="li" />
-
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
-          </ListItemAvatar>
-          <ListItemText primary="Mark Jowen Mendes" />
-          <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="comments">
-              <DeleteIcon style={{ color: "#42b0fe " }} />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-
-        <Divider variant="inset" component="li" />
-
-        <ListItem>
-          <ListItemAvatar>
-            <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
-          </ListItemAvatar>
-          <ListItemText primary="Francisco Ifurung" />
-          <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="comments">
-              <DeleteIcon style={{ color: "#42b0fe " }} />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-      </List> */}{" "}
-      */}
     </GridList>
   );
 }

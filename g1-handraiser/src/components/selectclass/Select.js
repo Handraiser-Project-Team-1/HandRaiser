@@ -4,7 +4,7 @@ import { Grid, Button } from "@material-ui/core";
 // import CardClass from "../includes/CardClass";
 import Layout from "../includes/TopBar";
 import Notif from "../includes/Notif";
-import { Card, Avatar } from "antd";
+import { Card, Icon, Avatar } from "antd";
 import axios from "axios";
 
 export default function Select(props) {
@@ -40,14 +40,16 @@ export default function Select(props) {
                 return setUser;
               });
             });
-            axios.get(`${process.env.REACT_APP_DB_URL}/api/class/list`)
+            axios
+              .get(`${process.env.REACT_APP_DB_URL}/api/class/list`)
               .then(res => {
                 setClassList(res.data);
-              }).catch(err => {
-                console.log(err)
               })
-          }else if(x.user_type === "mentor"){
-            history.push('/myclasslist')
+              .catch(err => {
+                console.log(err);
+              });
+          } else if (x.user_type === "mentor") {
+            history.push("/myclasslist");
           }
           return x;
         });

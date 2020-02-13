@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import { Grid, Paper, Divider } from "@material-ui/core";
+import { Grid, Paper, Divider, ListSubheader } from "@material-ui/core";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
+// import Typography from "@material-ui/core/Typography";
 import RequestButton from "./includes/RequestButton";
 import Notification from "./includes/Notif";
 import { Tabs } from "antd";
+import { Empty } from "antd";
+import { makeStyles } from "@material-ui/core/styles";
 
+const useStyles = makeStyles(theme => ({
+  header: {
+    background: "#fafafa",
+    color: "#000"
+  }
+}));
 export default function Request() {
+  const classes = useStyles();
   const { TabPane } = Tabs;
   const [list, setList] = useState([]);
   const [pending, setPending] = useState([]);
@@ -84,7 +93,7 @@ export default function Request() {
 
   return (
     <>
-      <Grid style={{ padding: 20 }}>
+      <Grid style={{ padding: 5 }}>
         <Notification
           type={notifDetails.type}
           title={notifDetails.title}
@@ -94,11 +103,15 @@ export default function Request() {
         />
         <Tabs defaultActiveKey="1">
           <TabPane tab="Request List" key="1">
-            <Paper elevation={0}>
-              <Typography variant="h6" style={{ padding: 10, paddingLeft: 20 }}>
-                Request List
-              </Typography>
+            <Paper elevation={0} square={false}>
+              {/* <Typography
+                variant="h6"
+                style={{ padding: 10, paddingLeft: 20 }}
+              ></Typography> */}
               <List>
+                <ListSubheader className={classes.header}>
+                  Request List
+                </ListSubheader>
                 {list.map((val, i) => (
                   <React.Fragment key={i}>
                     <ListItem key={i}>
@@ -123,12 +136,7 @@ export default function Request() {
                   </React.Fragment>
                 ))}
                 {list.length === 0 ? (
-                  <Typography
-                    variant="h6"
-                    style={{ padding: 10, paddingLeft: 20 }}
-                  >
-                    0
-                  </Typography>
+                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
                 ) : (
                   false
                 )}
@@ -138,34 +146,34 @@ export default function Request() {
 
           <TabPane tab=" Pending Accounts" key="2">
             <Paper elevation={0}>
-              <Typography variant="h6" style={{ padding: 10, paddingLeft: 20 }}>
-                Pending Accounts
-              </Typography>
-              {pending.map((val, i) => (
-                <React.Fragment key={i}>
-                  <ListItem key={i}>
-                    <ListItemAvatar>
-                      <Avatar alt={`user${i}`} src={val.user_image} />
-                    </ListItemAvatar>
-                    <ListItemText
-                      primary={`${val.user_fname} ${val.user_lname}`}
-                      secondary={val.user_email}
-                    />
-                    <ListItemText primary={val.key_type} secondary={val.key} />
-                  </ListItem>
-                  <Divider />
-                </React.Fragment>
-              ))}
-              {pending.length === 0 ? (
-                <Typography
-                  variant="h6"
-                  style={{ padding: 10, paddingLeft: 20 }}
-                >
-                  0
-                </Typography>
-              ) : (
-                false
-              )}
+              <List>
+                <ListSubheader className={classes.header}>
+                  Pending Accounts
+                </ListSubheader>
+                {pending.map((val, i) => (
+                  <React.Fragment key={i}>
+                    <ListItem key={i}>
+                      <ListItemAvatar>
+                        <Avatar alt={`user${i}`} src={val.user_image} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={`${val.user_fname} ${val.user_lname}`}
+                        secondary={val.user_email}
+                      />
+                      <ListItemText
+                        primary={val.key_type}
+                        secondary={val.key}
+                      />
+                    </ListItem>
+                    <Divider />
+                  </React.Fragment>
+                ))}
+                {pending.length === 0 ? (
+                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                ) : (
+                  false
+                )}
+              </List>
             </Paper>
           </TabPane>
         </Tabs>
