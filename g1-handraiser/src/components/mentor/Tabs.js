@@ -73,6 +73,7 @@ export default function VerticalTabs({ value, setValue }) {
         >
           <AntTab label="Class List" />
           <AntTab label="Create" />
+          <AntTab label="Queue" />
         </AntTabs>
       </div>
     </div>

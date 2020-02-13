@@ -119,7 +119,7 @@ massive({
   app.patch("/api/change/type/:id", user.changeType);
   app.delete("/api/delete/user/:id", user.delete);
   app.get("/api/count/keys", user.countTableUserType);
-  app.get("/api/type", user.getType)
+  app.get("/api/type/:id", user.getType)
 
   app.post("/api/create/class/:id", mentor.addClass);
   app.get("/api/mentor/class/:id", mentor.getClass);

@@ -390,9 +390,10 @@ module.exports = {
   },
   getType: (req, res) => {
     const db = req.app.get("db")
-
+    const { id } = req.params
+    
     db.user_type
-    .find()
+    .find({ user_id: id })
     .then(results => {
       res.status(201).send(results);
     })
