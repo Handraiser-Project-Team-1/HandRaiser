@@ -127,6 +127,7 @@ massive({
   app.patch("/api/update/class/status/:id", mentor.updateStatus);
 
   app.get("/api/class/list", student.getAllClass);
+  app.post("/api/class/:id", student.getClass);
   const PORT = 3001;
   server.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);

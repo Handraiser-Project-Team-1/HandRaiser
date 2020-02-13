@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../includes/TopBar";
 import {
   Grid,
@@ -15,6 +15,8 @@ import Chat from "../chat/Fab";
 import QueueCounter from "../mentor/includes/QueueCounter";
 import Img from "../login/img/undraw_software_engineer_lvl5.svg";
 import Help from "./HelpFab";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -60,6 +62,35 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Que(props) {
+  const history = useHistory();
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    studentDetailsFn();
+    // eslint-disable-next-line
+  },[])
+
+  const studentDetailsFn = () => {
+    axios({
+      method: 'POST',
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${props.match.params.id}`,
+      data: {tokenData: localStorage.getItem('tokenid')}
+    })
+    .then(response => {
+      console.log(response)
+      setData(response.data);
+    })
+    .catch(error => {
+      let err = String(error).match(/\w+$/g).join();
+      if(err === '404'){
+        history.push('/notFound');
+        return;
+      }
+      console.error(error);
+    })
+  }
+
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -69,10 +100,10 @@ export default function Que(props) {
           <Card className={classes.card}>
             <CardContent className={classes.content}>
               <Typography component="h2" variant="h4">
-                BoomCamp 2019
+                {data.class_name}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
-                Handraiser
+                {data.class_description}{/* Handraiser */}
               </Typography>
               <div className={classes.help}>
                 <Help />
