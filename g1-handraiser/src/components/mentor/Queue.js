@@ -1,11 +1,13 @@
-import React from "react";
 import TopBar from "./TopBar";
+import React, { useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import QueueCounter from "./includes/QueueCounter";
 import QueueViewer from "./includes/QueueViewer";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import BeingHelp from "../includes/BeingHelp";
 import Chat from "../chat/Fab";
+import Axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,7 +16,29 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Queue(props) {
+  let history = useHistory();
   const classes = useStyles();
+
+  useEffect(() => {
+    if (localStorage.getItem("tokenid")) {
+      Axios({
+        method: "get",
+        url: `${process.env.REACT_APP_DB_URL}/api/type/${localStorage.getItem(
+          "uid"
+        )}`
+      }).then(res => {
+        res.data.map(x => {
+          if (x.user_type === "mentor") {
+            history.push("/queue");
+          } else if (x.user_type === "student") {
+            history.push("/classes");
+          }
+          return x;
+        });
+      });
+    }
+  }, [history]);
+
   return (
     <TopBar active={props.active}>
       <div className={classes.root}>
