@@ -24,7 +24,7 @@ import {
 } from "@mui-treasury/layout";
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
+// import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
 import axios from "axios";
 
 const config = {
@@ -203,12 +203,10 @@ const Layout = props => {
     if (localStorage.getItem("tokenid")) {
       axios({
         method: "get",
-        url: `${process.env.REACT_APP_DB_URL}/api/type`
+        url: `${process.env.REACT_APP_DB_URL}/api/type/${localStorage.getItem('uid')}`
       }).then(res => {
         res.data.map(x => {
           if (x.user_type === "mentor") {
-            // history.push('/myclasslist')
-            // history.push('/queue')
             axios({
               method: "post",
               url: `${process.env.REACT_APP_DB_URL}/api/user`,
@@ -285,21 +283,7 @@ const Layout = props => {
                       <ImportContactsIcon />
                     </ListItemIcon>
                     <ListItemText primary="My Class" />
-                  </ListItem>
-
-                  <ListItem
-                    selected={active === "queue" ? true : false}
-                    button
-                    onClick={() => {
-                      history.push("/queue");
-                    }}
-                  >
-                    <ListItemIcon>
-                      <FormatListNumberedIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Queue" />
-                  </ListItem>
-
+                  </ListItem>                  
                   <ListItem onClick={logout} button>
                     <ListItemIcon>
                       <PowerSettingsNewIcon />

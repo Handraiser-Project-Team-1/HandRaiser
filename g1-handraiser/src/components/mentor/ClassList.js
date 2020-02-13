@@ -6,6 +6,7 @@ import VerticalTabs from "./Tabs";
 import MyClass from "./Table";
 import AddClass from "./ClassForm";
 import Typography from "@material-ui/core/Typography";
+import Queue from './Queue';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -66,6 +67,11 @@ export default function ClassList(props) {
                 setValue={setValue}
                 setClasses={setClasses}
               />
+            </Grid>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <Grid item xs={12} md={4}>
+              <Queue/>
             </Grid>
           </TabPanel>
         </Grid>

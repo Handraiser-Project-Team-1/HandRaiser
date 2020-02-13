@@ -6,7 +6,6 @@ import Select from "./components/selectclass/Select";
 import Login from "./components/login/LoginInterface";
 import Welcome from "./components/superadmin/Welcome";
 import Admin from "./components/superadmin/admin";
-import Queue from "./components/mentor/Queue";
 import ClassList from "./components/mentor/ClassList";
 import Que from "./components/studentque/Que";
 import page404 from "./components/includes/Page404";
@@ -37,11 +36,6 @@ export default function App() {
             exact
             path="/classes"
             render={props => <Select {...props} active="classes" />}
-          />
-          <Route
-            exact
-            path="/queue"
-            render={props => <Queue {...props} active="boomcamp" />}
           />
           <Route
             exact
