@@ -38,17 +38,25 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
       .catch(err => console.error(err));
   };
 
+  const dateFormat = date => {
+    let d = new Date(date);
+    return d.toDateString();
+  };
+
   return (
     <TableContainer component={Paper} elevation={0} variant="outlined">
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Status</TableCell>
+            <TableCell style={{ width: "5%" }}>Status</TableCell>
             <TableCell>Class</TableCell>
-            <TableCell align="right">Description</TableCell>
-            <TableCell align="right">Student</TableCell>
-            <TableCell align="right">Start</TableCell>
-            <TableCell align="right">End</TableCell>
+            <TableCell>Description</TableCell>
+            <TableCell style={{ width: "10%" }} align="right">
+              Start
+            </TableCell>
+            <TableCell style={{ width: "10%" }} align="right">
+              End
+            </TableCell>
             <TableCell style={{ width: "10%" }} align="right">
               Action
             </TableCell>
@@ -68,11 +76,11 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
               <TableCell component="th" scope="row">
                 {row.class_name}
               </TableCell>
-              <TableCell align="right">{row.class_description}</TableCell>
-
-              <TableCell align="right">0</TableCell>
-              <TableCell align="right">{row.date_created}</TableCell>
-              <TableCell align="right">{row.date_end}</TableCell>
+              <TableCell>{row.class_description}</TableCell>
+              <TableCell align="right">
+                {dateFormat(row.date_created)}
+              </TableCell>
+              <TableCell align="right">{dateFormat(row.date_end)}</TableCell>
               <TableCell align="right">
                 <Button variant="outlined" size="small">
                   View
