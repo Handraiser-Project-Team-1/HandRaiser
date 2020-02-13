@@ -168,6 +168,10 @@ const useStyles = makeStyles(theme => ({
       width: theme.spacing(6),
       height: theme.spacing(6)
     }
+  },
+  title: {
+    fontSize: "1.5em",
+    fontWeight: "500"
   }
 }));
 
@@ -203,7 +207,9 @@ const Layout = props => {
     if (localStorage.getItem("tokenid")) {
       axios({
         method: "get",
-        url: `${process.env.REACT_APP_DB_URL}/api/type/${localStorage.getItem('uid')}`
+        url: `${process.env.REACT_APP_DB_URL}/api/type/${localStorage.getItem(
+          "uid"
+        )}`
       }).then(res => {
         res.data.map(x => {
           if (x.user_type === "mentor") {
@@ -248,7 +254,7 @@ const Layout = props => {
                 <SidebarTrigger className={headerStyles.leftTrigger}>
                   {opened ? <ChevronLeftIcon /> : <MenuIcon />}
                 </SidebarTrigger>
-                <Typography>HandRaiser</Typography>
+                <Typography className={classes.title}>HandRaiser</Typography>
               </Toolbar>
             </Header>
             <Sidebar>
@@ -283,7 +289,7 @@ const Layout = props => {
                       <ImportContactsIcon />
                     </ListItemIcon>
                     <ListItemText primary="My Class" />
-                  </ListItem>                  
+                  </ListItem>
                   <ListItem onClick={logout} button>
                     <ListItemIcon>
                       <PowerSettingsNewIcon />

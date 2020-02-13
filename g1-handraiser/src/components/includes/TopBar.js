@@ -176,6 +176,10 @@ const useStyles = makeStyles(theme => ({
       width: theme.spacing(6),
       height: theme.spacing(6)
     }
+  },
+  title: {
+    fontSize: "1.5em",
+    fontWeight: "500"
   }
 }));
 
@@ -250,7 +254,7 @@ const Layout = props => {
                 <SidebarTrigger className={headerStyles.leftTrigger}>
                   {opened ? <ChevronLeftIcon /> : <MenuIcon />}
                 </SidebarTrigger>
-                <Typography level={5}>HandRaiser</Typography>
+                <Typography className={classes.title}>HandRaiser</Typography>
               </Toolbar>
             </Header>
             <Sidebar color="primary">
