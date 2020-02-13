@@ -40,14 +40,16 @@ export default function Select(props) {
                 return setUser;
               });
             });
-            axios.get(`${process.env.REACT_APP_DB_URL}/api/class/list`)
+            axios
+              .get(`${process.env.REACT_APP_DB_URL}/api/class/list`)
               .then(res => {
                 setClassList(res.data);
-              }).catch(err => {
-                console.log(err)
               })
-          }else if(x.user_type === "mentor"){
-            history.push('/myclasslist')
+              .catch(err => {
+                console.log(err);
+              });
+          } else if (x.user_type === "mentor") {
+            history.push("/myclasslist");
           }
           return x;
         });
@@ -58,7 +60,7 @@ export default function Select(props) {
   }, [history]);
 
   useEffect(() => {
-    let user_id = localStorage.getItem("uid");
+    fetch();
 
     axios
       .get(`${process.env.REACT_APP_DB_URL}/api/class/list`)
@@ -68,7 +70,10 @@ export default function Select(props) {
       .catch(err => {
         console.log(err);
       });
+  }, []);
 
+  const fetch = () => {
+    let user_id = localStorage.getItem("uid");
     axios
       .get(`${process.env.REACT_APP_DB_URL}/api/joined/class/${user_id}`)
       .then(res => {
@@ -77,7 +82,7 @@ export default function Select(props) {
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  };
 
   const onJoin = cid => {
     const user_id = localStorage.getItem("uid");
@@ -86,16 +91,18 @@ export default function Select(props) {
         user_id,
         cid
       })
-      .then(res => {
-        console.log(res);
+      .then(() => {
+        fetch();
       })
       .catch(err => {
         console.log(err);
       });
   };
 
-  console.log(classlist);
-  console.log(joinedClass);
+  const verify = data => {
+    const find = joinedClass.find(element => element.class_id === data);
+    return find ? true : false;
+  };
 
   return (
     <Layout {...props}>
@@ -119,16 +126,24 @@ export default function Select(props) {
               }
               actions={[
                 <React.Fragment>
-                  <Button color="primary" size="small">
-                    Enter
-                  </Button>
-                  <Button
-                    color="primary"
-                    size="small"
-                    onClick={() => onJoin(res.c_id)}
-                  >
-                    Join
-                  </Button>
+                  {verify(res.c_id) ? (
+                    <Button color="primary" size="small">
+                      Pending
+                    </Button>
+                  ) : (
+                    <React.Fragment>
+                      <Button color="primary" size="small">
+                        Enter
+                      </Button>
+                      <Button
+                        color="primary"
+                        size="small"
+                        onClick={() => onJoin(res.c_id)}
+                      >
+                        Join
+                      </Button>
+                    </React.Fragment>
+                  )}
                 </React.Fragment>
               ]}
             >
