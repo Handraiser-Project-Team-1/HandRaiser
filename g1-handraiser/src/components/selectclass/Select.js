@@ -4,7 +4,7 @@ import { Grid, Button } from "@material-ui/core";
 // import CardClass from "../includes/CardClass";
 import Layout from "../includes/TopBar";
 import Notif from "../includes/Notif";
-import { Card, Avatar } from "antd";
+import { Card, Icon, Avatar } from "antd";
 import axios from "axios";
 
 export default function Select(props) {
