@@ -17,6 +17,9 @@ import Img from "../login/img/undraw_software_engineer_lvl5.svg";
 import Help from "./HelpFab";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import io from "socket.io-client";
+
+const socket = io.connect(process.env.REACT_APP_DB_URL);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -91,6 +94,11 @@ export default function Que(props) {
     })
   }
 
+  const handraiseFn = () => {
+    console.log('handraised')
+    socket.emit('handraise', {student_id: data.student_id, class_id: data.class_id});
+  }
+
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -106,7 +114,7 @@ export default function Que(props) {
                 {data.class_description}{/* Handraiser */}
               </Typography>
               <div className={classes.help}>
-                <Help />
+                <Help handraiseFn={handraiseFn} />
               </div>{" "}
             </CardContent>
             <CardMedia

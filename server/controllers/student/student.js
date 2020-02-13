@@ -21,26 +21,26 @@ const getClass = (req, res) => {
   db.query(
     `
             SELECT 
-                cl.student_id,
+                l.student_id,
                 ud.user_fname,
                 ud.user_lname,
                 ud.user_image,
-                cl.class_id,
+                l.class_id,
                 c.class_status,
                 c.class_name,
                 c.class_description,
-                cl.student_status,
-                cl.list_id
+                l.student_status,
+                l.list_id
             FROM 
                 user_details as ud, 
                 user_type as ut, 
                 student as s, 
                 "class" as c,
-                class_list as cl
+                list as l
             WHERE 
-                    cl.student_id = s.student_id 
+                    l.student_id = s.student_id 
                 and 
-                    cl.class_id = c.class_id
+                    l.class_id = c.class_id
                 and
                     ud.userd_id = ut.userd_id
                 and

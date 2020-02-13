@@ -26,6 +26,35 @@ massive({
   io.on("connection", socket => {
     console.log("we have a new connection!");
 
+    socket.on("handraise", ({student_id, class_id}) => {
+      socket.student_id = student_id;
+      socket.class_id = class_id;
+      socket.join(class_id);
+
+      db.tag.insert({
+        tag: 'sample tag'
+      }).then(tagResponse => {
+        db.queue
+        .insert({
+          student_id,
+          tag_id: tagResponse.tag_id,
+          class_id
+        })
+        .then(queueResponse => {
+          db.query(`SELECT * FROM queue as q, student as s, user_type as ut, user_details as ud WHERE ud.userd_id = ut.userd_id AND ut.user_id = s.user_type AND s.student_id = q.student_id AND student_id = ${student_id} AND class_id = ${class_id}`)
+          //socket.to(class_id).broadcast.emit('onqueue', {tag: tagResponse.tag, ...queueResponse})
+        })
+      })
+      .catch(error => console.error(error))
+
+
+      console.log("handraised: ", student_id, class_id);
+      
+        socket.on('disconnect', function(){
+          console.log('removed from queue');
+        });
+    })
+
     socket.on("join", function({ name, sessionId }) {
       if (sessionId == null) {
         var session_id = "101";
