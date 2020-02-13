@@ -53,6 +53,8 @@ export default function Select(props) {
               }).catch(err => {
                 console.log(err)
               })
+          }else if(x.user_type === "mentor"){
+            history.push('/myclasslist')
           }
           return x;
         })
