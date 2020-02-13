@@ -40,6 +40,14 @@ export default function Select(props) {
                 return setUser;
               });
             });
+            axios.get(`${process.env.REACT_APP_DB_URL}/api/class/list`)
+              .then(res => {
+                setClassList(res.data);
+              }).catch(err => {
+                console.log(err)
+              })
+          }else if(x.user_type === "mentor"){
+            history.push('/myclasslist')
           }
           return x;
         });
