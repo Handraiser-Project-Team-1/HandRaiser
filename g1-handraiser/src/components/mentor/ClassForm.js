@@ -71,15 +71,30 @@ export default function ClassList(props) {
   const handleCancel = () => {
     setVisible(false);
   };
+
+  function slugify(string) {
+    return string
+      .toString()
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w-]+/g, "")
+      .replace(/--+/g, "-")
+      .replace(/^-+/, "")
+      .replace(/-+$/, "");
+  }
+
   const submit = () => {
     setLoading(true);
     if (name && description && startDate && endDate) {
       let id = localStorage.getItem("id");
+      const slug = slugify(name);
       Axios.post(`${process.env.REACT_APP_DB_URL}/api/create/class/${id}`, {
         name,
         description,
         startDate,
-        endDate
+        endDate,
+        slug
       })
         .then(res => {
           setTimeout(() => {
@@ -131,7 +146,7 @@ export default function ClassList(props) {
         ]}
       >
         {" "}
-        <Paper className={classes.root} variant="outlined" square>
+        <Paper className={classes.root} elevation={0} square>
           <Grid item xs={12}>
             <FormControl className={classes.margin} fullWidth={true}>
               <InputLabel shrink htmlFor="bootstrap-input">

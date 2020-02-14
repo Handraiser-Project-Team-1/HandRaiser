@@ -89,7 +89,9 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
                 <Button
                   variant="outlined"
                   size="small"
-                  onClick={() => history.push(`/queue/${row.class_id}`)}
+                  onClick={() =>
+                    history.push(`/queue/${row.class_id}/${row.slug}`)
+                  }
                 >
                   View
                 </Button>

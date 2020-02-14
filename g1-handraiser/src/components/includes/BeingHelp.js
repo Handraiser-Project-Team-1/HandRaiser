@@ -5,6 +5,7 @@ import IconButton from "@material-ui/core/IconButton";
 import { Card, CardContent } from "@material-ui/core";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
+import Tooltip from "@material-ui/core/Tooltip";
 
 import { Typography } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
@@ -34,9 +35,11 @@ export default function CardClass(props) {
         </CardContent>
         <CardHeader
           action={
-            <IconButton aria-label="settings" style={{ color: "green" }}>
-              <DoneIcon />
-            </IconButton>
+            <Tooltip title="Click if Resolved!">
+              <IconButton aria-label="settings" style={{ color: "green" }}>
+                <DoneIcon />
+              </IconButton>
+            </Tooltip>
           }
           avatar={
             <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg"></Avatar>
