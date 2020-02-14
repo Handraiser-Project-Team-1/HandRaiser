@@ -1,4 +1,3 @@
-import TopBar from "./TopBar";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import QueueCounter from "./includes/QueueCounter";
@@ -30,7 +29,7 @@ export default function Queue(props) {
         res.data.map(x => {
           if (x.user_type === "mentor") {
             history.push("/queue");
-          } else if (x.user_type === "student") {
+          }else if(x.user_type === "student"){
             history.push("/classes");
           }
           return x;
@@ -40,8 +39,8 @@ export default function Queue(props) {
   }, [history]);
 
   return (
-    <TopBar active={props.active}>
-      <div className={classes.root}>
+    // <TopBar >
+      <div className={classes.root} active={props.active}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={3}>
             <Grid
@@ -62,8 +61,8 @@ export default function Queue(props) {
             <QueueViewer />
           </Grid>
         </Grid>
+        <Chat />
       </div>
-      <Chat />
-    </TopBar>
+    // </TopBar>
   );
 }
