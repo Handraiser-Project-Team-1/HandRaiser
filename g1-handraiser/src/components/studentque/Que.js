@@ -80,10 +80,7 @@ export default function Que(props) {
       url: `${process.env.REACT_APP_DB_URL}/api/class/${props.match.params.id}`,
       data: {tokenData: localStorage.getItem('tokenid')}
     })
-    .then(response => {
-      console.log(response)
-      setData(response.data);
-    })
+    .then(response => setData(response.data))
     .catch(error => {
       let err = String(error).match(/\w+$/g).join();
       if(err === '404'){
@@ -94,9 +91,33 @@ export default function Que(props) {
     })
   }
 
+  const [queueList, setQueueList] = useState([]);
+
+  const fetchQueueFn = id => {
+    axios({
+      method: 'GET',
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/queue`
+    })
+    .then(response => {
+      //setQueueList(response.data);
+      console.log(response.data)
+    })
+    .catch(error => {
+      console.error(error);
+    })
+  }
+
+  useEffect(() => {
+    fetchQueueFn(props.match.params.id)
+    socket.on("updateQueue", queue => {
+      console.log('updated: ',queue);
+    })
+  }, [])
+
   const handraiseFn = () => {
-    console.log('handraised')
-    socket.emit('handraise', {student_id: data.student_id, class_id: data.class_id});
+    socket.emit('handraise', {student_id: data.student_id, class_id: data.class_id}, queue => {
+      console.log(queue);
+    });
   }
 
   const classes = useStyles();

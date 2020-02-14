@@ -102,9 +102,46 @@ const joinedClass = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
+const queueList = (req, res) => {
+  const db = req.app.get("db");
+  const { id } = req.params;
+
+  db
+  .query(`
+    SELECT 
+      q.queue_id, 
+      q.class_id, 
+      q.student_id, 
+      t.tag as tag, 
+      CONCAT(ud.user_fname,' ', ud.user_lname) as name, 
+      ud.user_image as image 
+    FROM 
+      tag as t, 
+      queue as q, 
+      student as s, 
+      user_type as ut, 
+      user_details as ud 
+    WHERE 
+      ud.userd_id = ut.userd_id AND 
+      ut.user_id = s.user_id AND 
+      s.student_id = q.student_id AND 
+      q.tag_id = t.tag_id AND 
+      q.class_id = ${id}
+  `)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    console.error(error);
+    res.status(500).end();
+  })
+
+}
+
 module.exports = {
   getAllClass,
   joinClass,
   joinedClass,
-  getClass
+  getClass,
+  queueList
 };
