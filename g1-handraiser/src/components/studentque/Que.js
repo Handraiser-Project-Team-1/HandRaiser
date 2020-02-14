@@ -7,7 +7,6 @@ import {
   CardMedia,
   CardContent
 } from "@material-ui/core";
-import Position from "./Position";
 import NeedHelp from "./NeedHelp";
 import BeingHelp from "../includes/BeingHelp";
 import Chat from "../chat/Fab";

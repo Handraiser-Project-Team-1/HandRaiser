@@ -1,35 +1,14 @@
 import React from "react";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import CardActionArea from "@material-ui/core/CardActionArea";
-const useStyles = makeStyles(theme => ({
-  typo: {
-    color: "#42B0FF",
-    paddingTop: theme.spacing(2)
-  },
-  userBackground: {
-    background: "#f3f5f7"
-  }
-}));
+import { Statistic, Card, Icon } from "antd";
 export default function QueueCounter() {
-  const classes = useStyles();
   return (
-    <Card variant="outlined">
-      <CardContent>
-        <CardActionArea className={classes.userBackground}>
-          <CardContent>
-            <Typography variant="h2" component="h2">
-              16
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-
-        <Typography component="p" variant="subtitle2" className={classes.typo}>
-          STUDENT ON QUEUE{" "}
-        </Typography>
-      </CardContent>
+    <Card>
+      <Statistic
+        title="On Queue"
+        value={3}
+        valueStyle={{ color: "#3f8600" }}
+        prefix={<Icon type="user" />}
+      />
     </Card>
   );
 }

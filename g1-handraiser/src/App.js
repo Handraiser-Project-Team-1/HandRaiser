@@ -40,7 +40,7 @@ export default function App() {
           />
           <Route
             exact
-            path="/queue"
+            path="/queue/:id"
             render={props => <Queue {...props} active="classlist" />}
           />
           <Route

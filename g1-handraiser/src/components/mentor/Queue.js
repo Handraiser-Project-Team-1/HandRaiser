@@ -1,6 +1,6 @@
 import TopBar from "./TopBar";
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import React from "react";
+import { useParams } from "react-router-dom";
 import QueueCounter from "./includes/QueueCounter";
 import QueueViewer from "./includes/QueueViewer";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,7 +11,6 @@ import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
-import Axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Queue(props) {
-  let history = useHistory();
+  let { id } = useParams();
   const classes = useStyles();
 
   // useEffect(() => {
@@ -62,12 +61,12 @@ export default function Queue(props) {
               className={classes.paddingBread}
             >
               <Link color="inherit" href="#">
-                Material-UI
+                Handraiser
               </Link>
-              <Link color="inherit" href="#">
-                Core
+              <Link color="inherit" href="/myclasslist">
+                My Class
               </Link>
-              <Typography color="textPrimary">Breadcrumb</Typography>
+              <Typography color="textPrimary">{id}</Typography>
             </Breadcrumbs>
           </Grid>
         </Grid>
@@ -78,10 +77,12 @@ export default function Queue(props) {
               direction="column"
               justify="flex-start"
               alignItems="stretch"
+              spacing={1}
             >
               <Grid item>
                 <QueueCounter />
               </Grid>
+
               <Grid item>
                 <BeingHelp />
               </Grid>

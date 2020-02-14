@@ -41,9 +41,6 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
       })
       .catch(err => console.error(err));
   };
-  const handleView = () => {
-    history.push("/queue");
-  };
 
   const dateFormat = date => {
     let d = new Date(date);
@@ -92,7 +89,7 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
                 <Button
                   variant="outlined"
                   size="small"
-                  onClick={() => handleView()}
+                  onClick={() => history.push(`/queue/${row.class_id}`)}
                 >
                   View
                 </Button>
