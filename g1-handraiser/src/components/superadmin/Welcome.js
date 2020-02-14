@@ -95,7 +95,7 @@ export default function Welcome() {
         })
         .catch(err => {
           setNotif(true);
-          setMsg(err);
+          setMsg(err.response.data.error);
         });
     } else {
       setNotif(true);
