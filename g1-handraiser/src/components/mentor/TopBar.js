@@ -213,7 +213,7 @@ const Layout = props => {
       }).then(res => {
         res.data.map(x => {
           if (x.user_type === "mentor") {
-            history.push("/myclasslist")
+            // history.push("/myclasslist");
             axios({
               method: "post",
               url: `${process.env.REACT_APP_DB_URL}/api/user`,
@@ -229,8 +229,8 @@ const Layout = props => {
                 return setUser;
               });
             });
-          }else if(x.user_type === "student"){
-            history.push("/classes")
+          } else if (x.user_type === "student") {
+            history.push("/classes");
           }
           return x;
         });

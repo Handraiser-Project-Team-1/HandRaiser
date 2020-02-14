@@ -17,8 +17,11 @@ const useStyles = makeStyles(theme => ({
   root: {
     padding: "50%"
   },
+  padding: {
+    padding: theme.spacing(2)
+  },
   gridList: {
-    height: 545
+    height: 700
   },
   Card: {
     marginTop: 5
@@ -47,30 +50,28 @@ function StudentList() {
     }
   ];
   return (
-    <GridList cellHeight={80} className={classes.gridList} cols={1}>
-      <List
-        itemLayout="horizontal"
-        dataSource={data}
-        renderItem={item => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={
-                <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
-              }
-              // title={<a href="https://ant.design">{item.title}</a>}
-              title="Marcial M. Norte Jr"
-            />
-            <List.Item
-              actions={[
-                <Button>Accept</Button>,
-                <Button>Decline</Button>,
-                <DeleteIcon style={{ color: "#42b0fe " }} />
-              ]}
-            ></List.Item>
-          </List.Item>
-        )}
-      />
-    </GridList>
+    <div className={classes.padding}>
+      <GridList className={classes.gridList} cols={1}>
+        <List
+          itemLayout="horizontal"
+          dataSource={data}
+          renderItem={item => (
+            <List.Item>
+              <List.Item.Meta
+                avatar={
+                  <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
+                }
+                // title={<a href="https://ant.design">{item.title}</a>}
+                title="Marcial M. Norte Jr"
+              />
+              <List.Item
+                actions={[<Button>Accept</Button>, <Button>Decline</Button>]}
+              ></List.Item>
+            </List.Item>
+          )}
+        />
+      </GridList>
+    </div>
   );
 }
 

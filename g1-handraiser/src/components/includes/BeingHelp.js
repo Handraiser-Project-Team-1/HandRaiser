@@ -21,7 +21,8 @@ const useStyles = makeStyles(theme => ({
     background: "#f3f5f7"
   },
   typo: {
-    color: "#42b0fe "
+    color: "#42b0fe ",
+    paddingTop: theme.spacing(2)
   },
   header: {
     display: "flex"
@@ -49,7 +50,7 @@ export default function CardClass(props) {
           </CardContent>
         </CardActionArea>
         <CardActions>
-          <Typography variant="overline" className={classes.typo}>
+          <Typography variant="subtitle2" className={classes.typo}>
             BEING HELP
           </Typography>
         </CardActions>

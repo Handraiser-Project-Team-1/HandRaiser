@@ -6,7 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import CardActionArea from "@material-ui/core/CardActionArea";
 const useStyles = makeStyles(theme => ({
   typo: {
-    color: "#42B0FF"
+    color: "#42B0FF",
+    paddingTop: theme.spacing(2)
   },
   userBackground: {
     background: "#f3f5f7"
@@ -15,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 export default function QueueCounter() {
   const classes = useStyles();
   return (
-    <Card>
+    <Card variant="outlined">
       <CardContent>
         <CardActionArea className={classes.userBackground}>
           <CardContent>
@@ -25,7 +26,7 @@ export default function QueueCounter() {
           </CardContent>
         </CardActionArea>
 
-        <Typography component="p" variant="overline" className={classes.typo}>
+        <Typography component="p" variant="subtitle2" className={classes.typo}>
           STUDENT ON QUEUE{" "}
         </Typography>
       </CardContent>

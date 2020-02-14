@@ -41,7 +41,7 @@ export default function App() {
           <Route
             exact
             path="/queue"
-            render={props => <Queue {...props} active="boomcamp" />}
+            render={props => <Queue {...props} active="classlist" />}
           />
           <Route
             exact

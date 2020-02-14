@@ -16,7 +16,8 @@ import { CardHeader } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    padding: theme.spacing(2)
   },
   typography: {
     padding: theme.spacing(2)
@@ -28,6 +29,10 @@ const useStyles = makeStyles(theme => ({
     "@media (max-width:768px)": {
       hidden: true
     }
+  },
+  padding: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2)
   }
 }));
 
@@ -55,9 +60,9 @@ function InQueue() {
           </Fade>
         )}
       </Popper>
-      <Grid container spacing={3}>
+      <Grid container spacing={1}>
         <Grid item xs={12} sm={4} className={classes.Card}>
-          <Card>
+          <Card variant="outlined">
             <CardActionArea className={classes.userBackground}>
               <CardContent>
                 <div className={classes.root}>
@@ -88,46 +93,12 @@ function InQueue() {
             </CardActions>
           </Card>
         </Grid>
-
-        {/* <Grid item xs={12} sm={4}>
-          <Card>
+        <Grid item xs={12} sm={4} className={classes.Card}>
+          <Card variant="outlined">
             <CardActionArea className={classes.userBackground}>
               <CardContent>
                 <div className={classes.root}>
                   <Grid container spacing={3}>
-                    <Grid item xs={3}>
-                      <Avatar>V</Avatar>
-                    </Grid>
-                    <Grid item xs={9}>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        Vincent
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </div>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Help
-              </Button>
-              <Button size="small" color="primary">
-                Remove
-              </Button>
-              <Button size="small" color="primary">
-                <HelpIcon onClick={handleClick("bottom")} />
-              </Button>
-              <Typography>4</Typography>
-            </CardActions>
-          </Card>
-        </Grid> */}
-
-        <Grid item xs={12} sm={4} className={classes.Card}>
-          <Card>
-            <CardActionArea className={classes.userBackground}>
-              <CardContent>
-                <div className={classes.root}>
-                  <Grid container spacing={1}>
                     <Grid item xs={12}>
                       <CardHeader
                         avatar={
@@ -150,40 +121,7 @@ function InQueue() {
               <Button size="small" color="primary">
                 <HelpIcon onClick={handleClick("bottom")} />
               </Button>
-              <Typography>2</Typography>
-            </CardActions>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} sm={4} className={classes.Card}>
-          <Card>
-            <CardActionArea className={classes.userBackground}>
-              <CardContent>
-                <div className={classes.root}>
-                  <Grid container spacing={1}>
-                    <Grid item xs={12}>
-                      <CardHeader
-                        avatar={
-                          <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg" />
-                        }
-                        title="Marcial M. Norte Jr"
-                      />
-                    </Grid>
-                  </Grid>
-                </div>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button variant="outlined" size="small" color="primary">
-                Help
-              </Button>
-              <Button variant="outlined" size="small" color="primary">
-                Remove
-              </Button>
-              <Button size="small" color="primary">
-                <HelpIcon onClick={handleClick("bottom")} />
-              </Button>
-              <Typography>3</Typography>
+              <Typography>1</Typography>
             </CardActions>
           </Card>
         </Grid>
