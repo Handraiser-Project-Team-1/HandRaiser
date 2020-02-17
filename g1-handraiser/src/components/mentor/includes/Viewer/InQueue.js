@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { List, Avatar, Button, Badge } from "antd";
+import { List, Avatar, Button, Badge, Icon } from "antd";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -50,7 +50,16 @@ function InQueue() {
         itemLayout="horizontal"
         dataSource={data}
         renderItem={(item, i) => (
-          <List.Item actions={[<Button>Remove</Button>, <Button>Help</Button>]}>
+          <List.Item
+            actions={[
+              <Button type="primary" ghost>
+                <Icon type="minus-circle" /> Remove
+              </Button>,
+              <Button type="primary" ghost>
+                <Icon type="question-circle" /> Help
+              </Button>
+            ]}
+          >
             <List.Item.Meta
               avatar={
                 <Badge count={i + 1}>

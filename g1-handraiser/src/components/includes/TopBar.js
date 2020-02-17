@@ -205,7 +205,7 @@ const Layout = props => {
   let history = useHistory();
   const { active } = props;
   const [openSubList, setOpenSubList] = React.useState(true);
-  const [stud_class, setClass] = useState([])
+  const [stud_class, setClass] = useState([]);
   const [user, setUser] = useState({
     fname: "",
     lname: "",
@@ -222,8 +222,8 @@ const Layout = props => {
       method: "get",
       url: `${process.env.REACT_APP_DB_URL}/api/class/accept`
     }).then(res => {
-      setClass(res.data)
-    })
+      setClass(res.data);
+    });
 
     if (localStorage.getItem("tokenid")) {
       //identify if mentor or student
@@ -251,16 +251,16 @@ const Layout = props => {
     localStorage.clear();
     history.push("/");
   };
-  var acceptedclass = (e) => {
+  var acceptedclass = e => {
     stud_class.map(x => {
-      if(x.status === 'accept'){
+      if (x.status === "accept") {
         history.push(`/class/${e}`);
-        localStorage.setItem('cid', `${e}`)
-        window.location.reload(true)
+        localStorage.setItem("cid", `${e}`);
+        window.location.reload(true);
       }
-      return x
-    })
-  }
+      return x;
+    });
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -341,19 +341,21 @@ const Layout = props => {
                 </ListItem>
                 <Collapse in={openSubList} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                  {stud_class.map(x=>{
-                    return (<ListItem
-                      selected={active === "1" ? true : false}
-                      button
-                      className={classes.nested}
-                      onClick={() => acceptedclass(x.cid)}
-                    >
-                      <ListItemIcon>
-                        <StarBorderOutlinedIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={`${x.cname}`} />
-                    </ListItem>)
-                  })}
+                    {stud_class.map(x => {
+                      return (
+                        <ListItem
+                          selected={active === "1" ? true : false}
+                          button
+                          className={classes.nested}
+                          onClick={() => acceptedclass(x.cid)}
+                        >
+                          <ListItemIcon>
+                            <StarBorderOutlinedIcon />
+                          </ListItemIcon>
+                          <ListItemText primary={`${x.cname}`} />
+                        </ListItem>
+                      );
+                    })}
                   </List>
                 </Collapse>
                 <List>

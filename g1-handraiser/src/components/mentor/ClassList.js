@@ -100,7 +100,7 @@ export default function ClassList(props) {
       <Grid container spacing={1} className={classe.grid}>
         <Grid item xs={12} md={12}>
           <Tabs defaultActiveKey="1">
-            <TabPane tab="List of Classes" key="1">
+            <TabPane key="1">
               <MyClass
                 myClass={classes}
                 setClasses={setClasses}
