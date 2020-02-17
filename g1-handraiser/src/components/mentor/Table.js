@@ -8,10 +8,12 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
+import { Button } from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import update from "immutability-helper";
-
+import { Divider } from "antd";
+import { Empty } from "antd";
+import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
 
@@ -23,6 +25,8 @@ const useStyles = makeStyles({
 
 export default function SimpleTable({ myClass, handleDelete, setClasses }) {
   const classes = useStyles();
+  let history = useHistory();
+
   const handleSwitch = (i, cId) => event => {
     const newVal = event.target.checked ? "on" : "off";
     Axios.patch(
@@ -82,9 +86,16 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
               </TableCell>
               <TableCell align="right">{dateFormat(row.date_end)}</TableCell>
               <TableCell align="right">
-                <Button variant="outlined" size="small">
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() =>
+                    history.push(`/queue/${row.class_id}/${row.slug}`)
+                  }
+                >
                   View
                 </Button>
+                <Divider type="vertical" />
                 <IconButton
                   aria-label="delete"
                   style={{ color: "red" }}
@@ -98,7 +109,7 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
           {myClass.length === 0 ? (
             <TableRow>
               <TableCell align="center" colSpan={5}>
-                No Classes yet!
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />{" "}
               </TableCell>
             </TableRow>
           ) : (

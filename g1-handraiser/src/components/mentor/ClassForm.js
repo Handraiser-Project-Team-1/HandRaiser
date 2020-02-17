@@ -5,13 +5,13 @@ import { fade, withStyles, makeStyles } from "@material-ui/core/styles";
 import InputBase from "@material-ui/core/InputBase";
 import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
-import Button from "@material-ui/core/Button";
-import AddIcon from "@material-ui/icons/Add";
+
+import { Button, Modal } from "antd";
 
 const BootstrapInput = withStyles(theme => ({
   root: {
     "label + &": {
-      marginTop: theme.spacing(3)
+      marginTop: theme.spacing(2)
     }
   },
   input: {
@@ -62,16 +62,44 @@ export default function ClassList(props) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
+  const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const showModal = () => {
+    setVisible(true);
+  };
+  const handleCancel = () => {
+    setVisible(false);
+  };
+
+  function slugify(string) {
+    return string
+      .toString()
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-")
+      .replace(/[^\w-]+/g, "")
+      .replace(/--+/g, "-")
+      .replace(/^-+/, "")
+      .replace(/-+$/, "");
+  }
+
   const submit = () => {
+    setLoading(true);
     if (name && description && startDate && endDate) {
       let id = localStorage.getItem("id");
+      const slug = slugify(name);
       Axios.post(`${process.env.REACT_APP_DB_URL}/api/create/class/${id}`, {
         name,
         description,
         startDate,
-        endDate
+        endDate,
+        slug
       })
         .then(res => {
+          setTimeout(() => {
+            setVisible(false);
+          }, 1000);
           setDescription("");
           setName("");
           setStartDate("");
@@ -87,91 +115,112 @@ export default function ClassList(props) {
 
   return (
     <React.Fragment>
-      <Paper className={classes.root} variant="outlined" square>
-        <Grid item xs={12}>
-          <FormControl className={classes.margin} fullWidth={true}>
-            <InputLabel shrink htmlFor="bootstrap-input">
-              Class Name
-            </InputLabel>
-            <BootstrapInput
-              id="name"
-              placeholder="Name"
-              fullWidth={true}
-              value={name}
-              autoComplete="off"
-              onChange={e => {
-                setName(e.target.value);
-              }}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item xs={12}>
-          <FormControl className={classes.margin} fullWidth={true}>
-            <InputLabel shrink htmlFor="bootstrap-input">
-              Class Description
-            </InputLabel>
-            <BootstrapInput
-              id="description"
-              placeholder="Description"
-              fullWidth={true}
-              autoComplete="off"
-              value={description}
-              onChange={e => {
-                setDescription(e.target.value);
-              }}
-            />
-          </FormControl>
-        </Grid>
-        <Grid container item xs={12} spacing={1}>
-          <Grid item xs={6}>
-            <FormControl className={classes.margin} fullWidth={true}>
-              <InputLabel shrink htmlFor="bootstrap-input">
-                Start Date
-              </InputLabel>
-              <BootstrapInput
-                id="startDate"
-                placeholder="Start Date"
-                type="date"
-                value={startDate}
-                fullWidth={true}
-                onChange={e => {
-                  setStartDate(e.target.value);
-                }}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={6}>
-            <FormControl className={classes.margin} fullWidth={true}>
-              <InputLabel shrink htmlFor="bootstrap-input">
-                End Date
-              </InputLabel>
-              <BootstrapInput
-                id="endDate"
-                placeholder="End Date"
-                fullWidth={true}
-                type="date"
-                value={endDate}
-                onChange={e => {
-                  setEndDate(e.target.value);
-                }}
-                style={{ width: "94%" }}
-              />
-            </FormControl>
-          </Grid>
-        </Grid>
-        <Grid item xs={12}>
+      <Button
+        type="primary"
+        icon="plus"
+        shape="circle"
+        size="large"
+        onClick={showModal}
+      ></Button>
+      <Modal
+        visible={visible}
+        title="Create Class"
+        onCancel={handleCancel}
+        footer={[
+          <Button key="back" onClick={handleCancel}>
+            Cancel
+          </Button>,
           <Button
-            variant="outlined"
+            key="submit"
+            ghost
+            icon="plus"
+            type="primary"
             color="primary"
-            size="small"
+            size="default"
             className={classes.button}
-            startIcon={<AddIcon />}
+            loading={loading}
             onClick={() => submit()}
           >
             Create Class
           </Button>
-        </Grid>
-      </Paper>
+        ]}
+      >
+        {" "}
+        <Paper className={classes.root} elevation={0} square>
+          <Grid item xs={12}>
+            <FormControl className={classes.margin} fullWidth={true}>
+              <InputLabel shrink htmlFor="bootstrap-input">
+                Class Name
+              </InputLabel>
+              <BootstrapInput
+                id="name"
+                placeholder="Name"
+                fullWidth={true}
+                value={name}
+                autoComplete="off"
+                onChange={e => {
+                  setName(e.target.value);
+                }}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl className={classes.margin} fullWidth={true}>
+              <InputLabel shrink htmlFor="bootstrap-input">
+                Class Description
+              </InputLabel>
+              <BootstrapInput
+                id="description"
+                placeholder="Description"
+                fullWidth={true}
+                autoComplete="off"
+                value={description}
+                onChange={e => {
+                  setDescription(e.target.value);
+                }}
+              />
+            </FormControl>
+          </Grid>
+          <Grid container item xs={12} spacing={1}>
+            <Grid item xs={6}>
+              <FormControl className={classes.margin} fullWidth={true}>
+                <InputLabel shrink htmlFor="bootstrap-input">
+                  Start Date
+                </InputLabel>
+                <BootstrapInput
+                  id="startDate"
+                  placeholder="Start Date"
+                  type="date"
+                  value={startDate}
+                  fullWidth={true}
+                  onChange={e => {
+                    setStartDate(e.target.value);
+                  }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <FormControl className={classes.margin} fullWidth={true}>
+                <InputLabel shrink htmlFor="bootstrap-input">
+                  End Date
+                </InputLabel>
+                <BootstrapInput
+                  id="endDate"
+                  placeholder="End Date"
+                  fullWidth={true}
+                  type="date"
+                  value={endDate}
+                  onChange={e => {
+                    setEndDate(e.target.value);
+                  }}
+                  style={{ width: "94%" }}
+                />
+              </FormControl>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}></Grid>
+        </Paper>
+      </Modal>
     </React.Fragment>
   );
 }

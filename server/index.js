@@ -222,6 +222,13 @@ massive({
   app.get("/api/joined/class/:user_id", student.joinedClass);
 
   app.get("/api/class/:id/queue", student.queueList);
+  app.get("/api/class/title/:id", mentor.findClass);
+  app.get("/api/get/enrollees/:id", mentor.getEnrolles);
+  app.patch(
+    "/api/update/enrollees/status/:listId/:status",
+    mentor.updateEnrolleesStatus
+  );
+  app.delete("/api/decline/enrollees/:listId", mentor.declineEnrollees);
 
   const PORT = 3001;
   server.listen(PORT, () => {

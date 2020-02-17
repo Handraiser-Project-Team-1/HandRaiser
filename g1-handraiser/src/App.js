@@ -8,6 +8,7 @@ import Welcome from "./components/superadmin/Welcome";
 import Admin from "./components/superadmin/admin";
 import ClassList from "./components/mentor/ClassList";
 import Que from "./components/studentque/Que";
+import Queue from "./components/mentor/Queue";
 import page404 from "./components/includes/Page404";
 import Authentication from "./components/login/Keyauth";
 import PermissionLoading from "./components/includes/PermissionLoading";
@@ -36,6 +37,11 @@ export default function App() {
             exact
             path="/classes"
             render={props => <Select {...props} active="classes" />}
+          />
+          <Route
+            exact
+            path="/queue/:ids/:id"
+            render={props => <Queue {...props} active="classlist" />}
           />
           <Route
             exact

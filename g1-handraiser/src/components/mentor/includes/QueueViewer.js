@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
@@ -21,7 +20,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box p={3}>{children}</Box>}
+      {value === index && <Box>{children}</Box>}
     </Typography>
   );
 }
@@ -56,16 +55,15 @@ export default function QueueViewer() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="simple tabs example"
-        >
-          <Tab label="On Queue" {...a11yProps(0)} />
-          <Tab label="Student list" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        aria-label="simple tabs example"
+      >
+        <Tab label="On Queue" {...a11yProps(0)} />
+        <Tab label="Student list" {...a11yProps(1)} />
+      </Tabs>
+
       <TabPanel value={value} index={0}>
         <InQueue />
       </TabPanel>
