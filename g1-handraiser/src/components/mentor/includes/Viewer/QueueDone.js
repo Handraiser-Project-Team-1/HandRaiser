@@ -89,7 +89,9 @@ function StudentList() {
       ];
     } else
       return [
-        <Button onClick={() => handleConfirm("remove", listId)}>Remove</Button>
+        <Button icon="delete" onClick={() => handleConfirm("remove", listId)}>
+          Delete
+        </Button>
       ];
   };
 
