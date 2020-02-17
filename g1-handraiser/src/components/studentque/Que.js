@@ -9,7 +9,6 @@ import {
 } from "@material-ui/core";
 import NeedHelp from "./NeedHelp";
 import BeingHelp from "../includes/BeingHelp";
-import Position from "./Position";
 import Chat from "../chat/Fab";
 import QueueCounter from "../mentor/includes/QueueCounter";
 import Img from "../login/img/undraw_software_engineer_lvl5.svg";
