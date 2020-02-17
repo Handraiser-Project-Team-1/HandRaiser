@@ -205,6 +205,7 @@ const Layout = props => {
   let history = useHistory();
   const { active } = props;
   const [openSubList, setOpenSubList] = React.useState(true);
+  const [stud_class, setClass] = useState([])
   const [user, setUser] = useState({
     fname: "",
     lname: "",
@@ -217,6 +218,13 @@ const Layout = props => {
   };
 
   useEffect(() => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_DB_URL}/api/class/accept`
+    }).then(res => {
+      setClass(res.data)
+    })
+
     if (localStorage.getItem("tokenid")) {
       //identify if mentor or student
       axios({
@@ -238,10 +246,22 @@ const Layout = props => {
       history.push("/");
     }
   }, [history]);
+
   var logout = () => {
     localStorage.clear();
     history.push("/");
   };
+  var acceptedclass = (e) => {
+    stud_class.map(x => {
+      if(x.status === 'accept'){
+        history.push(`/class/${e}`);
+        localStorage.setItem('cid', `${e}`)
+        window.location.reload(true)
+      }
+      return x
+    })
+  }
+
   return (
     <ThemeProvider theme={theme}>
       {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}
@@ -321,19 +341,19 @@ const Layout = props => {
                 </ListItem>
                 <Collapse in={openSubList} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    <ListItem
+                  {stud_class.map(x=>{
+                    return (<ListItem
                       selected={active === "1" ? true : false}
                       button
                       className={classes.nested}
-                      onClick={() => {
-                        history.push("/class/1");
-                      }}
+                      onClick={() => acceptedclass(x.cid)}
                     >
                       <ListItemIcon>
                         <StarBorderOutlinedIcon />
                       </ListItemIcon>
-                      <ListItemText primary="BoomCamp 2019" />
-                    </ListItem>
+                      <ListItemText primary={`${x.cname}`} />
+                    </ListItem>)
+                  })}
                   </List>
                 </Collapse>
                 <List>

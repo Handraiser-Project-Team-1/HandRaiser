@@ -101,7 +101,7 @@ export default function Select(props) {
 
   const verify = data => {
     const find = joinedClass.find(element => element.class_id === data);
-    console.log(find);
+    // console.log(find);
 
     if (find) {
       switch (find.student_status) {
