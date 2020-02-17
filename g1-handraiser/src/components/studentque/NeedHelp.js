@@ -12,7 +12,7 @@ import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import ListSubheader from "@material-ui/core/ListSubheader";
-
+import { Tag } from "antd";
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%"
@@ -35,7 +35,7 @@ export default function NeedHelp() {
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
-            In queue
+            In Queue
           </ListSubheader>
         }
       >
@@ -46,7 +46,11 @@ export default function NeedHelp() {
 
           <ListItemText
             primary="Marcial M. Norte Jr"
-            secondary="Cant merge my dev branch"
+            secondary={[
+              <Tag key="tag" color="blue">
+                Cant merge my dev branch
+              </Tag>
+            ]}
           />
 
           <ListItemSecondaryAction>
@@ -61,13 +65,27 @@ export default function NeedHelp() {
           <ListItemIcon>
             <Avatar>M</Avatar>
           </ListItemIcon>
-          <ListItemText primary="Martha Dansyle Marbella" />
+          <ListItemText
+            primary="Martha Dansyle Marbella"
+            secondary={[
+              <Tag key="tag" color="blue">
+                Cant merge my dev branch
+              </Tag>
+            ]}
+          />
         </ListItem>
         <ListItem>
           <ListItemIcon>
             <Avatar>L</Avatar>
           </ListItemIcon>
-          <ListItemText primary="Lyza Mae Mirabete" />
+          <ListItemText
+            primary="Lyza Mae Mirabete"
+            secondary={[
+              <Tag key="tag" color="blue">
+                Cant merge my dev branch
+              </Tag>
+            ]}
+          />
         </ListItem>
       </List>
     </React.Fragment>

@@ -1,19 +1,13 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  CssBaseline,
-  //   Typography,
-  Button,
-  DialogTitle,
-  Dialog,
-  DialogContent
-} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
+
+import { Modal, Button, Icon, Typography } from "antd";
+
+// import CloseIcon from "@material-ui/icons/Close";
 import axios from "axios";
 import { Grid } from "@material-ui/core";
 import SettingsIcon from "@material-ui/icons/Settings";
 import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
 import { FormHelperText } from "@material-ui/core";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -57,17 +51,19 @@ const useStyles = makeStyles(theme => ({
 
 export default function Settings() {
   const classes = useStyles();
-  const [openK, setOpenK] = useState(false);
   const [cpass, setCPass] = useState("");
   const [pass, setPass] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [passValid, setPassValid] = useState(true);
   const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
 
   const handleCPass = e => {
     setCPass(e.value);
     if (e.value === "") {
       setDisabled(true);
+      setLoading(false);
     } else {
       setDisabled(false);
     }
@@ -85,8 +81,12 @@ export default function Settings() {
       setError(true);
     }
   };
+  const handleCancel = () => {
+    setVisible(false);
+  };
 
   const handleClick = e => {
+    setLoading(true);
     if (cpass && pass !== "") {
       if (cpass === pass) {
         axios({
@@ -95,106 +95,105 @@ export default function Settings() {
           data: { admin_pass: pass }
         }).then(response => {
           setTimeout(() => {
-            setOpenK(false);
+            setVisible(false);
+            setLoading(false);
+
             // setNotif(true);
-          }, 1000);
+          }, 3000);
         });
       } else {
         setPassValid(false);
+        setLoading(false);
         setError(true);
       }
     } else {
       setError(true);
       setPassValid(true);
+
       console.log("no input");
     }
   };
-
-  const closeAdd = () => {
-    setOpenK(false);
+  const showModal = () => {
+    setVisible(true);
   };
 
   return (
     <React.Fragment>
-      <ListItem onClick={() => setOpenK(true)} button>
+      <ListItem onClick={() => showModal()} button>
         <ListItemIcon>
           <SettingsIcon />
         </ListItemIcon>
         <ListItemText primary="Settings" />
       </ListItem>
-      <Dialog
-        aria-labelledby="simple-dialog-title"
-        open={openK}
-        maxWidth="sm"
-        fullWidth
-      >
-        <CssBaseline />
-        <DialogTitle className={classes.dialogTitle} id="simple-dialog-title">
-          <SettingsIcon color="disabled" fontSize="small" />
-          Settings
+      <Modal
+        visible={visible}
+        title={[
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <Icon type="setting" theme="filled" />
+            <Typography>Settings</Typography>
+          </div>
+        ]}
+        onOk={handleClick}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="back" onClick={() => handleCancel()}>
+            Cancel
+          </Button>,
           <Button
-            color="secondary"
-            className={classes.closeIcon}
-            onClick={closeAdd}
+            ghost
+            key="save"
+            type="primary"
+            color="primary"
+            onClick={() => handleClick()}
+            disabled={disabled}
+            loading={loading}
           >
-            <CloseIcon />
+            Save
           </Button>
-        </DialogTitle>
-        <DialogContent dividers>
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="stretch"
-          >
-            <form className={classes.root} noValidate autoComplete="off">
-              <>
-                <Typography>Update Password</Typography>
-
-                <TextField
-                  required={true}
-                  id="password-input"
-                  label="Update password"
-                  type="password"
-                  autoComplete="current-password"
-                  variant="outlined"
-                  onChange={e => handleCPass(e.target)}
-                />
-                <TextField
-                  error={error}
-                  id="outlined-password-input"
-                  label="Confirm password"
-                  type="password"
-                  autoComplete="confirm-password"
-                  variant="outlined"
-                  onChange={e => handlePass(e.target)}
-                />
-                {passValid ? null : (
-                  <FormHelperText
-                    error={true}
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      marginBottom: "8px"
-                    }}
-                  >
-                    Pawsword did not match
-                  </FormHelperText>
-                )}
-
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleClick}
-                  disabled={disabled}
+        ]}
+      >
+        <Grid
+          container
+          direction="column"
+          justify="center"
+          alignItems="stretch"
+        >
+          <form className={classes.root} noValidate autoComplete="off">
+            <>
+              <TextField
+                required={true}
+                id="password-input"
+                label="Update password"
+                type="password"
+                autoComplete="current-password"
+                variant="outlined"
+                onChange={e => handleCPass(e.target)}
+              />
+              <TextField
+                error={error}
+                id="outlined-password-input"
+                label="Confirm password"
+                type="password"
+                autoComplete="confirm-password"
+                variant="outlined"
+                onChange={e => handlePass(e.target)}
+              />
+              {passValid ? null : (
+                <FormHelperText
+                  error={true}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "8px"
+                  }}
                 >
-                  Save
-                </Button>
-              </>
-            </form>
-          </Grid>
-        </DialogContent>
-      </Dialog>
+                  Pawsword did not match
+                </FormHelperText>
+              )}
+            </>
+          </form>
+        </Grid>
+      </Modal>
     </React.Fragment>
   );
 }
