@@ -6,7 +6,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
-// import Typography from "@material-ui/core/Typography";
 import RequestButton from "./includes/RequestButton";
 import Notification from "./includes/Notif";
 import { Tabs } from "antd";
