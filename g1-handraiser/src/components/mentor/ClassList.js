@@ -6,6 +6,11 @@ import MyClass from "./Table";
 import AddClass from "./ClassForm";
 import { Tabs, Modal } from "antd";
 import { makeStyles } from "@material-ui/core/styles";
+
+import NavigateNextIcon from "@material-ui/icons/NavigateNext";
+import Breadcrumbs from "@material-ui/core/Breadcrumbs";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
 const useStyles = makeStyles(theme => ({
   addbtn: {
     display: "flex",
@@ -67,17 +72,35 @@ export default function ClassList(props) {
 
   return (
     <TopBar active={props.active}>
-      <div className={classe.addbtn}>
-        <AddClass
-          fetchClass={fetchClass}
-          setValue={setValue}
-          setClasses={setClasses}
-        />
-      </div>
+      <Grid
+        container
+        direction="row"
+        justify="flex-end"
+        alignItems="flex-start"
+      >
+        <Grid item>
+          <Breadcrumbs
+            separator={<NavigateNextIcon fontSize="small" />}
+            aria-label="breadcrumb"
+            className={classes.paddingBread}
+          >
+            <Link color="inherit" href="#">
+              Handraiser
+            </Link>
+            <Typography color="textPrimary">My Class</Typography>
+          </Breadcrumbs>
+        </Grid>
+      </Grid>
+
+      <AddClass
+        fetchClass={fetchClass}
+        setValue={setValue}
+        setClasses={setClasses}
+      />
       <Grid container spacing={1} className={classe.grid}>
         <Grid item xs={12} md={12}>
           <Tabs defaultActiveKey="1">
-            <TabPane tab="Class List" key="1">
+            <TabPane tab="List of Classes" key="1">
               <MyClass
                 myClass={classes}
                 setClasses={setClasses}

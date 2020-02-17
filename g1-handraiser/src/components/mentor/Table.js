@@ -61,9 +61,7 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
             <TableCell style={{ width: "10%" }} align="right">
               End
             </TableCell>
-            <TableCell style={{ width: "10%" }} align="right">
-              Action
-            </TableCell>
+            <TableCell style={{ width: "10%" }}>Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -85,7 +83,7 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
                 {dateFormat(row.date_created)}
               </TableCell>
               <TableCell align="right">{dateFormat(row.date_end)}</TableCell>
-              <TableCell align="right">
+              <TableCell>
                 <Button
                   variant="outlined"
                   size="small"
