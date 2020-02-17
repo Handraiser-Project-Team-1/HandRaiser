@@ -279,7 +279,13 @@ const Layout = props => {
                   src={`${user.image}`}
                 />
                 <div style={{ paddingBottom: "15px" }} />
-                <Typography variant="h6" noWrap>
+                <Typography
+                  variant="h6"
+                  style={{
+                    marginLeft: "15%"
+                  }}
+                  noWrap
+                >
                   {user.fname} {user.lname}
                 </Typography>
                 <Typography variant="subtitle1" noWrap>

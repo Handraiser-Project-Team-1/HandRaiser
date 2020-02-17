@@ -6,12 +6,14 @@ import { Card, CardContent } from "@material-ui/core";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import Tooltip from "@material-ui/core/Tooltip";
+import { Tag } from "antd";
 
 import { Typography } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
   card: {
     marginTop: 5,
-    fontSize: "15px"
+    fontSize: "15px",
+    color: "gray"
   },
   userBackground: {
     background: "#f3f5f7"
@@ -31,7 +33,7 @@ export default function CardClass(props) {
     <>
       <Card className={classes.card} variant="outlined">
         <CardContent>
-          <Typography variant="h6">Being Help</Typography>
+          <Typography style={{ color: "gray" }}>Being Help</Typography>
         </CardContent>
         <CardHeader
           action={
@@ -45,7 +47,11 @@ export default function CardClass(props) {
             <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg"></Avatar>
           }
           title="Marcial M. Norte Jr"
-          subheader="Cant merge"
+          subheader={[
+            <Tag key="tag" color="blue">
+              Cant merge my dev branch
+            </Tag>
+          ]}
         />
       </Card>
     </>

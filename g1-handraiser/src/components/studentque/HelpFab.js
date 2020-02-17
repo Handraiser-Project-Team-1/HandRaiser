@@ -1,17 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.scss";
-import { Tooltip, IconButton } from "@material-ui/core";
+import { IconButton } from "@material-ui/core";
+import { Popover } from "antd";
+import { Input, Button } from "antd";
+
 function HelpFab() {
+  const [visible, setVisible] = useState(false);
+
+  const handleVisible = () => {
+    setVisible(true);
+  };
+  const handleSaveTag = () => {
+    setVisible(false);
+  };
+  const cancel = () => {
+    setVisible(false);
+  };
   return (
     <>
       <div className="request-loader">
-        <Tooltip title="Ask for help">
+        <Popover
+          key="tag"
+          placement="right"
+          content={[
+            <Input placeholder="Tag" key="tags" />,
+            <Button type="link" key="save" onClick={handleSaveTag}>
+              Save
+            </Button>,
+            <Button type="link" key="cancel" onClick={cancel}>
+              Cancel
+            </Button>
+          ]}
+          title="Tag"
+          trigger="click"
+          visible={visible}
+          onVisibleChange={handleVisible}
+        >
           <IconButton>
             <span role="img" aria-label="Hand">
               👋
             </span>
           </IconButton>
-        </Tooltip>
+        </Popover>
       </div>
     </>
   );
