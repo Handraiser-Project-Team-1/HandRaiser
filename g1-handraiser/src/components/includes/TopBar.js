@@ -220,7 +220,7 @@ const Layout = props => {
   useEffect(() => {
     axios({
       method: "get",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/list`
+      url: `${process.env.REACT_APP_DB_URL}/api/class/accept`
     }).then(res => {
       setClass(res.data)
     })
@@ -251,6 +251,17 @@ const Layout = props => {
     localStorage.clear();
     history.push("/");
   };
+  var acceptedclass = (e) => {
+    stud_class.map(x => {
+      if(x.status === 'accept'){
+        history.push(`/class/${e}`);
+        localStorage.setItem('cid', `${e}`)
+        window.location.reload(true)
+      }
+      return x
+    })
+  }
+
   return (
     <ThemeProvider theme={theme}>
       {/* {console.log(JWT.decode(localStorage.getItem('tokenid')))} */}
@@ -341,9 +352,7 @@ const Layout = props => {
                       selected={active === "1" ? true : false}
                       button
                       className={classes.nested}
-                      onClick={() => {
-                        history.push("/class/1");
-                      }}
+                      onClick={() => acceptedclass(x.cid)}
                     >
                       <ListItemIcon>
                         <StarBorderOutlinedIcon />
