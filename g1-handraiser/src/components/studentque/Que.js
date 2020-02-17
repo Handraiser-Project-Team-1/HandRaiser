@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../includes/TopBar";
 import {
   Grid,
@@ -9,12 +9,13 @@ import {
 } from "@material-ui/core";
 import NeedHelp from "./NeedHelp";
 import BeingHelp from "../includes/BeingHelp";
-import Position from "./Position";
 import Chat from "../chat/Fab";
 import QueueCounter from "../mentor/includes/QueueCounter";
 import Img from "../login/img/undraw_software_engineer_lvl5.svg";
 import Help from "./HelpFab";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from 'axios';
+
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(1),
@@ -61,60 +62,70 @@ const useStyles = makeStyles(theme => ({
 
 export default function Que(props) {
   const classes = useStyles();
+  const [classDesc, setClassDesc] = useState([])
+  
+  useEffect(()=>{
+    axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_DB_URL}/api/class/accept/${localStorage.getItem('cid')}`
+    })
+    .then(res=>{
+      setClassDesc(res.data)
+    })
+  },[])
+
   return (
     <React.Fragment>
-      <Layout {...props}>
-        <Grid container spacing={3}>
-          {" "}
-          <Card className={classes.card}>
-            <CardContent className={classes.content}>
-              <Typography component="h2" variant="h4">
-                BoomCamp 2019
-              </Typography>
-              <Typography variant="subtitle1" color="textSecondary">
-                Handraiser
-              </Typography>
-              <div className={classes.help}>
-                <Help />
-              </div>{" "}
-            </CardContent>
-            <CardMedia
-              className={classes.img}
-              component="img"
-              alt="Contemplative Reptile"
-              height="220"
-              src={Img}
-            />
-          </Card>
-          <Grid item xs={12} sm={3}>
-            <Grid
-              container
-              spacing={1}
-              direction="column"
-              justify="space-between"
-              alignItems="stretch"
-            >
-              {" "}
-              <Grid item>
-                <Position />
-              </Grid>
-              <Grid item>
-                <QueueCounter />
-              </Grid>
-              <Grid item>
-                <BeingHelp />
+      {classDesc.map(x=>{
+        return(
+        <Layout {...props}>
+          <Grid container spacing={3}>
+            {" "}
+            <Card className={classes.card}>
+              <CardContent className={classes.content}>
+                <Typography component="h2" variant="h4">
+                  {x.cname}
+                </Typography>
+                <Typography variant="subtitle1" color="textSecondary">
+                  {x.desc}
+                </Typography>
+                <div className={classes.help}>
+                  <Help />
+                </div>{" "}
+              </CardContent>
+              <CardMedia
+                className={classes.img}
+                component="img"
+                alt="Contemplative Reptile"
+                height="220"
+                src={Img}
+              />
+            </Card>
+            <Grid item xs={12} sm={3}>
+              <Grid
+                container
+                direction="column"
+                justify="flex-start"
+                alignItems="stretch"
+              >
+                <Grid item>
+                  <QueueCounter />
+                </Grid>
+                <Grid item>
+                  <BeingHelp />
+                </Grid>
               </Grid>
             </Grid>
+            <Grid item xs={12} sm={9}>
+              {" "}
+              <Card className={classes.que}>
+                <NeedHelp />
+              </Card>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={9}>
-            {" "}
-            <Card className={classes.que}>
-              <NeedHelp />
-            </Card>
-          </Grid>
-        </Grid>
-        <Chat />
-      </Layout>
+          <Chat />
+        </Layout>
+      )})}
     </React.Fragment>
   );
 }

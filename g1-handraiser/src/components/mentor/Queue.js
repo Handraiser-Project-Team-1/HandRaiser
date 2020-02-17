@@ -1,3 +1,4 @@
+import TopBar from "./TopBar";
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
 import { useParams } from "react-router-dom";
@@ -12,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import DataContext from "./DataContext";
-import TopBar from "./TopBar";
+
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1

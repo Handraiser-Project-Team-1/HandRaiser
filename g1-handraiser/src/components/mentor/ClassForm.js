@@ -116,12 +116,13 @@ export default function ClassList(props) {
   return (
     <React.Fragment>
       <Button
-        type="primary"
-        icon="plus"
-        shape="circle"
-        size="large"
+        color="primary"
+        variant="contained"
+        disableElevation
         onClick={showModal}
-      ></Button>
+      >
+        Add Class
+      </Button>
       <Modal
         visible={visible}
         title="Create Class"
