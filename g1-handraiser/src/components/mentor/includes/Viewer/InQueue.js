@@ -50,16 +50,13 @@ function InQueue() {
         itemLayout="horizontal"
         dataSource={data}
         renderItem={(item, i) => (
-          <List.Item
-            actions={[
-              <Button>Remove</Button>,
-              <Badge count={i + 1}>
-                <Button>Help</Button>
-              </Badge>
-            ]}
-          >
+          <List.Item actions={[<Button>Remove</Button>, <Button>Help</Button>]}>
             <List.Item.Meta
-              avatar={<Avatar src={item.avatar} />}
+              avatar={
+                <Badge count={i + 1}>
+                  <Avatar src={item.avatar} />
+                </Badge>
+              }
               // title={<a href="https://ant.design">{item.title}</a>}
               title={`${item.firstName} ${item.lastName}`}
               description={item.tag}

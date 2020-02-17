@@ -288,13 +288,7 @@ const Layout = props => {
                 >
                   {user.fname} {user.lname}
                 </Typography>
-                <Typography
-                  variant="body2"
-                  style={{
-                    marginLeft: "3%"
-                  }}
-                  noWrap
-                >
+                <Typography variant="body2" noWrap>
                   {user.email}
                 </Typography>
               </Card>
