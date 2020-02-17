@@ -4,7 +4,7 @@ import { Grid, Button } from "@material-ui/core";
 // import CardClass from "../includes/CardClass";
 import Layout from "../includes/TopBar";
 import Notif from "../includes/Notif";
-import { Card, Icon, Avatar } from "antd";
+import { Card, Avatar } from "antd";
 import axios from "axios";
 
 export default function Select(props) {
@@ -101,6 +101,7 @@ export default function Select(props) {
 
   const verify = data => {
     const find = joinedClass.find(element => element.class_id === data);
+    console.log(find);
     return find ? true : false;
   };
 
@@ -132,15 +133,12 @@ export default function Select(props) {
                     </Button>
                   ) : (
                     <React.Fragment>
-                      <Button color="primary" size="small">
-                        Enter
-                      </Button>
                       <Button
                         color="primary"
                         size="small"
                         onClick={() => onJoin(res.c_id)}
                       >
-                        Join
+                        Enroll
                       </Button>
                     </React.Fragment>
                   )}
