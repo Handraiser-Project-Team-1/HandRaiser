@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 function getAllClass(req, res) {
   const db = req.app.get("db");
   db.query(
@@ -9,6 +11,60 @@ function getAllClass(req, res) {
       res.status(500).end();
     });
 }
+
+const getClass = (req, res) => {
+  const db = req.app.get("db");
+  const { tokenData } = req.body;
+  const { id } = req.params;
+  const decodedToken = jwt.decode(JSON.parse(tokenData).token);
+
+  db.query(
+    `
+            SELECT 
+                l.student_id,
+                ud.user_fname,
+                ud.user_lname,
+                ud.user_image,
+                l.class_id,
+                c.class_status,
+                c.class_name,
+                c.class_description,
+                l.student_status,
+                l.list_id
+            FROM 
+                user_details as ud, 
+                user_type as ut, 
+                student as s, 
+                "class" as c,
+                list as l
+            WHERE 
+                    l.student_id = s.student_id 
+                and 
+                    l.class_id = c.class_id
+                and
+                    ud.userd_id = ut.userd_id
+                and
+                    ut.user_id = s.user_id
+                and 
+                    ud.google_id = '${decodedToken.sub}'
+                and
+                    c.class_id = ${id}
+                and
+                    c.class_status = 'on'
+            `
+  )
+    .then(response => {
+      if (!response[0]) {
+        res.status(404).end();
+        return;
+      }
+      res.status(200).send(response[0]);
+    })
+    .catch(error => {
+      console.error(error);
+      res.status(500).end();
+    });
+};
 
 const joinClass = (req, res) => {
   const db = req.app.get("db");
@@ -46,11 +102,47 @@ const joinedClass = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
+const queueList = (req, res) => {
+  const db = req.app.get("db");
+  const { id } = req.params;
+
+  db
+  .query(`
+    SELECT 
+      q.queue_id, 
+      q.class_id, 
+      q.student_id,
+      t.tag_id as tag_id, 
+      t.tag as tag, 
+      CONCAT(ud.user_fname,' ', ud.user_lname) as name, 
+      ud.user_image as image
+    FROM 
+      tag as t, 
+      queue as q, 
+      student as s, 
+      user_type as ut, 
+      user_details as ud 
+    WHERE 
+      ud.userd_id = ut.userd_id AND 
+      ut.user_id = s.user_id AND 
+      s.student_id = q.student_id AND 
+      q.tag_id = t.tag_id AND 
+      q.class_id = ${id}
+  `)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    console.error(error);
+    res.status(500).end();
+  })
+};
+
 const getAcceptClass = (req, res) => {
   const db = req.app.get('db')
 
   db.query(
-    `SELECT list.student_status AS status, class.class_name AS cname, class.class_id AS cid FROM student INNER JOIN list ON student.student_id=list.student_id INNER JOIN class ON class.class_id=list.class_id WHERE list.student_status='accept'`
+    `SELECT DISTINCT list.student_status AS status, class.class_name AS cname, class.class_id AS cid FROM student INNER JOIN list ON student.student_id=list.student_id INNER JOIN class ON class.class_id=list.class_id WHERE list.student_status='accept'`
   )
     .then(post => res.status(201).json(post))
     .catch(err => {
@@ -63,7 +155,7 @@ const getAcceptClassDetails = (req, res) => {
   const db = req.app.get('db')
   const {id} = req.params
   db.query(
-    `select list.student_status as status, class.class_name as cname, class.class_description as desc, class.class_id as cid FROM student inner join list on student.student_id=list.student_id inner join class on class.class_id=list.class_id where list.student_status='accept' and class.class_id = ${id}`
+    `select DISTINCT list.student_status as status, class.class_name as cname, class.class_description as desc, class.class_id as cid FROM student inner join list on student.student_id=list.student_id inner join class on class.class_id=list.class_id where list.student_status='accept' and class.class_id = ${id}`
   )
   .then(u => res.status(201).json(u))
   .catch(err => {
@@ -76,6 +168,8 @@ module.exports = {
   getAllClass,
   joinClass,
   joinedClass,
+  getClass,
+  queueList,
   getAcceptClass,
   getAcceptClassDetails
 };

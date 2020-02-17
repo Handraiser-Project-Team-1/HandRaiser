@@ -14,8 +14,11 @@ import QueueCounter from "../mentor/includes/QueueCounter";
 import Img from "../login/img/undraw_software_engineer_lvl5.svg";
 import Help from "./HelpFab";
 import { makeStyles } from "@material-ui/core/styles";
-import axios from 'axios';
+import axios from "axios";
+import { useHistory } from "react-router-dom";
+import io from "socket.io-client";
 
+const socket = io.connect(process.env.REACT_APP_DB_URL);
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(1),
@@ -61,6 +64,64 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Que(props) {
+  const history = useHistory();
+
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    axios({
+      method: "POST",
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${props.match.params.id}`,
+      data: { tokenData: localStorage.getItem("tokenid") }
+    })
+    .then(response => setData(response.data))
+    .catch(error => {
+      let err = String(error)
+        .match(/\w+$/g)
+        .join();
+      if (err === "404") {
+        history.push("/notFound");
+        return;
+      }
+      console.error(error);
+    });
+  }, [history, props.match.params.id]);
+
+  const [queueList, setQueueList] = useState([]);
+  const [initial, setInitial] = useState(true);
+
+  useEffect(() => {
+    if(initial){
+      setInitial(false);
+      axios({
+        method: "GET",
+        url: `${process.env.REACT_APP_DB_URL}/api/class/${props.match.params.id}/queue`
+      })
+        .then(response => setQueueList(response.data))
+        .catch(error => console.error(error));
+    }
+    socket.emit("joinClass", {class_id: data.class_id});
+    socket.on("updateQueue", queue => {
+      setQueueList(queue);
+    });
+  }, [data,queueList,initial,props.match.params.id,history]);
+
+  const handraiseFn = () => {
+    socket.emit("handraise", { student_id: data.student_id, class_id: data.class_id }, queue => setQueueList(queue));
+  };
+
+  const removeFromQueueFn = (queue_id,student_id,class_id,tag_id) => {
+    socket.emit("leaveQueue", { queue_id,student_id,class_id,tag_id }, queue => setQueueList(queue));
+  }
+
+  const filterSelfFn = id => {
+    let filter = false;
+    for (let queue of queueList) {
+      if (queue.student_id === id) filter = true;
+    }
+    return filter;
+  };
+
   const classes = useStyles();
   const [classDesc, setClassDesc] = useState([])
   
@@ -90,7 +151,7 @@ export default function Que(props) {
                   {x.desc}
                 </Typography>
                 <div className={classes.help}>
-                  <Help />
+                  {filterSelfFn(data.student_id) ? null : <Help handraiseFn={handraiseFn} />}
                 </div>{" "}
               </CardContent>
               <CardMedia
@@ -109,7 +170,7 @@ export default function Que(props) {
                 alignItems="stretch"
               >
                 <Grid item>
-                  <QueueCounter />
+                  <QueueCounter count={queueList.length}/>
                 </Grid>
                 <Grid item>
                   <BeingHelp />
@@ -119,7 +180,7 @@ export default function Que(props) {
             <Grid item xs={12} sm={9}>
               {" "}
               <Card className={classes.que}>
-                <NeedHelp />
+                <NeedHelp queueList={queueList} student_id={data.student_id} removeFromQueueFn={removeFromQueueFn}/>
               </Card>
             </Grid>
           </Grid>

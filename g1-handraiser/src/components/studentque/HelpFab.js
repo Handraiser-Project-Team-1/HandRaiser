@@ -4,7 +4,7 @@ import { IconButton } from "@material-ui/core";
 import { Popover } from "antd";
 import { Input, Button } from "antd";
 
-function HelpFab() {
+function HelpFab({handraiseFn}) {
   const [visible, setVisible] = useState(false);
 
   const handleVisible = () => {
@@ -36,7 +36,7 @@ function HelpFab() {
           visible={visible}
           onVisibleChange={handleVisible}
         >
-          <IconButton>
+          <IconButton onClick={handraiseFn}>
             <span role="img" aria-label="Hand">
               👋
             </span>
