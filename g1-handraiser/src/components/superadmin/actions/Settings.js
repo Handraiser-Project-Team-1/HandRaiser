@@ -129,7 +129,7 @@ export default function Settings() {
         visible={visible}
         title={[
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <Icon type="setting" theme="filled" />
+            <Icon type="setting" />
             <Typography>Settings</Typography>
           </div>
         ]}
