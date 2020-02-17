@@ -71,7 +71,7 @@ function StudentList() {
           setMessage({
             title: "Information!",
             type: "info",
-            msg: `You decline a student with student number ${res.data[0].student_id}`
+            msg: `You decline/remove a student with student number ${res.data[0].student_id}`
           });
           fetchEnrollees(ids);
         })
@@ -87,7 +87,10 @@ function StudentList() {
           Decline
         </Button>
       ];
-    } else return [<Button>Remove</Button>];
+    } else
+      return [
+        <Button onClick={() => handleConfirm("remove", listId)}>Remove</Button>
+      ];
   };
 
   return (
