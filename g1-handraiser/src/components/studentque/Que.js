@@ -14,13 +14,12 @@ import Chat from "../chat/Fab";
 import QueueCounter from "../mentor/includes/QueueCounter";
 import Img from "../login/img/undraw_software_engineer_lvl5.svg";
 import Help from "./HelpFab";
+import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import io from "socket.io-client";
 
 const socket = io.connect(process.env.REACT_APP_DB_URL);
-
-import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(1),
@@ -70,52 +69,42 @@ export default function Que(props) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    studentDetailsFn();
-    // eslint-disable-next-line
-  }, []);
-
-  const studentDetailsFn = () => {
     axios({
       method: "POST",
       url: `${process.env.REACT_APP_DB_URL}/api/class/${props.match.params.id}`,
       data: { tokenData: localStorage.getItem("tokenid") }
     })
-      .then(response => setData(response.data))
-      .catch(error => {
-        let err = String(error)
-          .match(/\w+$/g)
-          .join();
-        if (err === "404") {
-          history.push("/notFound");
-          return;
-        }
-        console.error(error);
-      });
-  };
+    .then(response => setData(response.data))
+    .catch(error => {
+      let err = String(error)
+        .match(/\w+$/g)
+        .join();
+      if (err === "404") {
+        history.push("/notFound");
+        return;
+      }
+      console.error(error);
+    });
+  }, [history, props.match.params.id]);
 
   const [queueList, setQueueList] = useState([]);
   const [initial, setInitial] = useState(true);
 
-  const fetchQueueFn = id => {
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/queue`
-    })
-      .then(response => setQueueList(response.data))
-      .catch(error => console.error(error));
-  };
-
   useEffect(() => {
     if(initial){
       setInitial(false);
-      fetchQueueFn(props.match.params.id);
+      axios({
+        method: "GET",
+        url: `${process.env.REACT_APP_DB_URL}/api/class/${props.match.params.id}/queue`
+      })
+        .then(response => setQueueList(response.data))
+        .catch(error => console.error(error));
     }
     socket.emit("joinClass", {class_id: data.class_id});
     socket.on("updateQueue", queue => {
       setQueueList(queue);
     });
-    // eslint-disable-next-line
-  }, [queueList,initial]);
+  }, [data,queueList,initial,props.match.params.id,history]);
 
   const handraiseFn = () => {
     socket.emit("handraise", { student_id: data.student_id, class_id: data.class_id }, queue => setQueueList(queue));

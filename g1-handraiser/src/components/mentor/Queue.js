@@ -12,6 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import DataContext from "./DataContext";
+import TopBar from "./TopBar";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -65,56 +66,58 @@ export default function Queue(props) {
   // }, [history]);
 
   return (
-    <DataContext.Provider value={{ enrollees, fetchEnrollees }}>
-      <div className={classes.root}>
-        <Grid
-          container
-          direction="row"
-          justify="flex-end"
-          alignItems="flex-start"
-        >
-          <Grid item>
-            <Breadcrumbs
-              separator={<NavigateNextIcon fontSize="small" />}
-              aria-label="breadcrumb"
-              className={classes.paddingBread}
-            >
-              <Link color="inherit" href="#">
-                Handraiser
-              </Link>
-              <Link color="inherit" href="/myclasslist">
-                My Class
-              </Link>
-              <Typography color="textPrimary">
-                {classDetails.class_name}
-              </Typography>
-            </Breadcrumbs>
-          </Grid>
-        </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={3}>
-            <Grid
-              container
-              direction="column"
-              justify="flex-start"
-              alignItems="stretch"
-              spacing={1}
-            >
-              <Grid item>
-                <QueueCounter />
-              </Grid>
-
-              <Grid item>
-                <BeingHelp />
-              </Grid>
+    <TopBar active={props.active}>
+      <DataContext.Provider value={{ enrollees, fetchEnrollees }}>
+        <div className={classes.root}>
+          <Grid
+            container
+            direction="row"
+            justify="flex-end"
+            alignItems="flex-start"
+          >
+            <Grid item>
+              <Breadcrumbs
+                separator={<NavigateNextIcon fontSize="small" />}
+                aria-label="breadcrumb"
+                className={classes.paddingBread}
+              >
+                <Link color="inherit" href="#">
+                  Handraiser
+                </Link>
+                <Link color="inherit" href="/myclasslist">
+                  My Class
+                </Link>
+                <Typography color="textPrimary">
+                  {classDetails.class_name}
+                </Typography>
+              </Breadcrumbs>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={9}>
-            <QueueViewer />
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={3}>
+              <Grid
+                container
+                direction="column"
+                justify="flex-start"
+                alignItems="stretch"
+                spacing={1}
+              >
+                <Grid item>
+                  <QueueCounter />
+                </Grid>
+
+                <Grid item>
+                  <BeingHelp />
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={9}>
+              <QueueViewer />
+            </Grid>
           </Grid>
-        </Grid>
-      </div>
-      <Chat />
-    </DataContext.Provider>
+        </div>
+        <Chat />
+      </DataContext.Provider>
+    </TopBar>
   );
 }

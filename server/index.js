@@ -24,10 +24,10 @@ massive({
   const io = require("socket.io").listen(server);
 
   io.on("connection", socket => {
-    console.log("we have a new connection!");
+    console.log("we have a new connection!", socket.id);
 
     socket.on("disconnect", () => {
-      console.log("student disconnected");
+      console.log("user disconnected");
     });
 
     socket.on("joinClass", ({class_id}) => {
