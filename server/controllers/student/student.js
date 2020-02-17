@@ -45,8 +45,23 @@ const joinedClass = (req, res) => {
     })
     .catch(err => res.status(500).send(err));
 };
+
+const getClass = (req, res) => {
+  const db = req.app.get('db')
+
+  db.query(
+    `SELECT list.student_status AS status, class.class_name AS cname FROM student INNER JOIN list ON student.student_id=list.student_id INNER JOIN class ON class.class_id=list.class_id WHERE list.student_status='accept'`
+  )
+    .then(post => res.status(201).json(post))
+    .catch(err => {
+      console.error(err);
+      res.status(500).end();
+    });
+}
+
 module.exports = {
   getAllClass,
   joinClass,
-  joinedClass
+  joinedClass,
+  getClass
 };

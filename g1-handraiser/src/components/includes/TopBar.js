@@ -205,6 +205,7 @@ const Layout = props => {
   let history = useHistory();
   const { active } = props;
   const [openSubList, setOpenSubList] = React.useState(true);
+  const [stud_class, setClass] = useState([])
   const [user, setUser] = useState({
     fname: "",
     lname: "",
@@ -217,6 +218,13 @@ const Layout = props => {
   };
 
   useEffect(() => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_DB_URL}/api/class/list`
+    }).then(res => {
+      setClass(res.data)
+    })
+
     if (localStorage.getItem("tokenid")) {
       //identify if mentor or student
       axios({
@@ -238,6 +246,7 @@ const Layout = props => {
       history.push("/");
     }
   }, [history]);
+
   var logout = () => {
     localStorage.clear();
     history.push("/");
@@ -327,7 +336,8 @@ const Layout = props => {
                 </ListItem>
                 <Collapse in={openSubList} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    <ListItem
+                  {stud_class.map(x=>{
+                    return (<ListItem
                       selected={active === "1" ? true : false}
                       button
                       className={classes.nested}
@@ -338,8 +348,9 @@ const Layout = props => {
                       <ListItemIcon>
                         <StarBorderOutlinedIcon />
                       </ListItemIcon>
-                      <ListItemText primary="BoomCamp 2019" />
-                    </ListItem>
+                      <ListItemText primary={`${x.cname}`} />
+                    </ListItem>)
+                  })}
                   </List>
                 </Collapse>
                 <List>
