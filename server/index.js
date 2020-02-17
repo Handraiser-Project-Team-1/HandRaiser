@@ -24,13 +24,18 @@ massive({
   const io = require("socket.io").listen(server);
 
   io.on("connection", socket => {
-    console.log("we have a new connection!", socket.id);
+    console.log("we have a new connection!");
 
-    socket.on("handraise", ({ student_id, class_id }, callback) => {
-      //socket.student_id = student_id;
+    socket.on("disconnect", () => {
+      console.log("student disconnected");
+    });
+
+    socket.on("joinClass", ({class_id}) => {
       socket.class_id = class_id;
       socket.join(class_id);
-      
+    })
+
+    socket.on("handraise", ({ student_id, class_id }, callback) => {
       db.tag
       .insert({
         tag: "sample tag"
@@ -42,13 +47,51 @@ massive({
           tag_id: tagResponse.tag_id,
           class_id
         })
-        .then(queueResponse => {
+        .then(() => {
           db
           .query(`
             SELECT 
               q.queue_id, 
               q.class_id, 
               q.student_id, 
+              t.tag_id as tag_id,
+              t.tag as tag, 
+              CONCAT(ud.user_fname,' ', ud.user_lname) as name, 
+              ud.user_image as image 
+            FROM 
+              tag as t, 
+              queue as q, 
+              student as s, 
+              user_type as ut, 
+              user_details as ud 
+            WHERE 
+              ud.userd_id = ut.userd_id AND 
+              ut.user_id = s.user_id AND 
+              s.student_id = q.student_id AND 
+              q.tag_id = t.tag_id AND 
+              q.class_id = ${class_id}`)
+          .then(queryResponse => {
+            socket.to(class_id).broadcast.emit('updateQueue', queryResponse);
+            callback(queryResponse);
+          }).catch( error => console.error(error));
+        }).catch( error => console.error(error));
+      })
+    });
+
+    socket.on("leaveQueue", ({queue_id,student_id,class_id,tag_id}, callback) => {
+      db.queue
+        .destroy({
+          queue_id,
+          student_id
+        }).then(() => {
+          db.tag.destroy({tag_id})
+          db
+          .query(`
+            SELECT 
+              q.queue_id, 
+              q.class_id, 
+              q.student_id,
+              t.tag_id as tag_id, 
               t.tag as tag, 
               CONCAT(ud.user_fname,' ', ud.user_lname) as name, 
               ud.user_image as image 
@@ -68,47 +111,9 @@ massive({
             socket.to(class_id).broadcast.emit('updateQueue', queryResponse);
             callback(queryResponse);
           })
+          .catch( error => console.error(error));
         })
-      })
-
-      socket.on("disconnect", () => {
-        console.log("student disconnected");
-      });
-    });
-
-    socket.on("leaveQueue", ({ queue_id, student_id, class_id }) => {
-      socket.leave(class_id);
-      db.queue
-      .destroy({
-        queue_id,
-        student_id
-      }).then(() => {
-        db
-        .query(`
-          SELECT 
-            q.queue_id, 
-            q.class_id, 
-            q.student_id, 
-            t.tag as tag, 
-            CONCAT(ud.user_fname,' ', ud.user_lname) as name, 
-            ud.user_image as image 
-          FROM 
-            tag as t, 
-            queue as q, 
-            student as s, 
-            user_type as ut, 
-            user_details as ud 
-          WHERE 
-            ud.userd_id = ut.userd_id AND 
-            ut.user_id = s.user_id AND 
-            s.student_id = q.student_id AND 
-            q.tag_id = t.tag_id AND 
-            q.class_id = ${class_id}`)
-        .then(queryResponse => socket.to(class_id).broadcast.emit('updateQueue', ...queryResponse)) //broadcast to queue list
         .catch( error => console.error(error));
-      })
-      .catch( error => console.error(error));
-      console.log(socket.id, " left the queue");
     });
 
     socket.on("join", function({ name, sessionId }) {

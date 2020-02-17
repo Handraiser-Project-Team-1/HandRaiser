@@ -111,10 +111,11 @@ const queueList = (req, res) => {
     SELECT 
       q.queue_id, 
       q.class_id, 
-      q.student_id, 
+      q.student_id,
+      t.tag_id as tag_id, 
       t.tag as tag, 
       CONCAT(ud.user_fname,' ', ud.user_lname) as name, 
-      ud.user_image as image 
+      ud.user_image as image
     FROM 
       tag as t, 
       queue as q, 

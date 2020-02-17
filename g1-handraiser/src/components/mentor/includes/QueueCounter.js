@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
     background: "#f3f5f7"
   }
 }));
-export default function QueueCounter() {
+export default function QueueCounter({count}) {
   const classes = useStyles();
   return (
     <Card>
@@ -20,7 +20,7 @@ export default function QueueCounter() {
         <CardActionArea className={classes.userBackground}>
           <CardContent>
             <Typography variant="h2" component="h2">
-              16
+              {count}
             </Typography>
           </CardContent>
         </CardActionArea>
