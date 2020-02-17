@@ -220,6 +220,8 @@ massive({
   app.post("/api/class/:id", student.getClass);
   app.post("/api/join/class", student.joinClass);
   app.get("/api/joined/class/:user_id", student.joinedClass);
+  app.get("/api/class/accept", student.getAcceptClass)
+  app.get("/api/class/accept/:id", student.getAcceptClassDetails)
 
   app.get("/api/class/:id/queue", student.queueList);
   app.get("/api/class/title/:id", mentor.findClass);

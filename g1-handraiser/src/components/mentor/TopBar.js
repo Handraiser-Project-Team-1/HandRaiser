@@ -14,6 +14,9 @@ import ImportContactsIcon from "@material-ui/icons/ImportContacts";
 import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Divider } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
+import { Card, Icon } from "antd";
+import { green } from "@material-ui/core/colors";
+
 import {
   Root,
   Header,
@@ -24,7 +27,7 @@ import {
 } from "@mui-treasury/layout";
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-// import FormatListNumberedIcon from "@material-ui/icons/FormatListNumbered";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import axios from "axios";
 
 const config = {
@@ -153,7 +156,7 @@ const useStyles = makeStyles(theme => ({
     paddingLeft: theme.spacing(4)
   },
   icon: {
-    padding: theme.spacing(2),
+    background: "#fafafa",
     transition: "all 0.3s ease 0s",
     [theme.breakpoints.between("sm", "md")]: {
       padding: theme.spacing(1)
@@ -259,20 +262,36 @@ const Layout = props => {
               </Toolbar>
             </Header>
             <Sidebar>
-              <div className={classes.icon}>
+              <Card
+                className={classes.icon}
+                actions={[
+                  <FiberManualRecordIcon
+                    style={{ color: green[500] }} //ACTIVE ICON
+                    fontSize="small"
+                  />,
+                  <Icon type="setting" key="setting" />,
+                  <Icon type="edit" key="edit" />
+                ]}
+              >
                 <Avatar
                   className={classes.large}
                   alt={`${user.fname} ${user.lname}`}
                   src={`${user.image}`}
                 />
                 <div style={{ paddingBottom: "15px" }} />
-                <Typography variant="h6" noWrap>
+                <Typography
+                  variant="h6"
+                  style={{
+                    marginLeft: "15%"
+                  }}
+                  noWrap
+                >
                   {user.fname} {user.lname}
                 </Typography>
                 <Typography variant="subtitle1" noWrap>
                   {user.email}
                 </Typography>
-              </div>
+              </Card>
               <Divider />
               <div
                 className={sidebarStyles.container}

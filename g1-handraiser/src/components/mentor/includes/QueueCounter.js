@@ -5,8 +5,8 @@ export default function QueueCounter({count}) {
     <Card>
       <Statistic
         title="On Queue"
+        color="#f50"
         value={count}
-        valueStyle={{ color: "#3f8600" }}
         prefix={<Icon type="user" />}
       />
     </Card>

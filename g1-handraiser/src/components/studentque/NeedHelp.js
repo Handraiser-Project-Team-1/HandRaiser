@@ -12,7 +12,7 @@ import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import ListSubheader from "@material-ui/core/ListSubheader";
-
+import { Tag } from "antd";
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%"
@@ -35,7 +35,7 @@ export default function NeedHelp({ queueList,student_id,removeFromQueueFn }) {
         aria-labelledby="nested-list-subheader"
         subheader={
           <ListSubheader component="div" id="nested-list-subheader">
-            In queue
+            In Queue
           </ListSubheader>
         }
       >
@@ -46,12 +46,14 @@ export default function NeedHelp({ queueList,student_id,removeFromQueueFn }) {
               <ListItemIcon>
                 <Avatar style={{background: '#70ae54'}}>{data.name.split('')[0].toUpperCase()}</Avatar>
               </ListItemIcon>
-
               <ListItemText
                 primary={data.name}
-                secondary={data.tag}
+                secondary={[
+                  <Tag key="tag" color="blue">
+                    {data.tag}
+                  </Tag>
+                ]}
               />
-
               <ListItemSecondaryAction>
                 <Tooltip title="Remove myself from Queue">
                   <IconButton onClick={() => removeFromQueueFn(data.queue_id,data.student_id,data.class_id,data.tag_id)}>
@@ -61,11 +63,18 @@ export default function NeedHelp({ queueList,student_id,removeFromQueueFn }) {
               </ListItemSecondaryAction>
             </ListItem> 
             :
-            <ListItem key={index}>
+            <ListItem>
               <ListItemIcon>
-                <Avatar style={{background: '#6cb1fd'}}>{data.name.split('')[0].toUpperCase()}</Avatar>
+                <Avatar>{data.name.split('')[0].toUpperCase()}</Avatar>
               </ListItemIcon>
-              <ListItemText primary={data.name} />
+              <ListItemText
+                primary={data.name}
+                secondary={[
+                  <Tag key="tag" color="blue">
+                    {data.tag}
+                  </Tag>
+                ]}
+              />
             </ListItem>
           );
         })}        
