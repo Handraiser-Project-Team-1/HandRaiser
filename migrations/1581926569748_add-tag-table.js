@@ -9,7 +9,7 @@ exports.up = (pgm) => {
       primaryKey: true
     },
     tag: {
-      type: "tag",
+      type: "text",
       notNull: true,
     }
   });

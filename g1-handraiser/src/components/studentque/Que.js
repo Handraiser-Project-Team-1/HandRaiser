@@ -137,9 +137,9 @@ export default function Que(props) {
 
   return (
     <React.Fragment>
-      {classDesc.map(x=>{
+      {classDesc.map((x, i) =>{
         return(
-        <Layout {...props}>
+        <Layout {...props} key={i}>
           <Grid container spacing={3}>
             {" "}
             <Card className={classes.card}>
