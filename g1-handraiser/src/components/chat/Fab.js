@@ -19,7 +19,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Chat() {
   const [open, setOpen] = React.useState(false);
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -31,7 +30,7 @@ export default function Chat() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <DialogBox handleClose={handleClose} open={open} />
+      <DialogBox handleClose={handleClose} open={open}/>
       <Fab
         aria-label="add"
         className={classes.fab}
