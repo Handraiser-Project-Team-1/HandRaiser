@@ -115,7 +115,12 @@ export default function ClassList(props) {
 
   return (
     <React.Fragment>
-      <Button color="primary" variant="contained" onClick={showModal}>
+      <Button
+        icon="plus"
+        type="primary"
+        variant="contained"
+        onClick={showModal}
+      >
         Add Class
       </Button>
       <Modal

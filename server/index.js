@@ -116,37 +116,37 @@ massive({
         .catch( error => console.error(error));
     });
 
-    socket.on("join", function({ name, sessionId }) {
+    socket.on("join", function({ name, sessionId, uid }) {
       if (sessionId == null) {
-        var session_id = "101";
-        const { user } = addUser({ id: socket.id, name, room: session_id });
+        var session_id = "1";
+        const { user } = addUser({ id: socket.id, name, room: session_id, uid });
         socket.join(user.room, function(res) {
           socket.emit("message", {
-            user: "admin",
-            text: `${user.name}, welcome to the room`
+            fname: "admin",
+            message: `${user.name}, welcome to the room`
           });
           console.log("joined successfully ");
-          socket.emit("set-session-acknowledgement", { sessionId: session_id });
+          socket.emit("set-session-acknowledgement", { sessionId: user.room });
         });
       } else {
         socket.room = sessionId;
-        const { user } = addUser({ id: socket.id, name, room: socket.room });
+        const { user } = addUser({ id: socket.id, name, room: socket.room, uid });
         socket.join(user.room, function(res) {
-          socket.emit("message", {
-            user: "admin",
-            text: `${name}, welcome to the room`
-          });
+          db.query(`SELECT user_details.user_image as image, user_details.user_fname as fname, user_details.userd_id as id, sender.message as message FROM user_details inner join sender on user_details.userd_id=sender.userd_id inner join convo on sender.s_id=convo.s_id WHERE convo.class_id=${user.room}`).then(msg => {         
+              socket.emit("set-old-messages",{msg, sessionId: sessionId});
+          })
           console.log("joined successfully ");
-          socket.emit("set-session-acknowledgement", { sessionId: sessionId });
         });
       }
     });
 
-    socket.on("sendMessage", (message, callback) => {
+    socket.on("sendMessage", ({message, image}, callback) => {
       const user = getUser(socket.id);
-
-      io.to(user.room).emit("message", { user: user.name, text: message });
-
+      db.sender.insert({userd_id: user.uid, message: message}).then(sender => {
+        db.convo.insert({class_id: user.room, s_id: sender.s_id}).then(convo => {
+          io.to(convo.class_id).emit("message", { fname: user.name, message: sender.message, image });
+        })
+      })
       callback();
     });
 
@@ -213,6 +213,7 @@ massive({
 
   app.post("/api/create/class/:id", mentor.addClass);
   app.get("/api/mentor/class/:id", mentor.getClass);
+  app.get("/api/class", mentor.getAllClass)
   app.delete("/api/delete/class/:id", mentor.removeClass);
   app.patch("/api/update/class/status/:id", mentor.updateStatus);
 

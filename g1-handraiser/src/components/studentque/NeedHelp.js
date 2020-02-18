@@ -13,6 +13,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import { Tag } from "antd";
+import { Empty } from "antd";
+
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%"
@@ -25,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function NeedHelp({ queueList,student_id,removeFromQueueFn }) {
+export default function NeedHelp({ queueList, student_id, removeFromQueueFn }) {
   const classes = useStyles();
   return (
     <React.Fragment>
@@ -40,11 +42,12 @@ export default function NeedHelp({ queueList,student_id,removeFromQueueFn }) {
         }
       >
         {queueList.map((data, index) => {
-          return(
-            (data.student_id === student_id) ?
+          return data.student_id === student_id ? (
             <ListItem key={index} className={classes.sub}>
               <ListItemIcon>
-                <Avatar style={{background: '#70ae54'}}>{data.name.split('')[0].toUpperCase()}</Avatar>
+                <Avatar style={{ background: "#70ae54" }}>
+                  {data.name.split("")[0].toUpperCase()}
+                </Avatar>
               </ListItemIcon>
               <ListItemText
                 primary={data.name}
@@ -56,16 +59,25 @@ export default function NeedHelp({ queueList,student_id,removeFromQueueFn }) {
               />
               <ListItemSecondaryAction>
                 <Tooltip title="Remove myself from Queue">
-                  <IconButton onClick={() => removeFromQueueFn(data.queue_id,data.student_id,data.class_id,data.tag_id)}>
-                    <DeleteIcon/>
+                  <IconButton
+                    onClick={() =>
+                      removeFromQueueFn(
+                        data.queue_id,
+                        data.student_id,
+                        data.class_id,
+                        data.tag_id
+                      )
+                    }
+                  >
+                    <DeleteIcon />
                   </IconButton>
                 </Tooltip>{" "}
               </ListItemSecondaryAction>
-            </ListItem> 
-            :
-            <ListItem>
+            </ListItem>
+          ) : (
+            <ListItem key={index}>
               <ListItemIcon>
-                <Avatar>{data.name.split('')[0].toUpperCase()}</Avatar>
+                <Avatar>{data.name.split("")[0].toUpperCase()}</Avatar>
               </ListItemIcon>
               <ListItemText
                 primary={data.name}
@@ -77,7 +89,12 @@ export default function NeedHelp({ queueList,student_id,removeFromQueueFn }) {
               />
             </ListItem>
           );
-        })}        
+        })}
+        {queueList.length === 0 ? (
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+        ) : (
+          false
+        )}
       </List>
     </React.Fragment>
   );
