@@ -77,7 +77,13 @@ export default function DialogBox({ handleClose, open }) {
     socket.on("set-session-acknowledgement", function (data) {
       sessionStorage.setItem('sessionId', data.sessionId);
     })
-    socket.on("set-old-messages", msg => {
+  })
+
+  useEffect(() => {
+    
+    socket.on("set-old-messages", msgs => {
+      const {sessionId, msg} = msgs;
+      sessionStorage.setItem('sessionId', sessionId);
       setMessages(msg)
     })
   },[])

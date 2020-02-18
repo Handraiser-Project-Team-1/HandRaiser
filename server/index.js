@@ -126,21 +126,16 @@ massive({
             message: `${user.name}, welcome to the room`
           });
           console.log("joined successfully ");
-          socket.emit("set-session-acknowledgement", { sessionId: session_id });
+          socket.emit("set-session-acknowledgement", { sessionId: user.room });
         });
       } else {
         socket.room = sessionId;
         const { user } = addUser({ id: socket.id, name, room: socket.room, uid });
         socket.join(user.room, function(res) {
-          // socket.emit("message", {
-          //   user: "admin",
-          //   text: `${name}, welcome to the room`
-          // });
           db.query(`SELECT user_details.user_image as image, user_details.user_fname as fname, user_details.userd_id as id, sender.message as message FROM user_details inner join sender on user_details.userd_id=sender.userd_id inner join convo on sender.s_id=convo.s_id WHERE convo.class_id=${user.room}`).then(msg => {         
-              socket.emit("set-old-messages",msg);
+              socket.emit("set-old-messages",{msg, sessionId: sessionId});
           })
           console.log("joined successfully ");
-          socket.emit("set-session-acknowledgement", { sessionId: sessionId });
         });
       }
     });
