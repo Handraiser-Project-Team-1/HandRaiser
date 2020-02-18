@@ -20,6 +20,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Divider } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 
+import {
+  Switch,
+  Route,
+  Link,
+  useParams,
+  useRouteMatch
+} from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { Card, Icon } from "antd";
 
@@ -35,6 +42,9 @@ import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import axios from "axios";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import ClassList from "../selectclass/Select";
+import Que from "../studentque/Que";
+
 const config = {
   autoCollapseDisabled: false,
   collapsedBreakpoint: "sm",
@@ -203,15 +213,18 @@ const theme = createMuiTheme({
 const Layout = props => {
   const classes = useStyles();
   let history = useHistory();
+  let match = useRouteMatch();
+  const { cId } = useParams();
   const { active } = props;
   const [openSubList, setOpenSubList] = React.useState(true);
-  const [stud_class, setClass] = useState([])
+  const [stud_class, setClass] = useState([]);
   const [user, setUser] = useState({
     fname: "",
     lname: "",
     image: "",
     email: ""
   });
+  const [selected, setSelected] = useState(null);
 
   const handleCollapse = () => {
     setOpenSubList(!openSubList);
@@ -222,8 +235,8 @@ const Layout = props => {
       method: "get",
       url: `${process.env.REACT_APP_DB_URL}/api/class/accept`
     }).then(res => {
-      setClass(res.data)
-    })
+      setClass(res.data);
+    });
 
     if (localStorage.getItem("tokenid")) {
       //identify if mentor or student
@@ -251,16 +264,20 @@ const Layout = props => {
     localStorage.clear();
     history.push("/");
   };
-  var acceptedclass = (e) => {
+  var acceptedclass = e => {
     stud_class.map(x => {
-      if(x.status === 'accept'){
+      if (x.status === "accept") {
         history.push(`/class/${e}`);
-        localStorage.setItem('cid', `${e}`)
-        window.location.reload(true)
+        localStorage.setItem("cid", `${e}`);
+        window.location.reload(true);
       }
-      return x
-    })
-  }
+      return x;
+    });
+  };
+
+  useEffect(() => {
+    if (match.isExact) setSelected(null);
+  }, [match]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -320,10 +337,11 @@ const Layout = props => {
               >
                 <List>
                   <ListItem
-                    selected={active === "classes" ? true : false}
+                    selected={match.isExact}
                     button
                     onClick={() => {
                       history.push("/classes");
+                      setSelected(null);
                     }}
                   >
                     <ListItemIcon>
@@ -341,20 +359,25 @@ const Layout = props => {
                 </ListItem>
                 <Collapse in={openSubList} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                  {stud_class.map((x, i)=>{
-                    return (<ListItem
-                      selected={active === "1" ? true : false}
-                      button
-                      className={classes.nested}
-                      onClick={() => acceptedclass(x.cid)}
-                      key={i}
-                    >
-                      <ListItemIcon>
-                        <StarBorderOutlinedIcon />
-                      </ListItemIcon>
-                      <ListItemText primary={`${x.cname}`} />
-                    </ListItem>)
-                  })}
+                    {stud_class.map((x, i) => {
+                      return (
+                        <ListItem
+                          button
+                          selected={parseInt(selected) === x.cid ? true : false}
+                          className={classes.nested}
+                          onClick={() => {
+                            history.push(`${match.path}/${x.cid}`);
+                            setSelected(x.cid);
+                          }}
+                          key={i}
+                        >
+                          <ListItemIcon>
+                            <StarBorderOutlinedIcon />
+                          </ListItemIcon>
+                          <ListItemText primary={`${x.cname}`} />
+                        </ListItem>
+                      );
+                    })}
                   </List>
                 </Collapse>
                 <List>
@@ -370,7 +393,21 @@ const Layout = props => {
                 {collapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
               </CollapseBtn>
             </Sidebar>
-            <Content className={classes.content}>{props.children}</Content>
+            <Content className={classes.content}>
+              <Switch>
+                <Route
+                  exact
+                  path={`${match.path}`}
+                  render={props => (
+                    <ClassList {...props} setSelected={setSelected} />
+                  )}
+                />
+                <Route
+                  path={`${match.path}/:id`}
+                  render={props => <Que {...props} setSelected={setSelected} />}
+                />
+              </Switch>
+            </Content>
           </>
         )}
       </Root>

@@ -12,6 +12,8 @@ import Queue from "./components/mentor/Queue";
 import Page404 from "./components/includes/Page404";
 import Authentication from "./components/login/Keyauth";
 import PermissionLoading from "./components/includes/PermissionLoading";
+import Student from "./components/selectclass/Select";
+import TopBarStud from "./components/includes/TopBar";
 require("dotenv").config();
 
 export const JWTContext = createContext({});
@@ -29,14 +31,14 @@ export default function App() {
           <Route
             exact
             path="/authentication"
+            select
             render={props => (
               <Authentication {...props} active="authentication" />
             )}
           />
           <Route
-            exact
             path="/classes"
-            render={props => <Select {...props} active="classes" />}
+            render={props => <TopBarStud {...props} active="classes" />}
           />
           <Route
             exact

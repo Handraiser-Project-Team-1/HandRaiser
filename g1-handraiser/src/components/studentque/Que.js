@@ -15,7 +15,7 @@ import Img from "../login/img/undraw_software_engineer_lvl5.svg";
 import Help from "./HelpFab";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams, useRouteMatch } from "react-router-dom";
 import io from "socket.io-client";
 
 const socket = io.connect(process.env.REACT_APP_DB_URL);
@@ -66,11 +66,13 @@ export default function Que(props) {
   const history = useHistory();
 
   const [data, setData] = useState([]);
+  const { id } = useParams();
+  const match = useRouteMatch();
 
   useEffect(() => {
     axios({
       method: "POST",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/${props.match.params.id}`,
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${id}`,
       data: { tokenData: localStorage.getItem("tokenid") }
     })
       .then(response => setData(response.data))
@@ -84,7 +86,7 @@ export default function Que(props) {
         }
         console.error(error);
       });
-  }, [history, props.match.params.id]);
+  }, [history, id]);
 
   const [queueList, setQueueList] = useState([]);
   const [initial, setInitial] = useState(true);
@@ -94,7 +96,7 @@ export default function Que(props) {
       setInitial(false);
       axios({
         method: "GET",
-        url: `${process.env.REACT_APP_DB_URL}/api/class/${props.match.params.id}/queue`
+        url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/queue`
       })
         .then(response => setQueueList(response.data))
         .catch(error => console.error(error));
@@ -103,7 +105,7 @@ export default function Que(props) {
     socket.on("updateQueue", queue => {
       setQueueList(queue);
     });
-  }, [data, queueList, initial, props.match.params.id, history]);
+  }, [data, queueList, initial, id, history]);
 
   const [tagVal, setTagVal] = useState("");
 
@@ -141,70 +143,66 @@ export default function Que(props) {
   useEffect(() => {
     axios({
       method: "get",
-      url: `${
-        process.env.REACT_APP_DB_URL
-      }/api/class/accept/${localStorage.getItem("cid")}`
+      url: `${process.env.REACT_APP_DB_URL}/api/class/accept/${id}`
     }).then(res => {
       setClassDesc(res.data);
     });
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    props.setSelected(match.params.id);
+  }, [props, match.params.id]);
 
   return (
     <React.Fragment>
-      {classDesc.map((x, i) => {
-        return (
-          <Layout {...props} key={i}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <Card className={classes.card} elevation={0} square={true}>
-                  <CardContent className={classes.content}>
-                    <Typography component="h2" variant="h4">
-                      {x.cname}
-                    </Typography>
-                    <Typography variant="subtitle1" color="textSecondary">
-                      {x.desc}
-                    </Typography>
-                    <div className={classes.help}>
-                      {filterSelfFn(data.student_id) ? null : (
-                        <Help
-                          handraiseFn={handraiseFn}
-                          tagVal={tagVal}
-                          setTagValFn={setTagValFn}
-                        />
-                      )}
-                    </div>{" "}
-                  </CardContent>
-                  <CardMedia
-                    className={classes.img}
-                    component="img"
-                    alt="Contemplative Reptile"
-                    height="220"
-                    src={Img}
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Card className={classes.card} elevation={0} square={true}>
+            <CardContent className={classes.content}>
+              <Typography component="h2" variant="h4">
+                {classDesc[0] ? classDesc[0].cname : false}
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary">
+                {classDesc[0] ? classDesc[0].desc : false}
+              </Typography>
+              <div className={classes.help}>
+                {filterSelfFn(data.student_id) ? null : (
+                  <Help
+                    handraiseFn={handraiseFn}
+                    tagVal={tagVal}
+                    setTagValFn={setTagValFn}
                   />
-                </Card>
-              </Grid>
+                )}
+              </div>{" "}
+            </CardContent>
+            <CardMedia
+              className={classes.img}
+              component="img"
+              alt="Contemplative Reptile"
+              height="220"
+              src={Img}
+            />
+          </Card>
+        </Grid>
 
-              <Grid item container spacing={1}>
-                <Grid item xs={3}>
-                  <QueueCounter count={queueList.length} />
+        <Grid item container spacing={1}>
+          <Grid item xs={3}>
+            <QueueCounter count={queueList.length} />
 
-                  <BeingHelp />
-                </Grid>
-                <Grid xs={9} item>
-                  <Card className={classes.que} variant="outlined">
-                    <NeedHelp
-                      queueList={queueList}
-                      student_id={data.student_id}
-                      removeFromQueueFn={removeFromQueueFn}
-                    />
-                  </Card>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Chat />
-          </Layout>
-        );
-      })}
+            <BeingHelp />
+          </Grid>
+          <Grid xs={9} item>
+            <Card className={classes.que} variant="outlined">
+              <NeedHelp
+                queueList={queueList}
+                student_id={data.student_id}
+                removeFromQueueFn={removeFromQueueFn}
+              />
+            </Card>
+          </Grid>
+        </Grid>
+      </Grid>
+      <Chat />
     </React.Fragment>
   );
 }
