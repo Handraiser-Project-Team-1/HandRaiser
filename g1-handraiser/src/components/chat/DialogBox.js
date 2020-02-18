@@ -17,7 +17,7 @@ export default function DialogBox({ handleClose, open }) {
   const [state, setState] = useState(1);
   const [uname, setName] = useState('')
   const [image, setImage] = useState('')
-  const [room] = useState('')
+  // const [room] = useState('')
   const [messages, setMessages] = useState([])
   const [message, setmessage] = useState('')
   const [feedback, setFeedbAck] = useState('')
@@ -56,6 +56,7 @@ export default function DialogBox({ handleClose, open }) {
       res.data.map(x => {
         dataName.push(x.user_fname)
         dataImage.push(x.user_image)
+        return x
       });
    
       const named = dataName.join()

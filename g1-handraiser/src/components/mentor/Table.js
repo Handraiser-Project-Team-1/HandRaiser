@@ -46,6 +46,7 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
       })
     })
   },[date, myClass])
+  
   const handleSwitch = (i, cId) => event => {
     const newVal = event.target.checked ? "on" : "off";
     Axios.patch(
