@@ -13,9 +13,10 @@ import Switch from "@material-ui/core/Switch";
 import update from "immutability-helper";
 import { Divider } from "antd";
 import { Empty } from "antd";
-import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
+
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   table: {
@@ -25,7 +26,6 @@ const useStyles = makeStyles({
 
 export default function SimpleTable({ myClass, handleDelete, setClasses }) {
   const classes = useStyles();
-  let history = useHistory();
 
   const handleSwitch = (i, cId) => event => {
     const newVal = event.target.checked ? "on" : "off";
@@ -84,15 +84,11 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
               </TableCell>
               <TableCell align="right">{dateFormat(row.date_end)}</TableCell>
               <TableCell>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  onClick={() =>
-                    history.push(`/queue/${row.class_id}/${row.slug}`)
-                  }
-                >
-                  View
-                </Button>
+                <Link to={`myclasslist/${row.class_id}/${row.slug}`}>
+                  <Button variant="outlined" size="small">
+                    View
+                  </Button>
+                </Link>
                 <Divider type="vertical" />
                 <IconButton
                   aria-label="delete"

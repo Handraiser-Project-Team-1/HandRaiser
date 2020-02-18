@@ -9,7 +9,7 @@ import Admin from "./components/superadmin/admin";
 import ClassList from "./components/mentor/ClassList";
 import Que from "./components/studentque/Que";
 import Queue from "./components/mentor/Queue";
-import page404 from "./components/includes/Page404";
+import Page404 from "./components/includes/Page404";
 import Authentication from "./components/login/Keyauth";
 import PermissionLoading from "./components/includes/PermissionLoading";
 require("dotenv").config();
@@ -56,11 +56,10 @@ export default function App() {
           <Route exact path="/administrator" component={Welcome} />
           <Route exact path="/admin" component={Admin} />
           <Route
-            exact
             path="/myclasslist"
             render={props => <ClassList {...props} active="classlist" />}
           />
-          <Route component={page404} />
+          <Route component={Page404} />
         </Switch>
       </JWTContext.Provider>
     </BrowserRouter>

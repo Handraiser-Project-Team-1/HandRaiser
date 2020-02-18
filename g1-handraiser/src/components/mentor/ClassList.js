@@ -4,19 +4,15 @@ import TopBar from "./TopBar";
 import { Grid } from "@material-ui/core";
 import MyClass from "./Table";
 import AddClass from "./ClassForm";
+import page404 from "../includes/Page404";
+import Que from "./Queue";
 import { Tabs, Modal } from "antd";
-import { makeStyles } from "@material-ui/core/styles";
+import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
 
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
-const useStyles = makeStyles(theme => ({
-  addbtn: {
-    display: "flex",
-    justifyContent: "flex-end"
-  }
-}));
+
 // function TabPanel(props) {
 //   const { children, value, index, ...other } = props;
 
@@ -34,8 +30,8 @@ const useStyles = makeStyles(theme => ({
 //   );
 // }
 export default function ClassList(props) {
+  let match = useRouteMatch();
   const { TabPane } = Tabs;
-  const classe = useStyles();
   const [setValue] = useState(0);
   const [classes, setClasses] = useState([]);
   const { confirm } = Modal;
@@ -72,45 +68,47 @@ export default function ClassList(props) {
 
   return (
     <TopBar active={props.active}>
-      <Grid
-        container
-        direction="row"
-        justify="flex-end"
-        alignItems="flex-start"
-      >
-        <Grid item>
-          <Breadcrumbs
-            separator={<NavigateNextIcon fontSize="small" />}
-            aria-label="breadcrumb"
-            className={classes.paddingBread}
+      <Switch>
+        <Route path={`${match.path}/:ids/:id`} component={Que} />
+        <Route exact path={match.path}>
+          <Grid
+            container
+            direction="row"
+            justify="flex-end"
+            alignItems="flex-start"
           >
-            <Link color="inherit" href="#">
-              Handraiser
-            </Link>
-            <Typography color="textPrimary">My Class</Typography>
-          </Breadcrumbs>
-        </Grid>
-      </Grid>
+            <Grid item>
+              <Breadcrumbs
+                separator={<NavigateNextIcon fontSize="small" />}
+                aria-label="breadcrumb"
+                className={classes.paddingBread}
+              >
+                <Link color="inherit" to="/myclasslist">
+                  Handraiser
+                </Link>
+                <Typography color="textPrimary">My Class</Typography>
+              </Breadcrumbs>
+            </Grid>
+          </Grid>
+          <AddClass
+            fetchClass={fetchClass}
+            setValue={setValue}
+            setClasses={setClasses}
+          />
+          <Grid container spacing={1}>
+            <Grid item xs={12} md={12}>
+              <Tabs defaultActiveKey="1">
+                <TabPane tab="List of Classes" key="1">
+                  <MyClass
+                    myClass={classes}
+                    setClasses={setClasses}
+                    handleDelete={handleDelete}
+                  />
+                </TabPane>
+              </Tabs>
+            </Grid>
 
-      <AddClass
-        fetchClass={fetchClass}
-        setValue={setValue}
-        setClasses={setClasses}
-      />
-      <Grid container spacing={1} className={classe.grid}>
-        <Grid item xs={12} md={12}>
-          <Tabs defaultActiveKey="1">
-            <TabPane tab="List of Classes" key="1">
-              <MyClass
-                myClass={classes}
-                setClasses={setClasses}
-                handleDelete={handleDelete}
-              />
-            </TabPane>
-          </Tabs>
-        </Grid>
-
-        {/* <Grid item xs={12} md={1}>
+            {/* <Grid item xs={12} md={1}>
           <VerticalTabs value={value} setValue={setValue} />
         </Grid>
         <Grid item xs={12} md={11}>
@@ -128,7 +126,10 @@ export default function ClassList(props) {
             </Grid>
           </TabPanel>
         </Grid> */}
-      </Grid>
+          </Grid>
+        </Route>
+        <Route component={page404} />
+      </Switch>
     </TopBar>
   );
 }
