@@ -51,6 +51,13 @@ const getClass = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
+const getAllClass = (req, res) => {
+  const db = req.app.get('db');
+
+  db.query("SELECT * FROM class")
+  .then(u => res.status(200).send(u))
+  .catch(err=> res.status(500).send(err))
+}
 const removeClass = (req, res) => {
   const db = req.app.get("db");
   const { id } = req.params;
@@ -120,6 +127,7 @@ const declineEnrollees = (req, res) => {
 module.exports = {
   addClass,
   getClass,
+  getAllClass,
   removeClass,
   updateStatus,
   findClass,
