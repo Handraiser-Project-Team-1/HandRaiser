@@ -8,7 +8,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import { Button } from "@material-ui/core";
+// import { Button } from "@material-ui/core";
 import Switch from "@material-ui/core/Switch";
 import update from "immutability-helper";
 import { Divider } from "antd";
@@ -16,6 +16,7 @@ import { Empty } from "antd";
 import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
+import { Icon, Button } from "antd";
 
 const useStyles = makeStyles({
   table: {
@@ -50,18 +51,27 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
   return (
     <TableContainer component={Paper} elevation={0} variant="outlined">
       <Table className={classes.table} aria-label="simple table">
-        <TableHead>
+        <TableHead style={{ backgroundColor: "#fafafa" }}>
           <TableRow>
-            <TableCell style={{ width: "5%" }}>Status</TableCell>
-            <TableCell>Class</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell style={{ width: "10%" }} align="right">
-              Start
+            <TableCell style={{ width: "6%", color: "gray" }}>
+              <Icon type="tag" /> Status
             </TableCell>
-            <TableCell style={{ width: "10%" }} align="right">
-              End
+            <TableCell style={{ color: "gray" }}>
+              <Icon type="project" /> Class
             </TableCell>
-            <TableCell style={{ width: "10%" }}>Action</TableCell>
+            <TableCell style={{ color: "gray" }}>
+              <Icon type="info-circle" /> Description
+            </TableCell>
+            <TableCell style={{ width: "10%", color: "gray" }} align="right">
+              <Icon type="calendar" /> Start
+            </TableCell>
+            <TableCell style={{ width: "10%", color: "gray" }} align="right">
+              <Icon type="calendar" /> End
+            </TableCell>
+            <TableCell style={{ width: "12%", color: "gray" }}>
+              {" "}
+              <Icon type="interaction" /> Action
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -85,12 +95,14 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
               <TableCell align="right">{dateFormat(row.date_end)}</TableCell>
               <TableCell>
                 <Button
+                  type="primary"
+                  ghost
                   variant="outlined"
-                  size="small"
                   onClick={() =>
                     history.push(`/queue/${row.class_id}/${row.slug}`)
                   }
                 >
+                  <Icon type="eye" />
                   View
                 </Button>
                 <Divider type="vertical" />

@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom";
 // import Avatar from "@material-ui/core/Avatar";
 // import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 // import IconButton from "@material-ui/core/IconButton";
-import { List, Avatar, Button } from "antd";
+import { List, Avatar, Button, Icon } from "antd";
 import CustomizedSnackbars from "../../../includes/Notif";
 import DataContext from "../../DataContext";
 
@@ -82,14 +82,29 @@ function StudentList() {
   const checkStatus = (data, listId) => {
     if (data === "pending") {
       return [
-        <Button onClick={() => handleConfirm("accept", listId)}>Accept</Button>,
-        <Button onClick={() => handleConfirm("decline", listId)}>
-          Decline
+        <Button
+          onClick={() => handleConfirm("accept", listId)}
+          type="primary"
+          ghost
+        >
+          <Icon type="check-circle" /> Accept
+        </Button>,
+        <Button
+          onClick={() => handleConfirm("decline", listId)}
+          type="primary"
+          ghost
+        >
+          <Icon type="close-circle" /> Decline
         </Button>
       ];
     } else
       return [
-        <Button icon="delete" onClick={() => handleConfirm("remove", listId)}>
+        <Button
+          icon="delete"
+          onClick={() => handleConfirm("remove", listId)}
+          type="primary"
+          ghost
+        >
           Delete
         </Button>
       ];
