@@ -26,6 +26,7 @@ const useStyles = makeStyles({
 export default function SimpleTable({ myClass, handleDelete, setClasses }) {
   const classes = useStyles();
   let history = useHistory();
+  let date = new Date()
 
   const handleSwitch = (i, cId) => event => {
     const newVal = event.target.checked ? "on" : "off";
@@ -34,6 +35,9 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
       { class_status: newVal }
     )
       .then(res => {
+        let datecreated = new Date(res.data.date_end)
+        console.log(datecreated.toString().getUTCDate(), date.getUTCDate())
+        // if (datecreated.toString() === date){ console.log('1')}else{console.log(`2`)}
         const arr = update(myClass, {
           [i]: { class_status: { $set: newVal } }
         });
