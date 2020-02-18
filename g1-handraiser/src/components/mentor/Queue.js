@@ -45,26 +45,6 @@ export default function Queue(props) {
       .catch(err => console.error(err));
   };
 
-  // useEffect(() => {
-  //   if (localStorage.getItem("tokenid")) {
-  //     Axios({
-  //       method: "get",
-  //       url: `${process.env.REACT_APP_DB_URL}/api/type/${localStorage.getItem(
-  //         "uid"
-  //       )}`
-  //     }).then(res => {
-  //       res.data.map(x => {
-  //         if (x.user_type === "mentor") {
-  //           history.push("/queue");
-  //         } else if (x.user_type === "student") {
-  //           history.push("/classes");
-  //         }
-  //         return x;
-  //       });
-  //     });
-  //   }
-  // }, [history]);
-
   return (
     <TopBar active={props.active}>
       <DataContext.Provider value={{ enrollees, fetchEnrollees }}>

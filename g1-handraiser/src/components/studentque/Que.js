@@ -106,8 +106,14 @@ export default function Que(props) {
     });
   }, [data,queueList,initial,props.match.params.id,history]);
 
+  const [tagVal, setTagVal] = useState('');
+
+  const setTagValFn = (val) => {
+    setTagVal(val);
+  }
+
   const handraiseFn = () => {
-    socket.emit("handraise", { student_id: data.student_id, class_id: data.class_id }, queue => setQueueList(queue));
+    socket.emit("handraise", { student_id: data.student_id, class_id: data.class_id, tag: tagVal }, queue => setQueueList(queue));
   };
 
   const removeFromQueueFn = (queue_id,student_id,class_id,tag_id) => {
@@ -151,7 +157,7 @@ export default function Que(props) {
                   {x.desc}
                 </Typography>
                 <div className={classes.help}>
-                  {filterSelfFn(data.student_id) ? null : <Help handraiseFn={handraiseFn} />}
+                  {filterSelfFn(data.student_id) ? null : <Help handraiseFn={handraiseFn} tagVal={tagVal} setTagValFn={setTagValFn} />}
                 </div>{" "}
               </CardContent>
               <CardMedia
