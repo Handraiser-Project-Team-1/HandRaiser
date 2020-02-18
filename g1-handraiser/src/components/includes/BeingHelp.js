@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function CardClass(props) {
+export default function CardClass({beingHelp}) {
   const classes = useStyles();
   return (
     <>
@@ -38,18 +38,18 @@ export default function CardClass(props) {
         <CardHeader
           action={
             <Tooltip title="Click if Resolved!">
-              <IconButton aria-label="settings" style={{ color: "green" }}>
+              <IconButton onClick={() => resolvedFn(beingHelp.class_id,beingHelp.queue_id,beingHelp.helping_id,beingHelp.mentor_id)} aria-label="settings" style={{ color: "green" }}>
                 <DoneIcon />
               </IconButton>
             </Tooltip>
           }
           avatar={
-            <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg"></Avatar>
+            <Avatar src={beingHelp.image}></Avatar>
           }
-          title="Marcial M. Norte Jr"
+          title={beingHelp.name}
           subheader={[
             <Tag key="tag" color="blue">
-              Cant merge my dev branch
+              {beingHelp.tag}
             </Tag>
           ]}
         />

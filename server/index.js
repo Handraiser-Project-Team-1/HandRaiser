@@ -11,6 +11,7 @@ const { addUser, removeUser, getUser } = require("./users");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const email = require("./controllers/email/email");
+const handraise = require("./controllers/handraise/handraise");
 // console.log(process.env)
 massive({
   host: process.env.DB_HOST,
@@ -48,32 +49,10 @@ massive({
           class_id
         })
         .then(() => {
-          db
-          .query(`
-            SELECT 
-              q.queue_id, 
-              q.class_id, 
-              q.student_id, 
-              t.tag_id as tag_id,
-              t.tag as tag, 
-              CONCAT(ud.user_fname,' ', ud.user_lname) as name, 
-              ud.user_image as image 
-            FROM 
-              tag as t, 
-              queue as q, 
-              student as s, 
-              user_type as ut, 
-              user_details as ud 
-            WHERE 
-              ud.userd_id = ut.userd_id AND 
-              ut.user_id = s.user_id AND 
-              s.student_id = q.student_id AND 
-              q.tag_id = t.tag_id AND 
-              q.class_id = ${class_id}`)
-          .then(queryResponse => {
-            socket.to(class_id).broadcast.emit('updateQueue', queryResponse);
-            callback(queryResponse);
-          }).catch( error => console.error(error));
+          handraise.updatedQueueList(class_id,db, data => {
+            socket.to(class_id).broadcast.emit('updateQueue', data);
+            callback(data);
+          })
         }).catch( error => console.error(error));
       })
     });
@@ -85,36 +64,30 @@ massive({
           student_id
         }).then(() => {
           db.tag.destroy({tag_id})
-          db
-          .query(`
-            SELECT 
-              q.queue_id, 
-              q.class_id, 
-              q.student_id,
-              t.tag_id as tag_id, 
-              t.tag as tag, 
-              CONCAT(ud.user_fname,' ', ud.user_lname) as name, 
-              ud.user_image as image 
-            FROM 
-              tag as t, 
-              queue as q, 
-              student as s, 
-              user_type as ut, 
-              user_details as ud 
-            WHERE 
-              ud.userd_id = ut.userd_id AND 
-              ut.user_id = s.user_id AND 
-              s.student_id = q.student_id AND 
-              q.tag_id = t.tag_id AND 
-              q.class_id = ${class_id}`)
-          .then(queryResponse => {
-            socket.to(class_id).broadcast.emit('updateQueue', queryResponse);
-            callback(queryResponse);
+          handraise.updatedQueueList(class_id,db, data => {
+            socket.to(class_id).broadcast.emit('updateQueue', data);
+            callback(data);
           })
-          .catch( error => console.error(error));
         })
         .catch( error => console.error(error));
     });
+
+    socket.on("help", ({queue_id, student_id, class_id, mentor_id}, callback,helpingCb) => {
+      db.helping.insert({ student_id, mentor_id })
+      .then(helping => {
+        db.queue.update({ queue_id }, { helping_id: helping.helping_id })
+        .then(() => {
+          handraise.updatedQueueList(class_id,db, data => {
+            socket.to(class_id).broadcast.emit('updateQueue', data);
+            callback(data);
+          })
+          handraise.updatedHelpList(class_id,db, data => {
+            socket.to(class_id).broadcast.emit('updateHelp', data);
+            helpingCb(data);
+          })
+        }).catch( error => console.error(error));
+      }).catch( error => console.error(error));
+    })
 
     socket.on("join", function({ name, sessionId }) {
       if (sessionId == null) {
@@ -224,6 +197,7 @@ massive({
   app.get("/api/class/accept/:id", student.getAcceptClassDetails)
 
   app.get("/api/class/:id/queue", student.queueList);
+  app.get("/api/class/:id/help", student.helpList);
   app.get("/api/class/title/:id", mentor.findClass);
   app.get("/api/get/enrollees/:id", mentor.getEnrolles);
   app.patch(

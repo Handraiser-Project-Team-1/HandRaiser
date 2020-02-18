@@ -48,23 +48,41 @@ export default function Queue(props) {
       .catch(err => console.error(err));
   };
 
+  const [initial, setInitial] = useState(true);
   const [queueList, setQueueList] = useState([]);
+  const [ beingHelp, setBeingHelp ] = useState([]);  
 
   useEffect(() => {
-    Axios({
-      method: 'get',
-      url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/queue`
-    })
-    .then(response => setQueueList(response.data))
-    .catch(error => console.error(error));
+    if(initial){
+      setInitial(false);
+      Axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/queue`
+      })
+      .then(response => setQueueList(response.data))
+      .catch(error => console.error(error));
+      Axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/help`
+      })
+      .then(response => setBeingHelp(response.data[0]))
+      .catch(error => console.error(error));
+    }    
     socket.emit("joinClass", {class_id: ids});
-    socket.on("updateQueue", queue => {
-      setQueueList(queue);
-    });
-  },[ids])
+    socket.on("updateQueue", queue => setQueueList(queue));
+    socket.on("updateHelp", help => setBeingHelp(help));
+  },[ids,queueList,initial])
 
   const removeFromQueueFn = (queue_id,student_id,class_id,tag_id) => {
     socket.emit("leaveQueue", { queue_id,student_id,class_id,tag_id }, queue => setQueueList(queue));
+  }
+
+  const helpStudentFn = (queue_id,student_id,class_id) => {
+    socket.emit("help", {queue_id,student_id,class_id,mentor_id: classDetails.mentor_id}, (queue, helping) => {
+      setQueueList(queue);
+      setBeingHelp(helping)
+      console.log(helping);
+    })
   }
 
   // useEffect(() => {
@@ -129,12 +147,12 @@ export default function Queue(props) {
                 </Grid>
 
                 <Grid item>
-                  <BeingHelp />
+                  <BeingHelp beingHelp={beingHelp}/>
                 </Grid>
               </Grid>
             </Grid>
             <Grid item xs={12} sm={9}>
-              <QueueViewer queueList={queueList} removeFromQueueFn={removeFromQueueFn}/>
+              <QueueViewer queueList={queueList} removeFromQueueFn={removeFromQueueFn} helpStudentFn={helpStudentFn}/>
             </Grid>
           </Grid>
         </div>

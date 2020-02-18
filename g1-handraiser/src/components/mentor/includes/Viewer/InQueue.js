@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function InQueue({queueList,removeFromQueueFn}) {
+function InQueue({queueList,removeFromQueueFn,helpStudentFn}) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -32,7 +32,7 @@ function InQueue({queueList,removeFromQueueFn}) {
         itemLayout="horizontal"
         dataSource={queueList}
         renderItem={(item, i) => (
-          <List.Item actions={[<Button onClick={() => removeFromQueueFn(item.queue_id,item.student_id,item.class_id,item.tag_id)}>Remove</Button>, <Button id={console.log(item)}>Help</Button>]}>
+          <List.Item actions={[<Button onClick={() => removeFromQueueFn(item.queue_id,item.student_id,item.class_id,item.tag_id)}>Remove</Button>, <Button onClick={() => helpStudentFn(item.queue_id,item.student_id,item.class_id)}>Help</Button>]}>
             <List.Item.Meta
               avatar={
                 <Badge count={i + 1}>
