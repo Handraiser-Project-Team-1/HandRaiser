@@ -15,7 +15,7 @@ const DialogContainer = ({ feedback, open, state, messages, name }) => {
   useEffect(scrollToBottom, [open, state]);
   return (
     <ThemeProvider theme={muiBaseTheme}>
-      {messages.map((message, i) => <div key={i}><Messages message={message} name={name}/></div>)}
+      {messages.map((message, i) => <div key={i}><Messages message={message} image={message.image} name={name}/></div>)}
       <div ref={messagesEndRef} />
       {feedback !== '' ? <div><em>{feedback}</em></div> : null}
     </ThemeProvider>
