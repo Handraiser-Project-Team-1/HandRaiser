@@ -17,7 +17,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import io from "socket.io-client";
-import Position from "./Position";
 
 const socket = io.connect(process.env.REACT_APP_DB_URL);
 const useStyles = makeStyles(theme => ({
@@ -153,46 +152,44 @@ export default function Que(props) {
 
   return (
     <React.Fragment>
-      {classDesc.map(x => {
+      {classDesc.map((x, i) => {
         return (
-          <Layout {...props} key="lay">
-            <Grid container spacing={3} alignItems="stretch">
+          <Layout {...props} key={i}>
+            <Grid container spacing={3}>
               {" "}
-              <Grid item xs={12} sm={12} md={12} lg={12}>
-                <Card className={classes.card}>
-                  <CardContent className={classes.content}>
-                    <Typography component="h2" variant="h4">
-                      {x.cname}
-                    </Typography>
-                    <Typography variant="subtitle1" color="textSecondary">
-                      {x.desc}
-                    </Typography>
-                    <div className={classes.help}>
-                      {filterSelfFn(data.student_id) ? null : (
-                        <Help handraiseFn={handraiseFn} />
-                      )}
-                    </div>{" "}
-                  </CardContent>
-                  <CardMedia
-                    className={classes.img}
-                    component="img"
-                    alt="Contemplative Reptile"
-                    height="220"
-                    src={Img}
-                  />
-                </Card>
-              </Grid>
-              <Grid item xs={12} sm={12} md={12} lg={3}>
+              <Card className={classes.card}>
+                <CardContent className={classes.content}>
+                  <Typography component="h2" variant="h4">
+                    {x.cname}
+                  </Typography>
+                  <Typography variant="subtitle1" color="textSecondary">
+                    {x.desc}
+                  </Typography>
+                  <div className={classes.help}>
+                    {filterSelfFn(data.student_id) ? null : (
+                      <Help
+                        handraiseFn={handraiseFn}
+                        tagVal={tagVal}
+                        setTagValFn={setTagValFn}
+                      />
+                    )}
+                  </div>{" "}
+                </CardContent>
+                <CardMedia
+                  className={classes.img}
+                  component="img"
+                  alt="Contemplative Reptile"
+                  height="220"
+                  src={Img}
+                />
+              </Card>
+              <Grid item xs={12} sm={3}>
                 <Grid
                   container
                   direction="column"
                   justify="flex-start"
                   alignItems="stretch"
-                  spacing={1}
                 >
-                  <Grid item>
-                    <Position />
-                  </Grid>
                   <Grid item>
                     <QueueCounter count={queueList.length} />
                   </Grid>
@@ -201,7 +198,7 @@ export default function Que(props) {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12} sm={12} md={12} lg={9}>
+              <Grid item xs={12} sm={9}>
                 {" "}
                 <Card className={classes.que}>
                   <NeedHelp

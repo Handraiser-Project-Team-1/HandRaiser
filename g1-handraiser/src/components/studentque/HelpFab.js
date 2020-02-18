@@ -30,14 +30,11 @@ function HelpFab({ handraiseFn, setTagValFn, tagVal }) {
     <>
       <div className="request-loader">
         <Popover
-          trigger="click"
           key="tag"
           placement="right"
           content={[
             <Input
-              placeholder={
-                error ? "Please enter something" : "Enter your concern"
-              }
+              placeholder={error ? "Please enter something" : "Tag"}
               key="tags"
               onChange={handleChange}
             />,
@@ -49,6 +46,7 @@ function HelpFab({ handraiseFn, setTagValFn, tagVal }) {
             </Button>
           ]}
           title="Tag"
+          trigger="click"
           visible={visible}
           onVisibleChange={handleVisible}
         >

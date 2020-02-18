@@ -136,7 +136,12 @@ export default function Settings() {
         onOk={handleClick}
         onCancel={handleCancel}
         footer={[
-          <Button key="back" onClick={() => handleCancel()}>
+          <Button
+            key="back"
+            type="primary"
+            ghost
+            onClick={() => handleCancel()}
+          >
             Cancel
           </Button>,
           <Button
