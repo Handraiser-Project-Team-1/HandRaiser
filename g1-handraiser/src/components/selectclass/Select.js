@@ -99,6 +99,13 @@ export default function Select(props) {
       });
   };
 
+  const onEnter = (e) => {
+    history.push(`/class/${e}`)
+    localStorage.setItem('cid', `${e}`)
+    window.location.reload(true)
+    // console.log(e)
+  }
+
   const verify = data => {
     const find = joinedClass.find(element => element.class_id === data);
     // console.log(find);
@@ -113,7 +120,7 @@ export default function Select(props) {
           );
         case "accept":
           return (
-            <Button color="primary" size="small">
+            <Button color="primary" size="small" onClick={() => onEnter(data)}>
               Enter
             </Button>
           );
