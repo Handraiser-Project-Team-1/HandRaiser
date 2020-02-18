@@ -62,7 +62,7 @@ function InQueue() {
           >
             <List.Item.Meta
               avatar={
-                <Badge count={i + 1}>
+                <Badge count={i + 1} style={{ backgroundColor: "#42b0ff" }}>
                   <Avatar src={item.avatar} />
                 </Badge>
               }

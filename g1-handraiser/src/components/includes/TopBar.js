@@ -344,6 +344,7 @@ const Layout = props => {
                     {stud_class.map(x => {
                       return (
                         <ListItem
+                          key="list"
                           selected={active === "1" ? true : false}
                           button
                           className={classes.nested}
