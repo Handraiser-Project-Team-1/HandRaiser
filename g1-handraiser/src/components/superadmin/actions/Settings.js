@@ -129,14 +129,19 @@ export default function Settings() {
         visible={visible}
         title={[
           <div style={{ display: "flex", flexDirection: "row" }}>
-            <Icon type="setting" theme="filled" />
+            <Icon type="setting" />
             <Typography>Settings</Typography>
           </div>
         ]}
         onOk={handleClick}
         onCancel={handleCancel}
         footer={[
-          <Button key="back" onClick={() => handleCancel()}>
+          <Button
+            key="back"
+            type="primary"
+            ghost
+            onClick={() => handleCancel()}
+          >
             Cancel
           </Button>,
           <Button
