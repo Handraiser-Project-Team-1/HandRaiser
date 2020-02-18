@@ -1,24 +1,25 @@
 import React from 'react'
 import ChatMessages from "./components/Component";
-const AVATAR =
-    "https://i.pinimg.com/originals/0a/dd/87/0add874e1ea0676c4365b2dd7ddd32e3.jpg";
 
-function Messages({ message: { user, text }, name }) {
+
+function Messages({ message: { fname, message }, name, image }) {
+    const AVATAR =
+    `${image}`;
     let isSentByCurrentUSer = false;
+     const trimmedfname = fname.trim().toLowerCase();
+     const trimmedName = name.trim().toLowerCase();
 
-    const trimmedName = name.trim().toLowerCase();
-
-    if (user === trimmedName) {
-        isSentByCurrentUSer = true;
+    if (trimmedfname === trimmedName) {
+        isSentByCurrentUSer = true; 
     }
     return (
         isSentByCurrentUSer ? (
             <ChatMessages
                 side={"right"}
-                messages={[`${text}`]}
+                messages={[`${message}`]}
             />
         ) : (
-                <ChatMessages avatar={AVATAR} messages={[`${text}`]} />
+                <ChatMessages avatar={AVATAR} messages={[`${message}`]} />
             )
     )
 }

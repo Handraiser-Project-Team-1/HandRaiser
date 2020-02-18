@@ -75,7 +75,7 @@ export default function NeedHelp({ queueList, student_id, removeFromQueueFn }) {
               </ListItemSecondaryAction>
             </ListItem>
           ) : (
-            <ListItem>
+            <ListItem key={index}>
               <ListItemIcon>
                 <Avatar>{data.name.split("")[0].toUpperCase()}</Avatar>
               </ListItemIcon>
