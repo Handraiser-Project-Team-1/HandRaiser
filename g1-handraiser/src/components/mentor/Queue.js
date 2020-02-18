@@ -70,8 +70,8 @@ export default function Queue(props) {
             </Breadcrumbs>
           </Grid>
         </Grid>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={3}>
+        <Grid container spacing={1}>
+          <Grid item xs={12} sm={12} md={5} lg={3}>
             <Grid
               container
               direction="column"
@@ -88,7 +88,7 @@ export default function Queue(props) {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={9}>
+          <Grid item xs={12} sm={12} md={7} lg={9}>
             <QueueViewer />
           </Grid>
         </Grid>
