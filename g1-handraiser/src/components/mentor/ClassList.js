@@ -52,7 +52,7 @@ export default function ClassList(props) {
 
   const handleDelete = id => {
     confirm({
-      title: "Are you sure delete this task?",
+      title: "Are you sure delete this class?",
       content: "Some descriptions",
       okText: "Yes",
       okType: "danger",
@@ -100,7 +100,7 @@ export default function ClassList(props) {
       <Grid container spacing={1} className={classe.grid}>
         <Grid item xs={12} md={12}>
           <Tabs defaultActiveKey="1">
-            <TabPane key="1">
+            <TabPane key="1" tab="Class List">
               <MyClass
                 myClass={classes}
                 setClasses={setClasses}

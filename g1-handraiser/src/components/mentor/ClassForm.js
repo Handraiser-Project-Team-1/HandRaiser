@@ -99,6 +99,7 @@ export default function ClassList(props) {
         .then(res => {
           setTimeout(() => {
             setVisible(false);
+            setLoading(false);
           }, 1000);
           setDescription("");
           setName("");
@@ -120,7 +121,7 @@ export default function ClassList(props) {
         type="primary"
         variant="contained"
         ghost
-        disableElevation
+        // disableElevation
         onClick={showModal}
       >
         Add Class

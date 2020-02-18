@@ -183,7 +183,7 @@ export default function Que(props) {
                   src={Img}
                 />
               </Card>
-              <Grid item xs={12} sm={3}>
+              <Grid item xs={12} sm={12} md={12} lg={3}>
                 <Grid
                   container
                   direction="column"
@@ -198,7 +198,7 @@ export default function Que(props) {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12} sm={9}>
+              <Grid item xs={12} sm={12} md={12} lg={9}>
                 {" "}
                 <Card className={classes.que}>
                   <NeedHelp

@@ -49,84 +49,86 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
   };
 
   return (
-    <TableContainer component={Paper} elevation={0} variant="outlined">
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead style={{ backgroundColor: "#fafafa" }}>
-          <TableRow>
-            <TableCell style={{ width: "6%", color: "gray" }}>
-              <Icon type="tag" /> Status
-            </TableCell>
-            <TableCell style={{ color: "gray" }}>
-              <Icon type="project" /> Class
-            </TableCell>
-            <TableCell style={{ color: "gray" }}>
-              <Icon type="info-circle" /> Description
-            </TableCell>
-            <TableCell style={{ width: "10%", color: "gray" }} align="right">
-              <Icon type="calendar" /> Start
-            </TableCell>
-            <TableCell style={{ width: "10%", color: "gray" }} align="right">
-              <Icon type="calendar" /> End
-            </TableCell>
-            <TableCell style={{ width: "12%", color: "gray" }}>
-              {" "}
-              <Icon type="interaction" /> Action
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {myClass.map((row, i) => (
-            <TableRow key={i}>
-              <TableCell component="th" scope="row">
-                <Switch
-                  checked={row.class_status === "on" ? true : false}
-                  value={row.i}
-                  color="primary"
-                  onChange={handleSwitch(i, row.class_id)}
-                />
-              </TableCell>
-              <TableCell component="th" scope="row">
-                {row.class_name}
-              </TableCell>
-              <TableCell>{row.class_description}</TableCell>
-              <TableCell align="right">
-                {dateFormat(row.date_created)}
-              </TableCell>
-              <TableCell align="right">{dateFormat(row.date_end)}</TableCell>
-              <TableCell>
-                <Button
-                  type="primary"
-                  ghost
-                  variant="outlined"
-                  onClick={() =>
-                    history.push(`/queue/${row.class_id}/${row.slug}`)
-                  }
-                >
-                  <Icon type="eye" />
-                  View
-                </Button>
-                <Divider type="vertical" />
-                <IconButton
-                  aria-label="delete"
-                  style={{ color: "red" }}
-                  onClick={() => handleDelete(row.class_id)}
-                >
-                  <ClearOutlinedIcon fontSize="inherit" />
-                </IconButton>
-              </TableCell>
-            </TableRow>
-          ))}
-          {myClass.length === 0 ? (
+    <>
+      <TableContainer component={Paper} elevation={0} variant="outlined">
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead style={{ backgroundColor: "#fafafa" }}>
             <TableRow>
-              <TableCell align="center" colSpan={5}>
-                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />{" "}
+              <TableCell style={{ width: "6%", color: "gray" }}>
+                <Icon type="tag" /> Status
+              </TableCell>
+              <TableCell style={{ color: "gray" }}>
+                <Icon type="project" /> Class
+              </TableCell>
+              <TableCell style={{ color: "gray" }}>
+                <Icon type="info-circle" /> Description
+              </TableCell>
+              <TableCell style={{ width: "10%", color: "gray" }} align="right">
+                <Icon type="calendar" /> Start
+              </TableCell>
+              <TableCell style={{ width: "10%", color: "gray" }} align="right">
+                <Icon type="calendar" /> End
+              </TableCell>
+              <TableCell style={{ width: "12%", color: "gray" }}>
+                {" "}
+                <Icon type="interaction" /> Action
               </TableCell>
             </TableRow>
-          ) : (
-            false
-          )}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {myClass.map((row, i) => (
+              <TableRow key={i}>
+                <TableCell component="th" scope="row">
+                  <Switch
+                    checked={row.class_status === "on" ? true : false}
+                    value={row.i}
+                    color="primary"
+                    onChange={handleSwitch(i, row.class_id)}
+                  />
+                </TableCell>
+                <TableCell component="th" scope="row">
+                  {row.class_name}
+                </TableCell>
+                <TableCell>{row.class_description}</TableCell>
+                <TableCell align="right">
+                  {dateFormat(row.date_created)}
+                </TableCell>
+                <TableCell align="right">{dateFormat(row.date_end)}</TableCell>
+                <TableCell>
+                  <Button
+                    type="primary"
+                    ghost
+                    variant="outlined"
+                    onClick={() =>
+                      history.push(`/queue/${row.class_id}/${row.slug}`)
+                    }
+                  >
+                    <Icon type="eye" />
+                    View
+                  </Button>
+                  <Divider type="vertical" />
+                  <IconButton
+                    aria-label="delete"
+                    style={{ color: "red" }}
+                    onClick={() => handleDelete(row.class_id)}
+                  >
+                    <ClearOutlinedIcon fontSize="inherit" />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))}
+            {myClass.length === 0 ? (
+              <TableRow>
+                <TableCell align="center" colSpan={5}>
+                  <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />{" "}
+                </TableCell>
+              </TableRow>
+            ) : (
+              false
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </>
   );
 }
