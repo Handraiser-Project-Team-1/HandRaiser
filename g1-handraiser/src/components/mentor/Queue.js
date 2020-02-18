@@ -13,6 +13,9 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import DataContext from "./DataContext";
+import io from "socket.io-client";
+
+const socket = io.connect(process.env.REACT_APP_DB_URL);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,6 +47,25 @@ export default function Queue(props) {
       .then(res => setEnrollees(res.data))
       .catch(err => console.error(err));
   };
+
+  const [queueList, setQueueList] = useState([]);
+
+  useEffect(() => {
+    Axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/queue`
+    })
+    .then(response => setQueueList(response.data))
+    .catch(error => console.error(error));
+    socket.emit("joinClass", {class_id: ids});
+    socket.on("updateQueue", queue => {
+      setQueueList(queue);
+    });
+  },[ids])
+
+  const removeFromQueueFn = (queue_id,student_id,class_id,tag_id) => {
+    socket.emit("leaveQueue", { queue_id,student_id,class_id,tag_id }, queue => setQueueList(queue));
+  }
 
   // useEffect(() => {
   //   if (localStorage.getItem("tokenid")) {
@@ -103,7 +125,7 @@ export default function Queue(props) {
                 spacing={1}
               >
                 <Grid item>
-                  <QueueCounter />
+                  <QueueCounter count={queueList.length}/>
                 </Grid>
 
                 <Grid item>
@@ -112,7 +134,7 @@ export default function Queue(props) {
               </Grid>
             </Grid>
             <Grid item xs={12} sm={9}>
-              <QueueViewer />
+              <QueueViewer queueList={queueList} removeFromQueueFn={removeFromQueueFn}/>
             </Grid>
           </Grid>
         </div>
