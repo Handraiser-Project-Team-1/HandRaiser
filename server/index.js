@@ -35,10 +35,10 @@ massive({
       socket.join(class_id);
     })
 
-    socket.on("handraise", ({ student_id, class_id }, callback) => {
+    socket.on("handraise", ({ student_id, class_id, tag }, callback) => {
       db.tag
       .insert({
-        tag: "sample tag"
+        tag
       })
       .then(tagResponse => {
         db.queue

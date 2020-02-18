@@ -341,14 +341,14 @@ const Layout = props => {
                 </ListItem>
                 <Collapse in={openSubList} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    {stud_class.map(x => {
+                    {stud_class.map((x, i) => {
                       return (
                         <ListItem
-                          key="list"
                           selected={active === "1" ? true : false}
                           button
                           className={classes.nested}
                           onClick={() => acceptedclass(x.cid)}
+                          key={i}
                         >
                           <ListItemIcon>
                             <StarBorderOutlinedIcon />

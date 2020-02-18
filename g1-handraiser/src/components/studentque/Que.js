@@ -107,10 +107,16 @@ export default function Que(props) {
     });
   }, [data, queueList, initial, props.match.params.id, history]);
 
+  const [tagVal, setTagVal] = useState("");
+
+  const setTagValFn = val => {
+    setTagVal(val);
+  };
+
   const handraiseFn = () => {
     socket.emit(
       "handraise",
-      { student_id: data.student_id, class_id: data.class_id },
+      { student_id: data.student_id, class_id: data.class_id, tag: tagVal },
       queue => setQueueList(queue)
     );
   };

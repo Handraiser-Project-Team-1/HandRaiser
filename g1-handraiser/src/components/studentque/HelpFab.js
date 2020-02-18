@@ -4,26 +4,43 @@ import { IconButton } from "@material-ui/core";
 import { Popover } from "antd";
 import { Input, Button } from "antd";
 
-function HelpFab({handraiseFn}) {
+function HelpFab({ handraiseFn, setTagValFn, tagVal }) {
   const [visible, setVisible] = useState(false);
+  const [error, setError] = useState(false);
 
   const handleVisible = () => {
     setVisible(true);
   };
   const handleSaveTag = () => {
-    setVisible(false);
+    if (tagVal) {
+      setError(false);
+      setVisible(false);
+      handraiseFn();
+      return;
+    }
+    setError(true);
   };
   const cancel = () => {
     setVisible(false);
   };
+
+  const handleChange = e => setTagValFn(e.target.value);
+
   return (
     <>
       <div className="request-loader">
         <Popover
+          trigger="click"
           key="tag"
           placement="right"
           content={[
-            <Input placeholder="Tag" key="tags" />,
+            <Input
+              placeholder={
+                error ? "Please enter something" : "Enter your concern"
+              }
+              key="tags"
+              onChange={handleChange}
+            />,
             <Button type="link" key="save" onClick={handleSaveTag}>
               Save
             </Button>,
@@ -32,11 +49,10 @@ function HelpFab({handraiseFn}) {
             </Button>
           ]}
           title="Tag"
-          trigger="click"
           visible={visible}
           onVisibleChange={handleVisible}
         >
-          <IconButton onClick={handraiseFn}>
+          <IconButton>
             <span role="img" aria-label="Hand">
               👋
             </span>
