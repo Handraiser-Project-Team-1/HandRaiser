@@ -71,7 +71,7 @@ function StudentList() {
           setMessage({
             title: "Information!",
             type: "info",
-            msg: `You decline/remove a student with student number ${res.data[0].student_id}`
+            msg: `You decline/remove a student with a student`
           });
           fetchEnrollees(ids);
         })
