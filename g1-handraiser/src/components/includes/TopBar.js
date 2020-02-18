@@ -20,13 +20,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Avatar, Divider } from "@material-ui/core";
 import { green } from "@material-ui/core/colors";
 
-import {
-  Switch,
-  Route,
-  Link,
-  useParams,
-  useRouteMatch
-} from "react-router-dom";
+import { Switch, Route, useRouteMatch } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { Card, Icon } from "antd";
 
@@ -214,8 +208,6 @@ const Layout = props => {
   const classes = useStyles();
   let history = useHistory();
   let match = useRouteMatch();
-  const { cId } = useParams();
-  const { active } = props;
   const [openSubList, setOpenSubList] = React.useState(true);
   const [stud_class, setClass] = useState([]);
   const [user, setUser] = useState({
@@ -263,16 +255,6 @@ const Layout = props => {
   var logout = () => {
     localStorage.clear();
     history.push("/");
-  };
-  var acceptedclass = e => {
-    stud_class.map(x => {
-      if (x.status === "accept") {
-        history.push(`/class/${e}`);
-        localStorage.setItem("cid", `${e}`);
-        window.location.reload(true);
-      }
-      return x;
-    });
   };
 
   useEffect(() => {

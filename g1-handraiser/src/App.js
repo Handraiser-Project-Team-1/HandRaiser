@@ -2,7 +2,6 @@ import React, { createContext } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import "antd/dist/antd.css";
-import Select from "./components/selectclass/Select";
 import Login from "./components/login/LoginInterface";
 import Welcome from "./components/superadmin/Welcome";
 import Admin from "./components/superadmin/admin";
@@ -12,7 +11,6 @@ import Queue from "./components/mentor/Queue";
 import Page404 from "./components/includes/Page404";
 import Authentication from "./components/login/Keyauth";
 import PermissionLoading from "./components/includes/PermissionLoading";
-import Student from "./components/selectclass/Select";
 import TopBarStud from "./components/includes/TopBar";
 require("dotenv").config();
 
