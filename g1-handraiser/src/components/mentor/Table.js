@@ -13,10 +13,11 @@ import Switch from "@material-ui/core/Switch";
 import update from "immutability-helper";
 import { Divider } from "antd";
 import { Empty } from "antd";
-import { useHistory } from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
 import { Icon, Button } from "antd";
+
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   table: {
@@ -27,26 +28,27 @@ const useStyles = makeStyles({
 export default function SimpleTable({ myClass, handleDelete, setClasses }) {
   const classes = useStyles();
   let history = useHistory();
-  let date = new Date()
-  
-  useEffect(()=>{
-    Axios.get(`${process.env.REACT_APP_DB_URL}/api/class`)
-    .then(res=>{
-      res.data.map(x=>{
-        let datecreated = new Date(x.date_end)
-        if(datecreated.getUTCDate()+1 === date.getUTCDate()){
+  let date = new Date();
+
+  useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_DB_URL}/api/class`).then(res => {
+      res.data.map(x => {
+        let datecreated = new Date(x.date_end);
+        if (datecreated.getUTCDate() + 1 === date.getUTCDate()) {
           Axios.patch(
             `${process.env.REACT_APP_DB_URL}/api/update/class/status/${x.class_id}`,
-            { class_status: 'off' }
-          ).then(res=>{
-            return res
-          }).catch(err => console.error(err));
+            { class_status: "off" }
+          )
+            .then(res => {
+              return res;
+            })
+            .catch(err => console.error(err));
         }
-        return x
-      })
-    })
-  },[date, myClass])
-  
+        return x;
+      });
+    });
+  }, [date, myClass]);
+
   const handleSwitch = (i, cId) => event => {
     const newVal = event.target.checked ? "on" : "off";
     Axios.patch(
@@ -118,7 +120,7 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
                   ghost
                   variant="outlined"
                   onClick={() =>
-                    history.push(`/queue/${row.class_id}/${row.slug}`)
+                    history.push(`/myclasslist/${row.class_id}/${row.slug}`)
                   }
                 >
                   <Icon type="eye" />

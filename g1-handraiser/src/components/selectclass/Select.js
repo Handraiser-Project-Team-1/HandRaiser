@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Grid, Button } from "@material-ui/core";
 // import CardClass from "../includes/CardClass";
-import Layout from "../includes/TopBar";
 import Notif from "../includes/Notif";
 import { Card, Avatar } from "antd";
 import axios from "axios";
@@ -27,7 +26,7 @@ export default function Select(props) {
       }).then(res => {
         res.data.map(x => {
           if (x.user_type === "student") {
-            history.push("/classes");
+            //  history.push("/classes");
             axios({
               method: "post",
               url: `${process.env.REACT_APP_DB_URL}/api/user`,
@@ -99,12 +98,13 @@ export default function Select(props) {
       });
   };
 
-  const onEnter = (e) => {
-    history.push(`/class/${e}`)
-    localStorage.setItem('cid', `${e}`)
-    window.location.reload(true)
+  const onEnter = e => {
+    history.push(`/classes/${e}`);
+    props.setSelected(e);
+    localStorage.setItem("cid", `${e}`);
+    //window.location.reload(true);
     // console.log(e)
-  }
+  };
 
   const verify = data => {
     const find = joinedClass.find(element => element.class_id === data);
@@ -137,7 +137,7 @@ export default function Select(props) {
   };
 
   return (
-    <Layout {...props}>
+    <>
       <Notif
         type="success"
         title={`${user.fname}`}
@@ -167,6 +167,6 @@ export default function Select(props) {
           </Grid>
         ))}
       </Grid>
-    </Layout>
+    </>
   );
 }
