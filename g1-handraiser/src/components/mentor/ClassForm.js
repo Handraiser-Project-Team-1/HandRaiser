@@ -120,7 +120,6 @@ export default function ClassList(props) {
         type="primary"
         variant="contained"
         ghost
-        disableElevation
         onClick={showModal}
       >
         Add Class
