@@ -85,7 +85,7 @@ export default function Settings() {
     setVisible(false);
   };
 
-  const handleClick = e => {
+  const handleClick = (e, index) => {
     setLoading(true);
     if (cpass && pass !== "") {
       if (cpass === pass) {
@@ -128,7 +128,7 @@ export default function Settings() {
       <Modal
         visible={visible}
         title={[
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div key="i" style={{ display: "flex", flexDirection: "row" }}>
             <Icon type="setting" />
             <Typography>Settings</Typography>
           </div>

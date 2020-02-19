@@ -1,10 +1,10 @@
-import React,{ useState } from 'react';
+import React, { useState } from "react";
 import CustomizedSelects from "./FormSelect";
 import Button from "@material-ui/core/Button";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import { Grid, CircularProgress } from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
-import Axios from 'axios';
+import { Grid, CircularProgress, Icon } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import Axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   // buttonSuccess: {
@@ -14,15 +14,22 @@ const useStyles = makeStyles(theme => ({
   //   },
   // },
   buttonProgress: {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
+    position: "absolute",
+    top: "50%",
+    left: "50%",
     marginTop: -12,
-    marginLeft: -12,
-  },
+    marginLeft: -12
+  }
 }));
 
-function RequestButton({permissionFn,getUserFn,pendingList,val,setNotifDetailsFn,openNofif}) {
+function RequestButton({
+  permissionFn,
+  getUserFn,
+  pendingList,
+  val,
+  setNotifDetailsFn,
+  openNofif
+}) {
   const classes = useStyles();
   const [type, setType] = useState("");
   const [loading, setLoading] = useState(false);
@@ -33,58 +40,59 @@ function RequestButton({permissionFn,getUserFn,pendingList,val,setNotifDetailsFn
       id: id,
       type: type
     })
-    .then(res => {
-      getUserFn();
-      setNotifDetailsFn("success", "Success!", `Authentication key sent to ${res.data.givenName} ${res.data.familyName}!`);
-      openNofif();
-      setLoading(false);
-      pendingList();
-    })
-    .catch(error => {
-      let err = String(error).match(/\w+$/g).join();
-      if(err === '400'){
-        permissionFn();
+      .then(res => {
+        getUserFn();
+        setNotifDetailsFn(
+          "success",
+          "Success!",
+          `Authentication key sent to ${res.data.givenName} ${res.data.familyName}!`
+        );
+        openNofif();
         setLoading(false);
-        return;
-      }
-      setNotifDetailsFn("error", "Oops!", "Please try again later!");
-      openNofif();
-      setLoading(false);
-      console.error(error);
-    });
+        pendingList();
+      })
+      .catch(error => {
+        let err = String(error)
+          .match(/\w+$/g)
+          .join();
+        if (err === "400") {
+          permissionFn();
+          setLoading(false);
+          return;
+        }
+        setNotifDetailsFn("error", "Oops!", "Please try again later!");
+        openNofif();
+        setLoading(false);
+        console.error(error);
+      });
   };
 
   return (
     <ListItemSecondaryAction>
-      <Grid
-        container
-        direction="row"
-        justify="center"
-        alignItems="center"
-      >
+      <Grid container direction="row" justify="center" alignItems="center">
         <Grid item>
-          <CustomizedSelects
-            stat={val.user_type}
-            setType={setType}
-          />
+          <CustomizedSelects stat={val.user_type} setType={setType} />
         </Grid>
         <Grid item>
           <Button
+            startIcon={<Icon>send</Icon>}
             size="small"
-            variant="contained"
             color="primary"
+            variant="outlined"
             onClick={() => submit(val.userd_id)}
             disabled={
-              (loading) || type === "pending" || type === "" ? true : false
+              loading || type === "pending" || type === "" ? true : false
             }
           >
             Send Key
-            {loading && <CircularProgress size={24} className={classes.buttonProgress} />}
+            {loading && (
+              <CircularProgress size={24} className={classes.buttonProgress} />
+            )}
           </Button>
         </Grid>
       </Grid>
     </ListItemSecondaryAction>
-  )
+  );
 }
 
 export default RequestButton;
