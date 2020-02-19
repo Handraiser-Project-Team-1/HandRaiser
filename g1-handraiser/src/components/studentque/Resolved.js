@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -8,6 +8,8 @@ import TableRow from "@material-ui/core/TableRow";
 import { Icon, Avatar } from "antd";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
+import { Tag } from "antd";
+import Axios from "axios";
 
 const useStyles = makeStyles({
   table: {
@@ -16,6 +18,14 @@ const useStyles = makeStyles({
 });
 function Resolved() {
   const classes = useStyles();
+  const [data, setData] = useState([])
+  
+  useEffect(()=>{
+    Axios.get(`${process.env.REACT_APP_DB_URL}/api/resolved`)
+    .then(res=>{
+      return(setData(res.data))
+    })
+  },[])
 
   return (
     <div>
@@ -29,11 +39,18 @@ function Resolved() {
             </TableRow>
           </TableHead>
           <TableBody>
-            <TableRow>
-              <TableCell scope="row" style={{ color: "gray" }}>
-                <Avatar icon="user" /> Mark Medes
-              </TableCell>
-            </TableRow>
+            {data.map(x=>{
+              return(
+                <TableRow>
+                  <TableCell scope="row" style={{ color: "gray" }}>
+                    <Avatar icon="user" /> {x.fname} {x.lname}
+                    <Tag key="tag" color="blue">
+                      {x.tag}
+                    </Tag>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
           </TableBody>
         </Table>
       </TableContainer>
