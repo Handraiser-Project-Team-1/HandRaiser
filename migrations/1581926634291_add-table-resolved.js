@@ -2,7 +2,7 @@
 
 exports.shorthands = undefined;
 
-exports.up = (pgm) => {
+exports.up = pgm => {
   pgm.createTable("resolved", {
     res_id: {
       type: "serial",
@@ -35,6 +35,4 @@ exports.up = (pgm) => {
   });
 };
 
-exports.down = (pgm) => {
-
-};
+exports.down = pgm => {};

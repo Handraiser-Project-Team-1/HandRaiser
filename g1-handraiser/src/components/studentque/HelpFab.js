@@ -4,7 +4,7 @@ import { IconButton } from "@material-ui/core";
 import { Popover } from "antd";
 import { Input, Button } from "antd";
 
-function HelpFab({handraiseFn, setTagValFn, tagVal}) {
+function HelpFab({ handraiseFn, setTagValFn, tagVal }) {
   const [visible, setVisible] = useState(false);
   const [error, setError] = useState(false);
 
@@ -12,7 +12,7 @@ function HelpFab({handraiseFn, setTagValFn, tagVal}) {
     setVisible(true);
   };
   const handleSaveTag = () => {
-    if(tagVal){
+    if (tagVal) {
       setError(false);
       setVisible(false);
       handraiseFn();
@@ -24,7 +24,7 @@ function HelpFab({handraiseFn, setTagValFn, tagVal}) {
     setVisible(false);
   };
 
-  const handleChange = (e) => setTagValFn(e.target.value);
+  const handleChange = e => setTagValFn(e.target.value);
 
   return (
     <>
@@ -33,7 +33,11 @@ function HelpFab({handraiseFn, setTagValFn, tagVal}) {
           key="tag"
           placement="right"
           content={[
-            <Input placeholder={(error ? 'Please enter something' : 'Tag')} key="tags" onChange={handleChange}/>,
+            <Input
+              placeholder={error ? "Please enter your concern" : "Your concern"}
+              key="tags"
+              onChange={handleChange}
+            />,
             <Button type="link" key="save" onClick={handleSaveTag}>
               Save
             </Button>,
@@ -41,12 +45,12 @@ function HelpFab({handraiseFn, setTagValFn, tagVal}) {
               Cancel
             </Button>
           ]}
-          title="Tag"
+          title="Concern"
           trigger="click"
           visible={visible}
           onVisibleChange={handleVisible}
         >
-          <IconButton >
+          <IconButton>
             <span role="img" aria-label="Hand">
               👋
             </span>

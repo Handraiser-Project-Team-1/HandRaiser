@@ -1,11 +1,9 @@
 import React from "react";
-import DoneIcon from "@material-ui/icons/Done";
 import { makeStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import { Card, CardContent } from "@material-ui/core";
+import { Card, CardContent, Button, Box } from "@material-ui/core";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import Tooltip from "@material-ui/core/Tooltip";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { Tag } from "antd";
 
 import { Typography } from "@material-ui/core";
@@ -30,48 +28,52 @@ const useStyles = makeStyles(theme => ({
 export default function CardClass({ beingHelp, resolvedFn, student }) {
   const classes = useStyles();
   return (
-    <>
+    <React.Fragment>
       <Card className={classes.card} variant="outlined">
         <CardContent>
           <Typography style={{ color: "gray" }}>Being Help</Typography>
         </CardContent>
         {beingHelp.map((data, index) => {
           return(
-            <CardHeader
-              key={index}
-              action={
-                (!student) ?
-                <Tooltip title="Click if Resolved!">
-                  <IconButton
-                    onClick={() =>
-                      resolvedFn(
-                        data.class_id,
-                        data.student_id,
-                        data.tag_id,
-                        data.mentor_id,
-                        data.queue_id,
-                        data.helping_id
-                      )
-                    }
-                    aria-label="settings"
-                    style={{ color: "green" }}
-                  >
-                    <DoneIcon />
-                  </IconButton>
-                </Tooltip>
-                :null
+            <React.Fragment key={index}>
+              <CardHeader
+                avatar={
+                  <Avatar src={data.image}></Avatar>
+                }
+                title={data.name}
+                subheader={[<Tag key="tag">{data.tag}</Tag>]}
+              />
+              {(!student) &&
+                <CardContent style={{ paddingBottom: 16 }}>
+                  <Typography component="div">
+                    <Box textAlign="right">
+                      <Button
+                        size="small"
+                        variant="contained"
+                        color="primary"
+                        endIcon={<CheckCircleOutlineIcon />}
+                        disableElevation
+                        onClick={() =>
+                          resolvedFn(
+                            data.class_id,
+                            data.student_id,
+                            data.tag_id,
+                            data.mentor_id,
+                            data.queue_id,
+                            data.helping_id
+                          )
+                        }
+                      >
+                        Resolved
+                      </Button>
+                    </Box>
+                  </Typography>
+                </CardContent>
               }
-              avatar={<Avatar src={data.image}></Avatar>}
-              title={data.name}
-              subheader={[
-                <Tag key="tag" color="blue">
-                  {data.tag}
-                </Tag>
-              ]}
-            />
+            </React.Fragment>
           )
         })}
       </Card>
-    </>
+    </React.Fragment>
   );
 }

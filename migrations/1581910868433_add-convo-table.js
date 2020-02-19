@@ -3,20 +3,20 @@
 exports.shorthands = undefined;
 
 exports.up = pgm => {
-  pgm.createTable("helping", {
-    helping_id: {
+  pgm.createTable("convo", {
+    convo_id: {
       type: "serial",
       primaryKey: true
     },
-    student_id: {
+    class_id: {
       type: "integer",
-      references: "student",
+      references: "class",
       notNull: true,
       onDelete: "cascade"
     },
-    mentor_id: {
+    s_id: {
       type: "integer",
-      references: "mentor",
+      references: "sender",
       notNull: true,
       onDelete: "cascade"
     }

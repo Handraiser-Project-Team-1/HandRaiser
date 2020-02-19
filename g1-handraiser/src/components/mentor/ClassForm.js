@@ -116,9 +116,10 @@ export default function ClassList(props) {
   return (
     <React.Fragment>
       <Button
-        color="primary"
+        icon="plus"
+        type="primary"
         variant="contained"
-        disableElevation
+        ghost
         onClick={showModal}
       >
         Add Class

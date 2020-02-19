@@ -2,7 +2,7 @@
 
 exports.shorthands = undefined;
 
-exports.up = (pgm) => {
+exports.up = pgm => {
   pgm.createTable("tag", {
     tag_id: {
       type: "serial",
@@ -10,11 +10,9 @@ exports.up = (pgm) => {
     },
     tag: {
       type: "text",
-      notNull: true,
+      notNull: true
     }
   });
 };
 
-exports.down = (pgm) => {
-
-};
+exports.down = pgm => {};

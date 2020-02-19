@@ -1,6 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { List, Avatar, Button, Badge } from "antd";
+import { List, Avatar, Button, Badge, Icon } from "antd";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,10 +32,19 @@ function InQueue({queueList,removeFromQueueFn,helpStudentFn}) {
         itemLayout="horizontal"
         dataSource={queueList}
         renderItem={(item, i) => (
-          <List.Item actions={[<Button onClick={() => removeFromQueueFn(item.queue_id,item.student_id,item.class_id,item.tag_id)}>Remove</Button>, <Button onClick={() => helpStudentFn(item.queue_id,item.student_id,item.class_id)}>Help</Button>]}>
+          <List.Item
+            actions={[
+              <Button type="primary" onClick={() => removeFromQueueFn(item.queue_id,item.student_id,item.class_id,item.tag_id)} ghost>
+                <Icon type="minus-circle" /> Remove
+              </Button>,
+              <Button type="primary" onClick={() => helpStudentFn(item.queue_id,item.student_id,item.class_id)} ghost>
+                <Icon type="question-circle" /> Help
+              </Button>
+            ]}
+          >
             <List.Item.Meta
               avatar={
-                <Badge count={i + 1}>
+                <Badge count={i + 1} style={{ backgroundColor: "#42b0ff" }}>
                   <Avatar src={item.image} />
                 </Badge>
               }
