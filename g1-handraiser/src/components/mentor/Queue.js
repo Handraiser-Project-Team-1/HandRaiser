@@ -12,6 +12,9 @@ import Typography from "@material-ui/core/Typography";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import DataContext from "./DataContext";
 import io from "socket.io-client";
+import StudentCount from "./includes/StudentCount";
+import { Paper } from "@material-ui/core";
+import EditForm from "./EditClass";
 
 const socket = io.connect(process.env.REACT_APP_DB_URL);
 
@@ -29,16 +32,23 @@ export default function Queue(props) {
   const classes = useStyles();
   const [classDetails, setClassDetails] = useState({});
   const [enrollees, setEnrollees] = useState([]);
+  const [enrolledCount, setEnrolledCount] = useState(0);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    fetchClassDetails(id);
+    enrolledCountStudent(ids);
+    fetchEnrollees(ids);
+  }, [id, ids]);
+
+  const fetchClassDetails = id => {
     Axios.get(`${process.env.REACT_APP_DB_URL}/api/class/title/${id}`)
       .then(res => {
+        console.log(res.data);
         setClassDetails(res.data);
       })
       .catch(err => console.error(err));
-
-    fetchEnrollees(ids);
-  }, [id, ids]);
+  };
 
   const fetchEnrollees = ids => {
     Axios.get(`${process.env.REACT_APP_DB_URL}/api/get/enrollees/${ids}`)
@@ -46,56 +56,86 @@ export default function Queue(props) {
       .catch(err => console.error(err));
   };
 
+  const enrolledCountStudent = ids => {
+    Axios.get(`${process.env.REACT_APP_DB_URL}/api/get/enrolled/${ids}`)
+      .then(res => setEnrolledCount(res.data[0].count))
+      .catch(err => console.error(err.response));
+  };
+
   const [initial, setInitial] = useState(true);
   const [queueList, setQueueList] = useState([]);
-  const [ beingHelp, setBeingHelp ] = useState([]);  
+  const [beingHelp, setBeingHelp] = useState([]);
 
   useEffect(() => {
-    if(initial){
+    if (initial) {
       setInitial(false);
       Axios({
-        method: 'get',
+        method: "get",
         url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/queue`
       })
-      .then(response => setQueueList(response.data))
-      .catch(error => console.error(error));
+        .then(response => setQueueList(response.data))
+        .catch(error => console.error(error));
 
       Axios({
-        method: 'get',
+        method: "get",
         url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/help`
       })
-      .then(response => setBeingHelp(response.data))
-      .catch(error => console.error(error));
-    }    
-    socket.emit("joinClass", {class_id: ids});
+        .then(response => setBeingHelp(response.data))
+        .catch(error => console.error(error));
+    }
+    socket.emit("joinClass", { class_id: ids });
     socket.on("updateQueue", queue => setQueueList(queue));
     socket.on("updateHelp", help => setBeingHelp(help));
-  },[ids,queueList,initial])
+  }, [ids, queueList, initial]);
 
   useEffect(() => {
     Axios({
-      method: 'get',
+      method: "get",
       url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/queue`
     })
-    .then(response => setQueueList(response.data))
-    .catch(error => console.error(error));
-  },[beingHelp,ids])
+      .then(response => setQueueList(response.data))
+      .catch(error => console.error(error));
+  }, [beingHelp, ids]);
 
-  const helpStudentFn = (queue_id,student_id,class_id) => {
-    socket.emit("help", {queue_id,student_id,class_id,mentor_id: classDetails.mentor_id}, helping => {
-      setBeingHelp(helping);
-    })
-  }
+  const helpStudentFn = (queue_id, student_id, class_id) => {
+    socket.emit(
+      "help",
+      { queue_id, student_id, class_id, mentor_id: classDetails.mentor_id },
+      helping => {
+        setBeingHelp(helping);
+      }
+    );
+  };
 
-  const removeFromQueueFn = (queue_id,student_id,class_id,tag_id) => {
-    socket.emit("leaveQueue", { queue_id,student_id,class_id,tag_id }, queue => setQueueList(queue));
-  }
+  const removeFromQueueFn = (queue_id, student_id, class_id, tag_id) => {
+    socket.emit(
+      "leaveQueue",
+      { queue_id, student_id, class_id, tag_id },
+      queue => setQueueList(queue)
+    );
+  };
 
-  const resolvedFn = (class_id,student_id,tag_id,mentor_id,queue_id,helping_id) => {
-    socket.emit("resolved", {class_id,student_id,tag_id,mentor_id,queue_id,helping_id}, helping => {
-      setBeingHelp(helping);
-    })
-  }
+  const resolvedFn = (
+    class_id,
+    student_id,
+    tag_id,
+    mentor_id,
+    queue_id,
+    helping_id
+  ) => {
+    socket.emit(
+      "resolved",
+      { class_id, student_id, tag_id, mentor_id, queue_id, helping_id },
+      helping => {
+        setBeingHelp(helping);
+      }
+    );
+  };
+
+  const dateFormat = date => {
+    let d = new Date(date);
+    return d.toDateString();
+  };
 
   // useEffect(() => {
   //   if (localStorage.getItem("tokenid")) {
@@ -118,7 +158,9 @@ export default function Queue(props) {
   // }, [history]);
 
   return (
-    <DataContext.Provider value={{ enrollees, fetchEnrollees }}>
+    <DataContext.Provider
+      value={{ enrollees, fetchEnrollees, setEnrolledCount, enrolledCount }}
+    >
       <div className={classes.root}>
         <Grid
           container
@@ -144,6 +186,35 @@ export default function Queue(props) {
             </Breadcrumbs>
           </Grid>
         </Grid>
+
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <Typography variant="h3">{classDetails.class_name}</Typography>
+            <Typography variant="caption">
+              {dateFormat(classDetails.date_created) +
+                " to " +
+                dateFormat(classDetails.date_end) +
+                " "}
+            </Typography>
+
+            <Link
+              variant="subtitle1"
+              to="#"
+              onClick={() => {
+                setVisible(true);
+              }}
+            >
+              [edit]
+            </Link>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper variant="outlined" style={{ padding: 10 }}>
+              <Typography variant="subtitle1">
+                {classDetails.class_description}
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
         <Grid container spacing={1}>
           <Grid item xs={12} sm={12} md={5} lg={3}>
             <Grid
@@ -154,19 +225,33 @@ export default function Queue(props) {
               spacing={1}
             >
               <Grid item>
-                <QueueCounter count={queueList.length}/>
+                <StudentCount count={enrolledCount} />
+              </Grid>
+              <Grid item>
+                <QueueCounter count={queueList.length} />
               </Grid>
 
               <Grid item>
-                <BeingHelp beingHelp={beingHelp} resolvedFn={resolvedFn}/>
+                <BeingHelp beingHelp={beingHelp} resolvedFn={resolvedFn} />
               </Grid>
             </Grid>
           </Grid>
           <Grid item xs={12} sm={12} md={7} lg={9}>
-            <QueueViewer queueList={queueList} removeFromQueueFn={removeFromQueueFn} helpStudentFn={helpStudentFn}/>
+            <QueueViewer
+              queueList={queueList}
+              removeFromQueueFn={removeFromQueueFn}
+              helpStudentFn={helpStudentFn}
+            />
           </Grid>
         </Grid>
       </div>
+      <EditForm
+        visible={visible}
+        setVisible={setVisible}
+        classDetails={classDetails}
+        fetchClassDetails={fetchClassDetails}
+        id={id}
+      />
       <Chat />
     </DataContext.Provider>
   );

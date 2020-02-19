@@ -13,7 +13,6 @@ import { useParams } from "react-router-dom";
 import { List, Avatar, Button, Icon } from "antd";
 import CustomizedSnackbars from "../../../includes/Notif";
 import DataContext from "../../DataContext";
-
 const useStyles = makeStyles(theme => ({
   root: {
     padding: "50%"
@@ -37,7 +36,9 @@ const useStyles = makeStyles(theme => ({
 function StudentList() {
   const classes = useStyles();
   let { ids } = useParams();
-  const { enrollees, fetchEnrollees } = useContext(DataContext);
+  const { enrollees, fetchEnrollees, setEnrolledCount } = useContext(
+    DataContext
+  );
   const [message, setMessage] = useState({});
   const [notif, setNotif] = useState(false);
 
@@ -52,6 +53,8 @@ function StudentList() {
       )
         .then(res => {
           console.log(res);
+
+          setEnrolledCount(prev => prev + 1);
           setNotif(true);
           setMessage({
             title: "Success!",
@@ -66,7 +69,7 @@ function StudentList() {
         `${process.env.REACT_APP_DB_URL}/api/decline/enrollees/${listId}`
       )
         .then(res => {
-          console.log(res);
+          setEnrolledCount(prev => prev - 1);
           setNotif(true);
           setMessage({
             title: "Information!",
