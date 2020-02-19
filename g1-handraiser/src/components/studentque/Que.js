@@ -91,7 +91,6 @@ export default function Que(props) {
   const [initial, setInitial] = useState(true);
 
   useEffect(() => {
-    // if (initial) {
       setInitial(false);
       axios({
         method: "GET",
@@ -99,7 +98,6 @@ export default function Que(props) {
       })
         .then(response => setQueueList(response.data))
         .catch(error => console.error(error));
-    // }
     socket.emit("joinClass", { class_id: data.class_id });
     socket.on("updateQueue", queue => {
       setQueueList(queue);
