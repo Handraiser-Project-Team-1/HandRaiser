@@ -16,16 +16,16 @@ const useStyles = makeStyles({
     minWidth: 50
   }
 });
-function Resolved() {
+function Resolved({cid}) {
   const classes = useStyles();
   const [data, setData] = useState([])
   
   useEffect(()=>{
-    Axios.get(`${process.env.REACT_APP_DB_URL}/api/resolved`)
+    Axios.get(`${process.env.REACT_APP_DB_URL}/api/resolved/${cid}`)
     .then(res=>{
       return(setData(res.data))
     })
-  },[])
+  },[cid])
 
   return (
     <div>

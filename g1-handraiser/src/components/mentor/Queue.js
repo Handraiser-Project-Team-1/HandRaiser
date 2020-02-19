@@ -160,7 +160,7 @@ export default function Queue(props) {
                   <BeingHelp beingHelp={beingHelp} resolvedFn={resolvedFn} />
                 </Grid>
                 <Grid item>
-                  <Resolved />
+                  <Resolved cid={ids}/>
                 </Grid>
               </Grid>
             </Grid>

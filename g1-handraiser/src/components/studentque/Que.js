@@ -221,7 +221,7 @@ export default function Que(props) {
               <BeingHelp beingHelp={beingHelp} student={true} />
             </Grid>
             <Grid item>
-              <Resolved />
+              <Resolved cid={id}/>
             </Grid>
             <Grid xs={9} item></Grid>
           </Grid>
