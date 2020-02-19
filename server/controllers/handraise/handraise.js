@@ -55,7 +55,6 @@ module.exports = {
         q.class_id = ${class_id}
     `).then(response => {
       callback(response);
-      console.log(response);
     }).catch(error => console.error(error));
   }
 }

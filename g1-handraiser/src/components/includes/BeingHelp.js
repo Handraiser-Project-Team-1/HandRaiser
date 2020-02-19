@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function CardClass({beingHelp}) {
+export default function CardClass({ beingHelp, resolvedFn, student }) {
   const classes = useStyles();
   return (
     <>
@@ -35,24 +35,42 @@ export default function CardClass({beingHelp}) {
         <CardContent>
           <Typography style={{ color: "gray" }}>Being Help</Typography>
         </CardContent>
-        <CardHeader
-          action={
-            <Tooltip title="Click if Resolved!">
-              <IconButton onClick={() => resolvedFn(beingHelp.class_id,beingHelp.queue_id,beingHelp.helping_id,beingHelp.mentor_id)} aria-label="settings" style={{ color: "green" }}>
-                <DoneIcon />
-              </IconButton>
-            </Tooltip>
-          }
-          avatar={
-            <Avatar src={beingHelp.image}></Avatar>
-          }
-          title={beingHelp.name}
-          subheader={[
-            <Tag key="tag" color="blue">
-              {beingHelp.tag}
-            </Tag>
-          ]}
-        />
+        {beingHelp.map((data, index) => {
+          return(
+            <CardHeader
+              key={index}
+              action={
+                (!student) ?
+                <Tooltip title="Click if Resolved!">
+                  <IconButton
+                    onClick={() =>
+                      resolvedFn(
+                        data.class_id,
+                        data.student_id,
+                        data.tag_id,
+                        data.mentor_id,
+                        data.queue_id,
+                        data.helping_id
+                      )
+                    }
+                    aria-label="settings"
+                    style={{ color: "green" }}
+                  >
+                    <DoneIcon />
+                  </IconButton>
+                </Tooltip>
+                :null
+              }
+              avatar={<Avatar src={data.image}></Avatar>}
+              title={data.name}
+              subheader={[
+                <Tag key="tag" color="blue">
+                  {data.tag}
+                </Tag>
+              ]}
+            />
+          )
+        })}
       </Card>
     </>
   );

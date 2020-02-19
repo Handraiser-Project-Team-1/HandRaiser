@@ -15,7 +15,7 @@ import Img from "../login/img/undraw_software_engineer_lvl5.svg";
 import Help from "./HelpFab";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import io from "socket.io-client";
 
 const socket = io.connect(process.env.REACT_APP_DB_URL);
@@ -65,13 +65,14 @@ const useStyles = makeStyles(theme => ({
 
 export default function Que(props) {
   const history = useHistory();
+  const { id } = useParams();
 
   const [data, setData] = useState([]);
 
   useEffect(() => {
     axios({
       method: "POST",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/${props.match.params.id}`,
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${id}`,
       data: { tokenData: localStorage.getItem("tokenid") }
     })
     .then(response => setData(response.data))
@@ -85,26 +86,36 @@ export default function Que(props) {
       }
       console.error(error);
     });
-  }, [history, props.match.params.id]);
+  }, [history, id]);
 
   const [queueList, setQueueList] = useState([]);
   const [initial, setInitial] = useState(true);
+  const [ beingHelp, setBeingHelp ] = useState([]);  
 
   useEffect(() => {
     if(initial){
       setInitial(false);
       axios({
         method: "GET",
-        url: `${process.env.REACT_APP_DB_URL}/api/class/${props.match.params.id}/queue`
+        url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/queue`
       })
         .then(response => setQueueList(response.data))
         .catch(error => console.error(error));
+      axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/help`
+      })
+      .then(response => setBeingHelp(response.data))
+      .catch(error => console.error(error));
     }
     socket.emit("joinClass", {class_id: data.class_id});
     socket.on("updateQueue", queue => {
       setQueueList(queue);
     });
-  }, [data,queueList,initial,props.match.params.id,history]);
+    socket.on("updateHelp", help => {
+      setBeingHelp(help);
+    });
+  }, [data,queueList,initial,id,history]);
 
   const [tagVal, setTagVal] = useState('');
 
@@ -113,6 +124,7 @@ export default function Que(props) {
   }
 
   const handraiseFn = () => {
+    setTagVal('');
     socket.emit("handraise", { student_id: data.student_id, class_id: data.class_id, tag: tagVal }, queue => setQueueList(queue));
   };
 
@@ -121,11 +133,15 @@ export default function Que(props) {
   }
 
   const filterSelfFn = id => {
-    let filter = false;
+    let queueBool = false;
+    let helpBool = false;
     for (let queue of queueList) {
-      if (queue.student_id === id) filter = true;
+      if (queue.student_id === id) queueBool = true;
     }
-    return filter;
+    for(let help of beingHelp){
+      if (help.student_id === id ) helpBool = true;
+    }
+    return (queueBool === true || helpBool === true) ? true : false;
   };
 
   const classes = useStyles();
@@ -179,7 +195,7 @@ export default function Que(props) {
                   <QueueCounter count={queueList.length}/>
                 </Grid>
                 <Grid item>
-                  <BeingHelp />
+                  <BeingHelp beingHelp={beingHelp} student={true}/>
                 </Grid>
               </Grid>
             </Grid>

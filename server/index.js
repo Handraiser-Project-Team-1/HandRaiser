@@ -72,19 +72,34 @@ massive({
         .catch( error => console.error(error));
     });
 
-    socket.on("help", ({queue_id, student_id, class_id, mentor_id}, callback,helpingCb) => {
+    socket.on("help", ({queue_id, student_id, class_id, mentor_id}, callback) => {
       db.helping.insert({ student_id, mentor_id })
       .then(helping => {
         db.queue.update({ queue_id }, { helping_id: helping.helping_id })
         .then(() => {
           handraise.updatedQueueList(class_id,db, data => {
             socket.to(class_id).broadcast.emit('updateQueue', data);
-            callback(data);
           })
           handraise.updatedHelpList(class_id,db, data => {
             socket.to(class_id).broadcast.emit('updateHelp', data);
-            helpingCb(data);
+            callback(data);
           })
+        }).catch( error => console.error(error));
+      }).catch( error => console.error(error));
+    });
+
+    socket.on("resolved", ({class_id, student_id, tag_id, mentor_id,queue_id,helping_id}, callback) => {
+      db.resolved.insert({class_id, student_id, tag_id, mentor_id})
+      .then(resolved => {
+        db.queue.destroy({queue_id})
+        .then(() => {
+          db.helping.destroy({helping_id})
+          .then(() => {
+            handraise.updatedHelpList(class_id,db, data => {
+              socket.to(class_id).broadcast.emit('updateHelp', data);
+              callback(data);
+            })
+          }).catch( error => console.error(error));
         }).catch( error => console.error(error));
       }).catch( error => console.error(error));
     })

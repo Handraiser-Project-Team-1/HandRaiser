@@ -61,11 +61,12 @@ export default function Queue(props) {
       })
       .then(response => setQueueList(response.data))
       .catch(error => console.error(error));
+
       Axios({
         method: 'get',
         url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/help`
       })
-      .then(response => setBeingHelp(response.data[0]))
+      .then(response => setBeingHelp(response.data))
       .catch(error => console.error(error));
     }    
     socket.emit("joinClass", {class_id: ids});
@@ -73,15 +74,28 @@ export default function Queue(props) {
     socket.on("updateHelp", help => setBeingHelp(help));
   },[ids,queueList,initial])
 
+  useEffect(() => {
+    Axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/queue`
+    })
+    .then(response => setQueueList(response.data))
+    .catch(error => console.error(error));
+  },[beingHelp,ids])
+
+  const helpStudentFn = (queue_id,student_id,class_id) => {
+    socket.emit("help", {queue_id,student_id,class_id,mentor_id: classDetails.mentor_id}, helping => {
+      setBeingHelp(helping);
+    })
+  }
+
   const removeFromQueueFn = (queue_id,student_id,class_id,tag_id) => {
     socket.emit("leaveQueue", { queue_id,student_id,class_id,tag_id }, queue => setQueueList(queue));
   }
 
-  const helpStudentFn = (queue_id,student_id,class_id) => {
-    socket.emit("help", {queue_id,student_id,class_id,mentor_id: classDetails.mentor_id}, (queue, helping) => {
-      setQueueList(queue);
-      setBeingHelp(helping)
-      console.log(helping);
+  const resolvedFn = (class_id,student_id,tag_id,mentor_id,queue_id,helping_id) => {
+    socket.emit("resolved", {class_id,student_id,tag_id,mentor_id,queue_id,helping_id}, helping => {
+      setBeingHelp(helping);
     })
   }
 
@@ -147,7 +161,7 @@ export default function Queue(props) {
                 </Grid>
 
                 <Grid item>
-                  <BeingHelp beingHelp={beingHelp}/>
+                  <BeingHelp beingHelp={beingHelp} resolvedFn={resolvedFn}/>
                 </Grid>
               </Grid>
             </Grid>
