@@ -63,9 +63,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function Que(props) {
   const history = useHistory();
+  const { id } = useParams();
 
   const [data, setData] = useState([]);
-  const { id } = useParams();
   const match = useRouteMatch();
 
   useEffect(() => {
@@ -74,23 +74,25 @@ export default function Que(props) {
       url: `${process.env.REACT_APP_DB_URL}/api/class/${id}`,
       data: { tokenData: localStorage.getItem("tokenid") }
     })
-      .then(response => setData(response.data))
-      .catch(error => {
-        let err = String(error)
-          .match(/\w+$/g)
-          .join();
-        if (err === "404") {
-          history.push("/notFound");
-          return;
-        }
-        console.error(error);
-      });
+    .then(response => setData(response.data))
+    .catch(error => {
+      let err = String(error)
+        .match(/\w+$/g)
+        .join();
+      if (err === "404") {
+        history.push("/notFound");
+        return;
+      }
+      console.error(error);
+    });
   }, [history, id]);
 
   const [queueList, setQueueList] = useState([]);
   const [initial, setInitial] = useState(true);
+  const [ beingHelp, setBeingHelp ] = useState([]);  
 
   useEffect(() => {
+    if(initial){
       setInitial(false);
       axios({
         method: "GET",
@@ -98,11 +100,21 @@ export default function Que(props) {
       })
         .then(response => setQueueList(response.data))
         .catch(error => console.error(error));
-    socket.emit("joinClass", { class_id: data.class_id });
+      axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/help`
+      })
+      .then(response => setBeingHelp(response.data))
+      .catch(error => console.error(error));
+    }
+    socket.emit("joinClass", {class_id: data.class_id});
     socket.on("updateQueue", queue => {
       setQueueList(queue);
     });
-  }, [data, queueList, initial, id, history]);
+    socket.on("updateHelp", help => {
+      setBeingHelp(help);
+    });
+  }, [data,queueList,initial,id,history]);
 
   const [tagVal, setTagVal] = useState("");
 
@@ -111,11 +123,8 @@ export default function Que(props) {
   };
 
   const handraiseFn = () => {
-    socket.emit(
-      "handraise",
-      { student_id: data.student_id, class_id: data.class_id, tag: tagVal },
-      queue => setQueueList(queue)
-    );
+    setTagVal('');
+    socket.emit("handraise", { student_id: data.student_id, class_id: data.class_id, tag: tagVal }, queue => setQueueList(queue));
   };
 
   const removeFromQueueFn = (queue_id, student_id, class_id, tag_id) => {
@@ -127,11 +136,15 @@ export default function Que(props) {
   };
 
   const filterSelfFn = id => {
-    let filter = false;
+    let queueBool = false;
+    let helpBool = false;
     for (let queue of queueList) {
-      if (queue.student_id === id) filter = true;
+      if (queue.student_id === id) queueBool = true;
     }
-    return filter;
+    for(let help of beingHelp){
+      if (help.student_id === id ) helpBool = true;
+    }
+    return (queueBool === true || helpBool === true) ? true : false;
   };
 
   const classes = useStyles();
@@ -186,7 +199,7 @@ export default function Que(props) {
           <Grid item xs={3}>
             <QueueCounter count={queueList.length} />
 
-            <BeingHelp />
+            <BeingHelp beingHelp={beingHelp} student={true}/>
           </Grid>
           <Grid xs={9} item>
             <Card className={classes.que} variant="outlined">

@@ -25,37 +25,55 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function CardClass(props) {
+export default function CardClass({ beingHelp, resolvedFn, student }) {
   const classes = useStyles();
   return (
-    <>
+    <React.Fragment>
       <Card className={classes.card} variant="outlined">
         <CardContent>
           <Typography style={{ color: "gray" }}>Being Help</Typography>
         </CardContent>
-        <CardHeader
-          avatar={
-            <Avatar src="https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg"></Avatar>
-          }
-          title="Marcial M. Norte Jr"
-          subheader={[<Tag key="tag">Cant merge my dev branch</Tag>]}
-        />
-        <CardContent style={{ paddingBottom: 16 }}>
-          <Typography component="div">
-            <Box textAlign="right">
-              <Button
-                size="small"
-                variant="contained"
-                color="primary"
-                endIcon={<CheckCircleOutlineIcon />}
-                disableElevation
-              >
-                Resolved
-              </Button>
-            </Box>
-          </Typography>
-        </CardContent>
+        {beingHelp.map((data, index) => {
+          return(
+            <React.Fragment key={index}>
+              <CardHeader
+                avatar={
+                  <Avatar src={data.image}></Avatar>
+                }
+                title={data.name}
+                subheader={[<Tag key="tag">{data.tag}</Tag>]}
+              />
+              {(!student) &&
+                <CardContent style={{ paddingBottom: 16 }}>
+                  <Typography component="div">
+                    <Box textAlign="right">
+                      <Button
+                        size="small"
+                        variant="contained"
+                        color="primary"
+                        endIcon={<CheckCircleOutlineIcon />}
+                        disableElevation
+                        onClick={() =>
+                          resolvedFn(
+                            data.class_id,
+                            data.student_id,
+                            data.tag_id,
+                            data.mentor_id,
+                            data.queue_id,
+                            data.helping_id
+                          )
+                        }
+                      >
+                        Resolved
+                      </Button>
+                    </Box>
+                  </Typography>
+                </CardContent>
+              }
+            </React.Fragment>
+          )
+        })}
       </Card>
-    </>
+    </React.Fragment>
   );
 }
