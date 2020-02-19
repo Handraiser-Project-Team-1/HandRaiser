@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function InQueue({queueList,removeFromQueueFn,helpStudentFn}) {
+function InQueue({queueList,removeFromQueueFn,helpStudentFn,beingHelp}) {
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -37,6 +37,7 @@ function InQueue({queueList,removeFromQueueFn,helpStudentFn}) {
               <Button type="primary" onClick={() => removeFromQueueFn(item.queue_id,item.student_id,item.class_id,item.tag_id)} ghost>
                 <Icon type="minus-circle" /> Remove
               </Button>,
+              (beingHelp.length === 0) &&
               <Button type="primary" onClick={() => helpStudentFn(item.queue_id,item.student_id,item.class_id)} ghost>
                 <Icon type="question-circle" /> Help
               </Button>
@@ -44,9 +45,11 @@ function InQueue({queueList,removeFromQueueFn,helpStudentFn}) {
           >
             <List.Item.Meta
               avatar={
+                <>              
                 <Badge count={i + 1} style={{ backgroundColor: "#42b0ff" }}>
                   <Avatar src={item.image} />
                 </Badge>
+                </>
               }
               // title={<a href="https://ant.design">{item.title}</a>}
               title={item.name}

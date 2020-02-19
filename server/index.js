@@ -88,6 +88,25 @@ massive({
       }).catch( error => console.error(error));
     });
 
+    socket.on("logout", ({user_id}) => {
+      db.query(`SELECT q.tag_id, q.helping_id, q.student_id, q.class_id FROM student as s, queue as q WHERE s.student_id = q.student_id AND s.user_id = ${user_id}`)
+      .then(student => {
+        student.map(x => {
+          db.queue.destroy({ student_id: x.student_id }).catch( error => console.error(error));
+          if(x.helping_id !== null){
+            db.helping.destroy({ student_id: x.student_id }).catch( error => console.error(error));
+            handraise.updatedHelpList(x.class_id,db, data => {
+              socket.to(x.class_id).broadcast.emit('updateHelp', data);
+            });
+          }
+          db.tag.destroy({tag_id: x.tag_id}).catch( error => console.error(error));
+          handraise.updatedQueueList(x.class_id,db, data => {
+            socket.to(x.class_id).broadcast.emit('updateQueue', data);
+          });
+        })
+      }).catch(error => console.error(error));
+    })
+
     socket.on("resolved", ({class_id, student_id, tag_id, mentor_id,queue_id,helping_id}, callback) => {
       db.resolved.insert({class_id, student_id, tag_id, mentor_id})
       .then(resolved => {

@@ -164,14 +164,9 @@ export default function Queue(props) {
                 </Grid>
               </Grid>
             </Grid>
-
-            <Grid item xs={12} sm={12} md={12} lg={9}>
-              <QueueViewer
-                queueList={queueList}
-                removeFromQueueFn={removeFromQueueFn}
-                helpStudentFn={helpStudentFn}
-              />
-            </Grid>
+          </Grid>
+          <Grid item xs={12} sm={12} md={7} lg={9}>
+            <QueueViewer queueList={queueList} removeFromQueueFn={removeFromQueueFn} helpStudentFn={helpStudentFn} beingHelp={beingHelp}/>
           </Grid>
         </Grid>
         <Chat />
