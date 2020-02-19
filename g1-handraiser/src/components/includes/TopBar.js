@@ -257,7 +257,7 @@ const Layout = props => {
   }, [history]);
 
   var logout = () => {
-    socket.emit("logout", {user_id: localStorage.getItem('id')});
+    socket.emit("logout", {user_id: localStorage.getItem('uid')});
     localStorage.clear();
     history.push("/");
   };

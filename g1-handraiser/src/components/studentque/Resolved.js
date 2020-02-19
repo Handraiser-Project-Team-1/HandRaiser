@@ -39,9 +39,9 @@ function Resolved({cid}) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map(x=>{
+            {data.map((x,i)=>{
               return(
-                <TableRow>
+                <TableRow key={i}>
                   <TableCell scope="row" style={{ color: "gray" }}>
                     <Avatar icon="user" /> {x.fname} {x.lname}
                     <Tag key="tag" color="blue">
