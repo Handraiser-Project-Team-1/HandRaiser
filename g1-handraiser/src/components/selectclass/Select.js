@@ -61,6 +61,11 @@ export default function Select(props) {
   useEffect(() => {
     fetch();
 
+    setInterval(() => getClasslist(), 300)
+
+  }, []);
+
+  const getClasslist = () => {
     axios
       .get(`${process.env.REACT_APP_DB_URL}/api/class/list`)
       .then(res => {
@@ -69,7 +74,7 @@ export default function Select(props) {
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  }
 
   const fetch = () => {
     let user_id = localStorage.getItem("uid");
