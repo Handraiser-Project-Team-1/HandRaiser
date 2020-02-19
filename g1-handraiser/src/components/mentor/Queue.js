@@ -11,6 +11,7 @@ import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Typography from "@material-ui/core/Typography";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import DataContext from "./DataContext";
+import Resolved from "../studentque/Resolved";
 import io from "socket.io-client";
 
 const socket = io.connect(process.env.REACT_APP_DB_URL);
@@ -48,75 +49,73 @@ export default function Queue(props) {
 
   const [initial, setInitial] = useState(true);
   const [queueList, setQueueList] = useState([]);
-  const [ beingHelp, setBeingHelp ] = useState([]);  
+  const [beingHelp, setBeingHelp] = useState([]);
 
   useEffect(() => {
-    if(initial){
+    if (initial) {
       setInitial(false);
       Axios({
-        method: 'get',
+        method: "get",
         url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/queue`
       })
-      .then(response => setQueueList(response.data))
-      .catch(error => console.error(error));
+        .then(response => setQueueList(response.data))
+        .catch(error => console.error(error));
 
       Axios({
-        method: 'get',
+        method: "get",
         url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/help`
       })
-      .then(response => setBeingHelp(response.data))
-      .catch(error => console.error(error));
-    }    
-    socket.emit("joinClass", {class_id: ids});
+        .then(response => setBeingHelp(response.data))
+        .catch(error => console.error(error));
+    }
+    socket.emit("joinClass", { class_id: ids });
     socket.on("updateQueue", queue => setQueueList(queue));
     socket.on("updateHelp", help => setBeingHelp(help));
-  },[ids,queueList,initial])
+  }, [ids, queueList, initial]);
 
   useEffect(() => {
     Axios({
-      method: 'get',
+      method: "get",
       url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/queue`
     })
-    .then(response => setQueueList(response.data))
-    .catch(error => console.error(error));
-  },[beingHelp,ids])
+      .then(response => setQueueList(response.data))
+      .catch(error => console.error(error));
+  }, [beingHelp, ids]);
 
-  const helpStudentFn = (queue_id,student_id,class_id) => {
-    socket.emit("help", {queue_id,student_id,class_id,mentor_id: classDetails.mentor_id}, helping => {
-      setBeingHelp(helping);
-    })
-  }
+  const helpStudentFn = (queue_id, student_id, class_id) => {
+    socket.emit(
+      "help",
+      { queue_id, student_id, class_id, mentor_id: classDetails.mentor_id },
+      helping => {
+        setBeingHelp(helping);
+      }
+    );
+  };
 
-  const removeFromQueueFn = (queue_id,student_id,class_id,tag_id) => {
-    socket.emit("leaveQueue", { queue_id,student_id,class_id,tag_id }, queue => setQueueList(queue));
-  }
+  const removeFromQueueFn = (queue_id, student_id, class_id, tag_id) => {
+    socket.emit(
+      "leaveQueue",
+      { queue_id, student_id, class_id, tag_id },
+      queue => setQueueList(queue)
+    );
+  };
 
-  const resolvedFn = (class_id,student_id,tag_id,mentor_id,queue_id,helping_id) => {
-    socket.emit("resolved", {class_id,student_id,tag_id,mentor_id,queue_id,helping_id}, helping => {
-      setBeingHelp(helping);
-    })
-  }
-
-  // useEffect(() => {
-  //   if (localStorage.getItem("tokenid")) {
-  //     Axios({
-  //       method: "get",
-  //       url: `${process.env.REACT_APP_DB_URL}/api/type/${localStorage.getItem(
-  //         "uid"
-  //       )}`
-  //     }).then(res => {
-  //       res.data.map(x => {
-  //         if (x.user_type === "mentor") {
-  //           history.push("/queue");
-  //         } else if (x.user_type === "student") {
-  //           history.push("/classes");
-  //         }
-  //         return x;
-  //       });
-  //     });
-  //   }
-  // }, [history]);
-
+  const resolvedFn = (
+    class_id,
+    student_id,
+    tag_id,
+    mentor_id,
+    queue_id,
+    helping_id
+  ) => {
+    socket.emit(
+      "resolved",
+      { class_id, student_id, tag_id, mentor_id, queue_id, helping_id },
+      helping => {
+        setBeingHelp(helping);
+      }
+    );
+  };
   return (
     <DataContext.Provider value={{ enrollees, fetchEnrollees }}>
       <div className={classes.root}>
@@ -143,22 +142,26 @@ export default function Queue(props) {
               </Typography>
             </Breadcrumbs>
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12} md={5} lg={3}>
-            <Grid
-              container
-              direction="column"
-              justify="flex-start"
-              alignItems="stretch"
-              spacing={1}
-            >
-              <Grid item>
-                <QueueCounter count={queueList.length}/>
-              </Grid>
 
-              <Grid item>
-                <BeingHelp beingHelp={beingHelp} resolvedFn={resolvedFn}/>
+          <Grid container spacing={3}>
+            <Grid item xs={12} sm={12} md={12} lg={3}>
+              <Grid
+                container
+                direction="column"
+                justify="flex-start"
+                alignItems="stretch"
+                spacing={1}
+              >
+                <Grid item>
+                  <QueueCounter count={queueList.length} />
+                </Grid>
+
+                <Grid item>
+                  <BeingHelp beingHelp={beingHelp} resolvedFn={resolvedFn} />
+                </Grid>
+                <Grid item>
+                  <Resolved />
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
@@ -166,8 +169,8 @@ export default function Queue(props) {
             <QueueViewer queueList={queueList} removeFromQueueFn={removeFromQueueFn} helpStudentFn={helpStudentFn} beingHelp={beingHelp}/>
           </Grid>
         </Grid>
+        <Chat />
       </div>
-      <Chat />
     </DataContext.Provider>
   );
 }

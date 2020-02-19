@@ -16,20 +16,16 @@ import { Empty } from "antd";
 import IconButton from "@material-ui/core/IconButton";
 import ClearOutlinedIcon from "@material-ui/icons/ClearOutlined";
 import { Icon, Button } from "antd";
-
 import { useHistory } from "react-router-dom";
-
 const useStyles = makeStyles({
   table: {
     minWidth: 650
   }
 });
-
 export default function SimpleTable({ myClass, handleDelete, setClasses }) {
   const classes = useStyles();
   let history = useHistory();
   let date = new Date();
-
   useEffect(() => {
     Axios.get(`${process.env.REACT_APP_DB_URL}/api/class`).then(res => {
       res.data.map(x => {
@@ -48,7 +44,6 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
       });
     });
   }, [date, myClass]);
-
   const handleSwitch = (i, cId) => event => {
     const newVal = event.target.checked ? "on" : "off";
     Axios.patch(
@@ -63,12 +58,10 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
       })
       .catch(err => console.error(err));
   };
-
   const dateFormat = date => {
     let d = new Date(date);
     return d.toDateString();
   };
-
   return (
     <TableContainer component={Paper} elevation={0} variant="outlined">
       <Table className={classes.table} aria-label="simple table">

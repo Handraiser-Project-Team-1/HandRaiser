@@ -11,7 +11,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Tooltip from "@material-ui/core/Tooltip";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import { Tag } from "antd";
 import { Empty } from "antd";
 
@@ -20,7 +19,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%"
   },
   sub: {
-    background: "#fafafa"
+    // background: "#fafafa"
   },
   hand: {
     marginLeft: "90%"
@@ -35,11 +34,6 @@ export default function NeedHelp({ queueList, student_id, removeFromQueueFn }) {
         className={classes.root}
         component="nav"
         aria-labelledby="nested-list-subheader"
-        subheader={
-          <ListSubheader component="div" id="nested-list-subheader">
-            In Queue
-          </ListSubheader>
-        }
       >
         {queueList.map((data, index) => {
           return data.student_id === student_id ? (

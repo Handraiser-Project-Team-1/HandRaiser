@@ -220,6 +220,7 @@ massive({
 
   app.post("/api/create/class/:id", mentor.addClass);
   app.get("/api/mentor/class/:id", mentor.getClass);
+  app.get("/api/class", mentor.getAllClass);
   app.delete("/api/delete/class/:id", mentor.removeClass);
   app.patch("/api/update/class/status/:id", mentor.updateStatus);
 
@@ -229,6 +230,7 @@ massive({
   app.get("/api/joined/class/:user_id", student.joinedClass);
   app.get("/api/class/accept", student.getAcceptClass)
   app.get("/api/class/accept/:id", student.getAcceptClassDetails)
+  app.get("/api/resolved", student.getAllResolved)
 
   app.get("/api/class/:id/queue", student.queueList);
   app.get("/api/class/:id/help", student.helpList);
