@@ -92,21 +92,19 @@ export default function Que(props) {
   const [ beingHelp, setBeingHelp ] = useState([]);  
 
   useEffect(() => {
-    if(initial){
-      setInitial(false);
-      axios({
-        method: "GET",
-        url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/queue`
-      })
-        .then(response => setQueueList(response.data))
-        .catch(error => console.error(error));
-      axios({
-        method: 'get',
-        url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/help`
-      })
-      .then(response => setBeingHelp(response.data))
+    setInitial(false);
+    axios({
+      method: "GET",
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/queue`
+    })
+      .then(response => setQueueList(response.data))
       .catch(error => console.error(error));
-    }
+    axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/help`
+    })
+    .then(response => setBeingHelp(response.data))
+    .catch(error => console.error(error));
     socket.emit("joinClass", {class_id: data.class_id});
     socket.on("updateQueue", queue => {
       setQueueList(queue);
