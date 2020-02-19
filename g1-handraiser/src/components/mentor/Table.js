@@ -27,26 +27,27 @@ const useStyles = makeStyles({
 export default function SimpleTable({ myClass, handleDelete, setClasses }) {
   const classes = useStyles();
   let history = useHistory();
-  let date = new Date()
-  
-  useEffect(()=>{
-    Axios.get(`${process.env.REACT_APP_DB_URL}/api/class`)
-    .then(res=>{
-      res.data.map(x=>{
-        let datecreated = new Date(x.date_end)
-        if(datecreated.getUTCDate()+1 === date.getUTCDate()){
+  let date = new Date();
+
+  useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_DB_URL}/api/class`).then(res => {
+      res.data.map(x => {
+        let datecreated = new Date(x.date_end);
+        if (datecreated.getUTCDate() + 1 === date.getUTCDate()) {
           Axios.patch(
             `${process.env.REACT_APP_DB_URL}/api/update/class/status/${x.class_id}`,
-            { class_status: 'off' }
-          ).then(res=>{
-            return res
-          }).catch(err => console.error(err));
+            { class_status: "off" }
+          )
+            .then(res => {
+              return res;
+            })
+            .catch(err => console.error(err));
         }
-        return x
-      })
-    })
-  },[date, myClass])
-  
+        return x;
+      });
+    });
+  }, [date, myClass]);
+
   const handleSwitch = (i, cId) => event => {
     const newVal = event.target.checked ? "on" : "off";
     Axios.patch(

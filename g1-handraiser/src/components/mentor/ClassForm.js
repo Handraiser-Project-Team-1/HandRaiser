@@ -85,10 +85,10 @@ export default function ClassList(props) {
   }
 
   const submit = () => {
-    setLoading(true);
     if (name && description && startDate && endDate) {
       let id = localStorage.getItem("id");
       const slug = slugify(name);
+      setLoading(true);
       Axios.post(`${process.env.REACT_APP_DB_URL}/api/create/class/${id}`, {
         name,
         description,
@@ -121,7 +121,6 @@ export default function ClassList(props) {
         type="primary"
         variant="contained"
         ghost
-        // disableElevation
         onClick={showModal}
       >
         Add Class

@@ -5,18 +5,21 @@ import {
   Typography,
   Card,
   CardMedia,
-  CardContent
+  CardContent,
+  CardHeader
 } from "@material-ui/core";
 import NeedHelp from "./NeedHelp";
 import BeingHelp from "../includes/BeingHelp";
 import Chat from "../chat/Fab";
-import QueueCounter from "../mentor/includes/QueueCounter";
+// import QueueCounter from "../mentor/includes/QueueCounter";
 import Img from "../login/img/undraw_software_engineer_lvl5.svg";
 import Help from "./HelpFab";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import io from "socket.io-client";
+import Position from "./Position";
+import Resolved from "./Resolved";
 
 const socket = io.connect(process.env.REACT_APP_DB_URL);
 const useStyles = makeStyles(theme => ({
@@ -52,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     flex: "1 0 auto"
   },
   que: {
-    padding: "2%",
+    padding: "1%",
     height: "100%"
   },
   help: {
@@ -189,18 +192,24 @@ export default function Que(props) {
                   direction="column"
                   justify="flex-start"
                   alignItems="stretch"
+                  spacing={1}
                 >
                   <Grid item>
-                    <QueueCounter count={queueList.length} />
+                    <Position />
                   </Grid>
+
                   <Grid item>
                     <BeingHelp />
+                  </Grid>
+                  <Grid item>
+                    <Resolved />
                   </Grid>
                 </Grid>
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={9}>
                 {" "}
                 <Card className={classes.que}>
+                  <CardHeader subheader="In Queue" />
                   <NeedHelp
                     queueList={queueList}
                     student_id={data.student_id}

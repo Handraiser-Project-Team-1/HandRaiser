@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import DataContext from "./DataContext";
-
+import Resolved from "../studentque/Resolved";
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1
@@ -88,6 +88,10 @@ export default function Queue(props) {
 
                 <Grid item>
                   <BeingHelp />
+                </Grid>
+
+                <Grid item>
+                  <Resolved />
                 </Grid>
               </Grid>
             </Grid>
