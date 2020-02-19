@@ -24,38 +24,20 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const data = [
-  {
-    avatar:
-      "https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg",
-    firstName: "Marcial",
-    lastName: "Norte",
-    tag: "Cant Merge my dev branch"
-  },
-  {
-    avatar:
-      "https://lh3.googleusercontent.com/-Iz0GB_0aegI/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rdpGPFMg9S0oPVKaXyXnGH20xeeWQ.CMID/s192-c/photo.jpg",
-    firstName: "Marcial",
-    lastName: "Norte",
-    tag: "Cant Merge my dev branch"
-  }
-];
-
-function InQueue() {
+function InQueue({queueList,removeFromQueueFn,helpStudentFn}) {
   const classes = useStyles();
-
   return (
     <div className={classes.root}>
       <List
         itemLayout="horizontal"
-        dataSource={data}
+        dataSource={queueList}
         renderItem={(item, i) => (
           <List.Item
             actions={[
-              <Button type="primary" ghost>
+              <Button type="primary" onClick={() => removeFromQueueFn(item.queue_id,item.student_id,item.class_id,item.tag_id)} ghost>
                 <Icon type="minus-circle" /> Remove
               </Button>,
-              <Button type="primary" ghost>
+              <Button type="primary" onClick={() => helpStudentFn(item.queue_id,item.student_id,item.class_id)} ghost>
                 <Icon type="question-circle" /> Help
               </Button>
             ]}
@@ -63,11 +45,11 @@ function InQueue() {
             <List.Item.Meta
               avatar={
                 <Badge count={i + 1} style={{ backgroundColor: "#42b0ff" }}>
-                  <Avatar src={item.avatar} />
+                  <Avatar src={item.image} />
                 </Badge>
               }
               // title={<a href="https://ant.design">{item.title}</a>}
-              title={`${item.firstName} ${item.lastName}`}
+              title={item.name}
               description={item.tag}
             />
           </List.Item>

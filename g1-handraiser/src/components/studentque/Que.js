@@ -11,14 +11,13 @@ import {
 import NeedHelp from "./NeedHelp";
 import BeingHelp from "../includes/BeingHelp";
 import Chat from "../chat/Fab";
-// import QueueCounter from "../mentor/includes/QueueCounter";
+import QueueCounter from "../mentor/includes/QueueCounter";
 // import Img from "../login/img/undraw_software_engineer_lvl5.svg";
 import Help from "./HelpFab";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { useHistory, useParams, useRouteMatch } from "react-router-dom";
 import io from "socket.io-client";
-import Position from "./Position";
 import Resolved from "./Resolved";
 import { Icon } from "antd";
 
@@ -73,9 +72,9 @@ const useStyles = makeStyles(theme => ({
 
 export default function Que(props) {
   const history = useHistory();
+  const { id } = useParams();
 
   const [data, setData] = useState([]);
-  const { id } = useParams();
   const match = useRouteMatch();
 
   useEffect(() => {
@@ -99,6 +98,7 @@ export default function Que(props) {
 
   const [queueList, setQueueList] = useState([]);
   const [initial, setInitial] = useState(true);
+  const [beingHelp, setBeingHelp] = useState([]);
 
   useEffect(() => {
     setInitial(false);
@@ -108,9 +108,18 @@ export default function Que(props) {
     })
       .then(response => setQueueList(response.data))
       .catch(error => console.error(error));
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/help`
+    })
+      .then(response => setBeingHelp(response.data))
+      .catch(error => console.error(error));
     socket.emit("joinClass", { class_id: data.class_id });
     socket.on("updateQueue", queue => {
       setQueueList(queue);
+    });
+    socket.on("updateHelp", help => {
+      setBeingHelp(help);
     });
   }, [data, queueList, initial, id, history]);
 
@@ -121,6 +130,7 @@ export default function Que(props) {
   };
 
   const handraiseFn = () => {
+    setTagVal("");
     socket.emit(
       "handraise",
       { student_id: data.student_id, class_id: data.class_id, tag: tagVal },
@@ -137,11 +147,15 @@ export default function Que(props) {
   };
 
   const filterSelfFn = id => {
-    let filter = false;
+    let queueBool = false;
+    let helpBool = false;
     for (let queue of queueList) {
-      if (queue.student_id === id) filter = true;
+      if (queue.student_id === id) queueBool = true;
     }
-    return filter;
+    for (let help of beingHelp) {
+      if (help.student_id === id) helpBool = true;
+    }
+    return queueBool === true || helpBool === true ? true : false;
   };
 
   const classes = useStyles();
@@ -191,6 +205,7 @@ export default function Que(props) {
             />
           </Card>
         </Grid>
+
         <Grid item xs={12} sm={12} lg={3}>
           <Grid
             container
@@ -200,15 +215,15 @@ export default function Que(props) {
             spacing={1}
           >
             <Grid item>
-              <Position />
-              {/* <QueueCounter count={queueList.length} /> */}
+              <QueueCounter count={queueList.length} />
             </Grid>
             <Grid item>
-              <BeingHelp />
+              <BeingHelp beingHelp={beingHelp} student={true} />
             </Grid>
             <Grid item>
               <Resolved />
             </Grid>
+            <Grid xs={9} item></Grid>
           </Grid>
         </Grid>
         <Grid item xs={12} sm={12} lg={9}>
