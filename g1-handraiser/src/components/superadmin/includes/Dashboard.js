@@ -121,7 +121,7 @@ export default function Navigation(props) {
   });
 
   var logout = () => {
-    localStorage.clear();
+    localStorage.removeItem('pass');
     history.push("/administrator");
   };
 

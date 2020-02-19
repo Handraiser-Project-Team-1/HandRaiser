@@ -142,7 +142,7 @@ const getAcceptClass = (req, res) => {
   const db = req.app.get('db')
 
   db.query(
-    `SELECT DISTINCT list.student_status AS status, class.class_name AS cname, class.class_id AS cid FROM student INNER JOIN list ON student.student_id=list.student_id INNER JOIN class ON class.class_id=list.class_id WHERE list.student_status='accept'`
+    `SELECT DISTINCT list.student_status AS status, class.class_name AS cname, class.class_id AS cid FROM student INNER JOIN list ON student.student_id=list.student_id INNER JOIN class ON class.class_id=list.class_id WHERE list.student_status='accept' AND class.class_status='on'`
   )
     .then(post => res.status(201).json(post))
     .catch(err => {
@@ -155,7 +155,7 @@ const getAcceptClassDetails = (req, res) => {
   const db = req.app.get('db')
   const {id} = req.params
   db.query(
-    `select DISTINCT list.student_status as status, class.class_name as cname, class.class_description as desc, class.class_id as cid FROM student inner join list on student.student_id=list.student_id inner join class on class.class_id=list.class_id where list.student_status='accept' and class.class_id = ${id}`
+    `select DISTINCT list.student_status as status, class.class_name as cname, class.class_description as desc, class.class_id as cid FROM student inner join list on student.student_id=list.student_id inner join class on class.class_id=list.class_id where list.student_status='accept' AND class.class_status='on' and class.class_id = ${id}`
   )
   .then(u => res.status(201).json(u))
   .catch(err => {

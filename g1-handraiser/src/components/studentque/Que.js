@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../includes/TopBar";
 import {
   Grid,
   Typography,
@@ -7,19 +6,21 @@ import {
   CardMedia,
   CardContent,
   CardHeader
+  // CardHeader
 } from "@material-ui/core";
 import NeedHelp from "./NeedHelp";
 import BeingHelp from "../includes/BeingHelp";
 import Chat from "../chat/Fab";
 // import QueueCounter from "../mentor/includes/QueueCounter";
-import Img from "../login/img/undraw_software_engineer_lvl5.svg";
+// import Img from "../login/img/undraw_software_engineer_lvl5.svg";
 import Help from "./HelpFab";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams, useRouteMatch } from "react-router-dom";
 import io from "socket.io-client";
 import Position from "./Position";
 import Resolved from "./Resolved";
+import { Icon } from "antd";
 
 const socket = io.connect(process.env.REACT_APP_DB_URL);
 const useStyles = makeStyles(theme => ({
@@ -38,12 +39,15 @@ const useStyles = makeStyles(theme => ({
   },
 
   img: {
-    width: 700,
+    display: "flex",
+    marginLeft: "20%",
+    width: 1200,
     height: 250,
-    opacity: 0.9
+    opacity: 0.7
   },
   card: {
     display: "flex",
+    marginTop: "-1.5%",
     width: "100%",
     height: 250,
     backgroundColor:
@@ -52,16 +56,17 @@ const useStyles = makeStyles(theme => ({
       "linear-gradient(to right, #E1F5FE, #42A5F5 )" /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   },
   content: {
-    flex: "1 0 auto"
+    flex: "1 0 auto",
+    margin: 15
   },
   que: {
-    padding: "1%",
+    // padding: "1%",
     height: "100%"
   },
   help: {
-    display: "flex",
-    marginTop: "6%",
-    marginLeft: "2%",
+    position: "fixed",
+    marginTop: "2%",
+    marginLeft: "1%",
     color: "gray"
   }
 }));
@@ -70,11 +75,13 @@ export default function Que(props) {
   const history = useHistory();
 
   const [data, setData] = useState([]);
+  const { id } = useParams();
+  const match = useRouteMatch();
 
   useEffect(() => {
     axios({
       method: "POST",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/${props.match.params.id}`,
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${id}`,
       data: { tokenData: localStorage.getItem("tokenid") }
     })
       .then(response => setData(response.data))
@@ -88,26 +95,24 @@ export default function Que(props) {
         }
         console.error(error);
       });
-  }, [history, props.match.params.id]);
+  }, [history, id]);
 
   const [queueList, setQueueList] = useState([]);
   const [initial, setInitial] = useState(true);
 
   useEffect(() => {
-    if (initial) {
-      setInitial(false);
-      axios({
-        method: "GET",
-        url: `${process.env.REACT_APP_DB_URL}/api/class/${props.match.params.id}/queue`
-      })
-        .then(response => setQueueList(response.data))
-        .catch(error => console.error(error));
-    }
+    setInitial(false);
+    axios({
+      method: "GET",
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/queue`
+    })
+      .then(response => setQueueList(response.data))
+      .catch(error => console.error(error));
     socket.emit("joinClass", { class_id: data.class_id });
     socket.on("updateQueue", queue => {
       setQueueList(queue);
     });
-  }, [data, queueList, initial, props.match.params.id, history]);
+  }, [data, queueList, initial, id, history]);
 
   const [tagVal, setTagVal] = useState("");
 
@@ -145,83 +150,84 @@ export default function Que(props) {
   useEffect(() => {
     axios({
       method: "get",
-      url: `${
-        process.env.REACT_APP_DB_URL
-      }/api/class/accept/${localStorage.getItem("cid")}`
+      url: `${process.env.REACT_APP_DB_URL}/api/class/accept/${id}`
     }).then(res => {
       setClassDesc(res.data);
     });
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    props.setSelected(match.params.id);
+  }, [props, match.params.id]);
 
   return (
     <React.Fragment>
-      {classDesc.map((x, i) => {
-        return (
-          <Layout {...props} key={i}>
-            <Grid container spacing={3}>
-              {" "}
-              <Card className={classes.card}>
-                <CardContent className={classes.content}>
-                  <Typography component="h2" variant="h4">
-                    {x.cname}
-                  </Typography>
-                  <Typography variant="subtitle1" color="textSecondary">
-                    {x.desc}
-                  </Typography>
-                  <div className={classes.help}>
-                    {filterSelfFn(data.student_id) ? null : (
-                      <Help
-                        handraiseFn={handraiseFn}
-                        tagVal={tagVal}
-                        setTagValFn={setTagValFn}
-                      />
-                    )}
-                  </div>{" "}
-                </CardContent>
-                <CardMedia
-                  className={classes.img}
-                  component="img"
-                  alt="Contemplative Reptile"
-                  height="220"
-                  src={Img}
-                />
-              </Card>
-              <Grid item xs={12} sm={12} md={12} lg={3}>
-                <Grid
-                  container
-                  direction="column"
-                  justify="flex-start"
-                  alignItems="stretch"
-                  spacing={1}
-                >
-                  <Grid item>
-                    <Position />
-                  </Grid>
-
-                  <Grid item>
-                    <BeingHelp />
-                  </Grid>
-                  <Grid item>
-                    <Resolved />
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12} sm={12} md={12} lg={9}>
-                {" "}
-                <Card className={classes.que}>
-                  <CardHeader subheader="In Queue" />
-                  <NeedHelp
-                    queueList={queueList}
-                    student_id={data.student_id}
-                    removeFromQueueFn={removeFromQueueFn}
+      <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Card className={classes.card} elevation={0} square={true}>
+            <CardContent className={classes.content}>
+              <Typography component="h2" variant="h4">
+                {classDesc[0] ? classDesc[0].cname : false}
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary">
+                {classDesc[0] ? classDesc[0].desc : false}
+              </Typography>
+              <div className={classes.help}>
+                {filterSelfFn(data.student_id) ? null : (
+                  <Help
+                    handraiseFn={handraiseFn}
+                    tagVal={tagVal}
+                    setTagValFn={setTagValFn}
                   />
-                </Card>
-              </Grid>
+                )}
+              </div>{" "}
+            </CardContent>
+            <CardMedia
+              className={classes.img}
+              component="img"
+              alt="Contemplative Reptile"
+              height="220"
+              src="https://graphiccave.com/wp-content/uploads/2015/06/Business-Workspace-PC-and-Laptop-Work-Vector-Pack-PNG-Graphic-Cave.png"
+            />
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={12} lg={3}>
+          <Grid
+            container
+            direction="column"
+            justify="flex-start"
+            alignItems="stretch"
+            spacing={1}
+          >
+            <Grid item>
+              <Position />
+              {/* <QueueCounter count={queueList.length} /> */}
             </Grid>
-            <Chat />
-          </Layout>
-        );
-      })}
+            <Grid item>
+              <BeingHelp />
+            </Grid>
+            <Grid item>
+              <Resolved />
+            </Grid>
+          </Grid>
+        </Grid>
+        <Grid item xs={12} sm={12} lg={9}>
+          <Card className={classes.que} variant="outlined">
+            <CardHeader
+              style={{ backgroundColor: "#fafafa" }}
+              avatar={<Icon type="unordered-list" />}
+              subheader="In Queue"
+            />
+
+            <NeedHelp
+              queueList={queueList}
+              student_id={data.student_id}
+              removeFromQueueFn={removeFromQueueFn}
+            />
+          </Card>
+        </Grid>
+      </Grid>
+      <Chat />
     </React.Fragment>
   );
 }
