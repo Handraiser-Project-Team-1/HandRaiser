@@ -98,7 +98,6 @@ export default function Que(props) {
       })
         .then(response => setQueueList(response.data))
         .catch(error => console.error(error));
-
     socket.emit("joinClass", { class_id: data.class_id });
     socket.on("updateQueue", queue => {
       setQueueList(queue);

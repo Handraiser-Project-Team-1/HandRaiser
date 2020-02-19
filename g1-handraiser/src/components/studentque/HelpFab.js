@@ -34,7 +34,7 @@ function HelpFab({ handraiseFn, setTagValFn, tagVal }) {
           placement="right"
           content={[
             <Input
-              placeholder={error ? "Please enter something" : "Tag"}
+              placeholder={error ? "Please enter your concern" : "Your concern"}
               key="tags"
               onChange={handleChange}
             />,
@@ -45,7 +45,7 @@ function HelpFab({ handraiseFn, setTagValFn, tagVal }) {
               Cancel
             </Button>
           ]}
-          title="Tag"
+          title="Concern"
           trigger="click"
           visible={visible}
           onVisibleChange={handleVisible}

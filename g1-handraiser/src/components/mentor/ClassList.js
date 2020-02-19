@@ -13,22 +13,6 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Typography from "@material-ui/core/Typography";
 
-// function TabPanel(props) {
-//   const { children, value, index, ...other } = props;
-
-//   return (
-//     <Typography
-//       component="div"
-//       role="tabpanel"
-//       hidden={value !== index}
-//       id={`scrollable-auto-tabpanel-${index}`}
-//       aria-labelledby={`scrollable-auto-tab-${index}`}
-//       {...other}
-//     >
-//       {value === index && children}
-//     </Typography>
-//   );
-// }
 export default function ClassList(props) {
   let match = useRouteMatch();
   const { TabPane } = Tabs;
@@ -107,25 +91,6 @@ export default function ClassList(props) {
                 </TabPane>
               </Tabs>
             </Grid>
-
-            {/* <Grid item xs={12} md={1}>
-          <VerticalTabs value={value} setValue={setValue} />
-        </Grid>
-        <Grid item xs={12} md={11}>
-          <TabPanel value={value} index={0}>
-          
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            <Grid item xs={12} md={4}>
-             
-            </Grid>
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            <Grid item xs={12} md={4}>
-              <Queue />
-            </Grid>
-          </TabPanel>
-        </Grid> */}
           </Grid>
         </Route>
         <Route component={page404} />
