@@ -93,13 +93,15 @@ massive({
       .then(student => {
         student.map(x => {
           db.queue.destroy({ student_id: x.student_id }).catch( error => console.error(error));
-          x.helping_id !== null && db.helping.destroy({ student_id: x.student_id }).catch( error => console.error(error));
+          if(x.helping_id !== null){
+            db.helping.destroy({ student_id: x.student_id }).catch( error => console.error(error));
+            handraise.updatedHelpList(x.class_id,db, data => {
+              socket.to(x.class_id).broadcast.emit('updateHelp', data);
+            });
+          }
           db.tag.destroy({tag_id: x.tag_id}).catch( error => console.error(error));
           handraise.updatedQueueList(x.class_id,db, data => {
             socket.to(x.class_id).broadcast.emit('updateQueue', data);
-          });
-          handraise.updatedHelpList(x.class_id,db, data => {
-            socket.to(x.class_id).broadcast.emit('updateHelp', data);
           });
         })
       }).catch(error => console.error(error));
