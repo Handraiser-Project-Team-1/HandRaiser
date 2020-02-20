@@ -87,7 +87,7 @@ export default function Queue(props) {
     socket.emit("joinClass", { class_id: ids });
     socket.on("updateQueue", queue => setQueueList(queue));
     socket.on("updateHelp", help => setBeingHelp(help));
-  }, [ids, queueList, initial, beingHelp]);
+  }, [ids, queueList, initial]);
 
   useEffect(() => {
     Axios({
@@ -96,16 +96,13 @@ export default function Queue(props) {
     })
       .then(response => setQueueList(response.data))
       .catch(error => console.error(error));
-  }, [beingHelp, ids]);
-
-  useEffect(() => {
     Axios({
       method: "get",
       url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/help`
     })
       .then(response => setBeingHelp(response.data))
       .catch(error => console.error(error));
-  }, [beingHelp, ids]);
+  }, [ids]);
 
   const helpStudentFn = (queue_id, student_id, class_id) => {
     socket.emit(
@@ -150,6 +147,7 @@ export default function Queue(props) {
     <DataContext.Provider
       value={{ enrollees, fetchEnrollees, setEnrolledCount, enrolledCount }}
     >
+      {console.log(1)}
       <div className={classes.root}>
         <Grid
           container
