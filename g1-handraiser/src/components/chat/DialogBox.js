@@ -7,10 +7,9 @@ import Button from "@material-ui/core/Button";
 import Type from "./Type";
 import DialogContainer from "./DialogContainer";
 import SendIcon from "@material-ui/icons/Send";
-import io from "socket.io-client";
 import Axios from "axios";
-
-let socket;
+import io from "socket.io-client";
+const socket = io.connect(process.env.REACT_APP_DB_URL);
 // let user = "mark" + Math.floor(Math.random() * Math.floor(20000));
 
 export default function DialogBox({ handleClose, open }) {
@@ -21,13 +20,12 @@ export default function DialogBox({ handleClose, open }) {
   const [messages, setMessages] = useState([])
   const [message, setmessage] = useState('')
   const [feedback, setFeedbAck] = useState('')
-  const ENDPOINT = process.env.REACT_APP_DB_URL;
 
   const handleClick = () => {
     setState(state + 1);
     if (message) {
       const nottyping = "";
-      socket.emit("sendMessage", ({message, image}), () => setmessage(""));
+      socket.emit("sendMessage", ({ message, image }), () => setmessage(""));
       socket.emit("not typing", nottyping);
     }
   };
@@ -40,12 +38,11 @@ export default function DialogBox({ handleClose, open }) {
   // }, [ENDPOINT, name, room])
 
   useEffect(() => {
-    socket = io(ENDPOINT)
-    console.log(socket);
     const uid = localStorage.getItem('uid')
     let session_id;
 
     let data = sessionStorage.getItem('sessionId');
+    
     Axios({
       method: "post",
       url: `${process.env.REACT_APP_DB_URL}/api/user`,
@@ -58,36 +55,23 @@ export default function DialogBox({ handleClose, open }) {
         dataImage.push(x.user_image)
         return x
       });
-   
+
       const named = dataName.join()
       const imaged = dataImage.join()
       setName(named)
       setImage(imaged)
-      if (data == null) {
-        session_id = null
-        socket.emit('join', { name: named, sessionId: session_id, uid })
-      } else {
-        console.log('show prev '+data)
-        session_id = data
-        socket.emit('join', { name: named, sessionId: session_id, uid })
-      }
+      session_id = data
+      socket.emit('join', { name: named, sessionId: session_id, uid })
     });
-  }, [ENDPOINT])
+  }, [])
+
 
   useEffect(() => {
-    socket.on("set-session-acknowledgement", function (data) {
-      sessionStorage.setItem('sessionId', data.sessionId);
-    })
-  })
-
-  useEffect(() => {
-    
     socket.on("set-old-messages", msgs => {
-      const {sessionId, msg} = msgs;
-      sessionStorage.setItem('sessionId', sessionId);
+      const {  msg } = msgs;
       setMessages(msg)
     })
-  },[])
+  }, [])
 
   useEffect(() => {
     socket.on("typing", data => {
