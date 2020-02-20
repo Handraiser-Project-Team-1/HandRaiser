@@ -107,6 +107,7 @@ export default function Select(props) {
     history.push(`/classes/${e}`);
     props.setSelected(e);
     localStorage.setItem("cid", `${e}`);
+    sessionStorage.setItem('sessionId', e)
     //window.location.reload(true);
     // console.log(e)
   };
