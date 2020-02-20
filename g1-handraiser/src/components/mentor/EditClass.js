@@ -127,7 +127,7 @@ export default function EditClassForm(props) {
             setVisible(false);
             setLoading(false);
           }, 1000);
-
+          console.log(id);
           fetchClassDetails(id);
         })
         .catch(err => {

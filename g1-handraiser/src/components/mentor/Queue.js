@@ -37,7 +37,7 @@ export default function Queue(props) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    fetchClassDetails(id);
+    fetchClassDetails(ids);
     enrolledCountStudent(ids);
     fetchEnrollees(ids);
   }, [id, ids]);
@@ -235,7 +235,7 @@ export default function Queue(props) {
         setVisible={setVisible}
         classDetails={classDetails}
         fetchClassDetails={fetchClassDetails}
-        id={id}
+        id={ids}
       />
       <Chat />
     </DataContext.Provider>

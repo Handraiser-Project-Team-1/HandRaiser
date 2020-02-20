@@ -86,7 +86,7 @@ const findClass = (req, res) => {
   const { id } = req.params;
 
   db.class
-    .findOne({ slug: id })
+    .findOne({ class_id: id })
     .then(results => res.status(200).send(results))
     .catch(err => res.status(500).send(err));
 };
