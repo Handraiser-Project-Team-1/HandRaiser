@@ -218,7 +218,8 @@ const Layout = props => {
     fname: "",
     lname: "",
     image: "",
-    email: ""
+    email: "",
+    uid: ""
   });
   const [selected, setSelected] = useState(null);
 
@@ -246,7 +247,8 @@ const Layout = props => {
             fname: x.user_fname,
             lname: x.user_lname,
             image: x.user_image,
-            email: x.user_email
+            email: x.user_email,
+            uid: x.userd_id
           });
           return setUser;
         });
@@ -257,7 +259,7 @@ const Layout = props => {
   }, [history]);
 
   var logout = () => {
-    socket.emit("logout", {user_id: localStorage.getItem('uid')});
+    socket.emit("logout", { user_id: localStorage.getItem('uid') });
     localStorage.clear();
     history.push("/");
   };
@@ -359,6 +361,9 @@ const Layout = props => {
                           onClick={() => {
                             history.push(`${match.path}/${x.cid}`);
                             setSelected(x.cid);
+                            sessionStorage.setItem('sessionId', x.cid)
+                            window.location.reload()
+                            socket.emit('join', { name: user.fname, sessionId: x.cid, uid: user.uid })
                           }}
                           key={i}
                         >
@@ -384,7 +389,7 @@ const Layout = props => {
                         <ListItemText primary="Logout" />
                       </ListItem>
                     )}
-                  /> 
+                  />
                 </List>
               </div>
               <CollapseBtn className={sidebarStyles.collapseBtn}>

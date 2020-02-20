@@ -31,124 +31,112 @@ massive({
       console.log("user disconnected");
     });
 
-    socket.on("joinClass", ({class_id}) => {
+    socket.on("joinClass", ({ class_id }) => {
       socket.class_id = class_id;
       socket.join(class_id);
     })
 
     socket.on("handraise", ({ student_id, class_id, tag }, callback) => {
       db.tag
-      .insert({
-        tag
-      })
-      .then(tagResponse => {
-        db.queue
         .insert({
-          student_id,
-          tag_id: tagResponse.tag_id,
-          class_id
+          tag
         })
-        .then(() => {
-          handraise.updatedQueueList(class_id,db, data => {
-            socket.to(class_id).broadcast.emit('updateQueue', data);
-            callback(data);
-          })
-        }).catch( error => console.error(error));
-      })
+        .then(tagResponse => {
+          db.queue
+            .insert({
+              student_id,
+              tag_id: tagResponse.tag_id,
+              class_id
+            })
+            .then(() => {
+              handraise.updatedQueueList(class_id, db, data => {
+                socket.to(class_id).broadcast.emit('updateQueue', data);
+                callback(data);
+              })
+            }).catch(error => console.error(error));
+        })
     });
 
-    socket.on("leaveQueue", ({queue_id,student_id,class_id,tag_id}, callback) => {
+    socket.on("leaveQueue", ({ queue_id, student_id, class_id, tag_id }, callback) => {
       db.queue
         .destroy({
           queue_id,
           student_id
         }).then(() => {
-          db.tag.destroy({tag_id})
-          handraise.updatedQueueList(class_id,db, data => {
+          db.tag.destroy({ tag_id })
+          handraise.updatedQueueList(class_id, db, data => {
             socket.to(class_id).broadcast.emit('updateQueue', data);
             callback(data);
           })
         })
-        .catch( error => console.error(error));
+        .catch(error => console.error(error));
     });
 
-    socket.on("help", ({queue_id, student_id, class_id, mentor_id}, callback) => {
+    socket.on("help", ({ queue_id, student_id, class_id, mentor_id }, callback) => {
       db.helping.insert({ student_id, mentor_id })
-      .then(helping => {
-        db.queue.update({ queue_id }, { helping_id: helping.helping_id })
-        .then(() => {
-          handraise.updatedQueueList(class_id,db, data => {
-            socket.to(class_id).broadcast.emit('updateQueue', data);
-          })
-          handraise.updatedHelpList(class_id,db, data => {
-            socket.to(class_id).broadcast.emit('updateHelp', data);
-            callback(data);
-          })
-        }).catch( error => console.error(error));
-      }).catch( error => console.error(error));
+        .then(helping => {
+          db.queue.update({ queue_id }, { helping_id: helping.helping_id })
+            .then(() => {
+              handraise.updatedQueueList(class_id, db, data => {
+                socket.to(class_id).broadcast.emit('updateQueue', data);
+              })
+              handraise.updatedHelpList(class_id, db, data => {
+                socket.to(class_id).broadcast.emit('updateHelp', data);
+                callback(data);
+              })
+            }).catch(error => console.error(error));
+        }).catch(error => console.error(error));
     });
 
-    socket.on("logout", ({user_id}) => {
+    socket.on("logout", ({ user_id }) => {
       db.query(`SELECT q.tag_id, q.helping_id, q.student_id, q.class_id FROM student as s, queue as q WHERE s.student_id = q.student_id AND s.user_id = ${user_id}`)
-      .then(student => {
-        student.map(x => {
-          db.queue.destroy({ student_id: x.student_id }).catch( error => console.error(error));
-          x.helping_id !== null && db.helping.destroy({ student_id: x.student_id }).catch( error => console.error(error));            
-          db.tag.destroy({tag_id: x.tag_id}).catch( error => console.error(error));
-          handraise.updatedQueueList(x.class_id,db, data => {
-            socket.to(x.class_id).broadcast.emit('updateQueue', data);
-          });
-          handraise.updatedHelpList(x.class_id,db, data => {
-            socket.to(x.class_id).broadcast.emit('updateHelp', data);
-          });
-        })
-      }).catch(error => console.error(error));
+        .then(student => {
+          student.map(x => {
+            db.queue.destroy({ student_id: x.student_id }).catch(error => console.error(error));
+            x.helping_id !== null && db.helping.destroy({ student_id: x.student_id }).catch(error => console.error(error));
+            db.tag.destroy({ tag_id: x.tag_id }).catch(error => console.error(error));
+            handraise.updatedQueueList(x.class_id, db, data => {
+              socket.to(x.class_id).broadcast.emit('updateQueue', data);
+            });
+            handraise.updatedHelpList(x.class_id, db, data => {
+              socket.to(x.class_id).broadcast.emit('updateHelp', data);
+            });
+          })
+        }).catch(error => console.error(error));
     })
 
-    socket.on("resolved", ({class_id, student_id, tag_id, mentor_id,queue_id,helping_id}, callback) => {
-      db.resolved.insert({class_id, student_id, tag_id, mentor_id})
-      .then(resolved => {
-        db.queue.destroy({queue_id})
-        .then(() => {
-          db.helping.destroy({helping_id})
-          .then(() => {
-            handraise.updatedHelpList(class_id,db, data => {
-              socket.to(class_id).broadcast.emit('updateHelp', data);
-              callback(data);
-            })
-          }).catch( error => console.error(error));
-        }).catch( error => console.error(error));
-      }).catch( error => console.error(error));
+    socket.on("resolved", ({ class_id, student_id, tag_id, mentor_id, queue_id, helping_id }, callback) => {
+      db.resolved.insert({ class_id, student_id, tag_id, mentor_id })
+        .then(resolved => {
+          db.queue.destroy({ queue_id })
+            .then(() => {
+              db.helping.destroy({ helping_id })
+                .then(() => {
+                  handraise.updatedHelpList(class_id, db, data => {
+                    socket.to(class_id).broadcast.emit('updateHelp', data);
+                    callback(data);
+                  })
+                }).catch(error => console.error(error));
+            }).catch(error => console.error(error));
+        }).catch(error => console.error(error));
     })
 
-    socket.on("join", function({ name, sessionId, uid }) {
-      if (sessionId == null) {
-        var session_id = "1";
-        const { user } = addUser({ id: socket.id, name, room: session_id, uid });
-        socket.join(user.room, function(res) {
-          socket.emit("message", {
-            fname: "admin",
-            message: `${user.name}, welcome to the room`
-          });
-          console.log("joined successfully ");
-          socket.emit("set-session-acknowledgement", { sessionId: user.room });
-        });
-      } else {
-        socket.room = sessionId;
-        const { user } = addUser({ id: socket.id, name, room: socket.room, uid });
-        socket.join(user.room, function(res) {
-          db.query(`SELECT user_details.user_image as image, user_details.user_fname as fname, user_details.userd_id as id, sender.message as message FROM user_details inner join sender on user_details.userd_id=sender.userd_id inner join convo on sender.s_id=convo.s_id WHERE convo.class_id=${user.room}`).then(msg => {         
-              socket.emit("set-old-messages",{msg, sessionId: sessionId});
+    socket.on("join", function ({ name, sessionId, uid }) {
+      if (sessionId != null) {
+        const { user } = addUser({ id: socket.id, name, room: sessionId, uid });
+        socket.join(user.room, function (res) {
+          db.query(`SELECT user_details.user_image as image, user_details.user_fname as fname, user_details.userd_id as id, sender.message as message FROM user_details inner join sender on user_details.userd_id=sender.userd_id inner join convo on sender.s_id=convo.s_id WHERE convo.class_id=${user.room}`).then(msg => {
+            socket.emit("set-old-messages", { msg, sessionId: sessionId });
           })
           console.log("joined successfully ");
         });
       }
     });
 
-    socket.on("sendMessage", ({message, image}, callback) => {
+    socket.on("sendMessage", ({ message, image }, callback) => {
       const user = getUser(socket.id);
-      db.sender.insert({userd_id: user.uid, message: message}).then(sender => {
-        db.convo.insert({class_id: user.room, s_id: sender.s_id}).then(convo => {
+      db.sender.insert({ userd_id: user.uid, message: message }).then(sender => {
+        db.convo.insert({ class_id: user.room, s_id: sender.s_id }).then(convo => {
           io.to(convo.class_id).emit("message", { fname: user.name, message: sender.message, image });
         })
       })
@@ -182,7 +170,7 @@ massive({
   app.post("/api/users/", user.createUsers);
   app.get("/api/users", user.getUsers);
   app.post("/api/user", user.getUser);
-  app.get("/api/protected/data", function(req, res) {
+  app.get("/api/protected/data", function (req, res) {
     if (!req.headers.authorization) {
       return res.status(401).end();
     }
