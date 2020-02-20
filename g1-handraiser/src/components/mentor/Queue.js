@@ -65,6 +65,7 @@ export default function Queue(props) {
   const [initial, setInitial] = useState(true);
   const [queueList, setQueueList] = useState([]);
   const [beingHelp, setBeingHelp] = useState([]);
+  const [resolvedList, setResolvedList] = useState([]);
 
   useEffect(() => {
     if (initial) {
@@ -82,26 +83,38 @@ export default function Queue(props) {
       })
         .then(response => setBeingHelp(response.data))
         .catch(error => console.error(error));
+      
+      Axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_DB_URL}/api/resolved/${ids}`
+      }).then(res => setResolvedList(res.data))
+        .catch(error => console.error(error));
     }
     socket.emit("joinClass", { class_id: ids });
     socket.on("updateQueue", queue => setQueueList(queue));
     socket.on("updateHelp", help => setBeingHelp(help));
+    socket.on("updateResolved", resolved => setResolvedList(resolved));
   }, [ids, queueList, initial]);
 
-  useEffect(() => {
+  const reloadAllStateFn = (class_id) => {
     Axios({
       method: "get",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/queue`
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${class_id}/queue`
     })
       .then(response => setQueueList(response.data))
       .catch(error => console.error(error));
     Axios({
       method: "get",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/help`
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${class_id}/help`
     })
       .then(response => setBeingHelp(response.data))
       .catch(error => console.error(error));
-  }, [ids]);
+    Axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_DB_URL}/api/resolved/${class_id}`
+    }).then(res => setResolvedList(res.data))
+      .catch(error => console.error(error));
+  }
 
   const helpStudentFn = (queue_id, student_id, class_id) => {
     socket.emit(
@@ -109,6 +122,7 @@ export default function Queue(props) {
       { queue_id, student_id, class_id, mentor_id: classDetails.mentor_id },
       helping => {
         setBeingHelp(helping);
+        reloadAllStateFn(ids);
       }
     );
   };
@@ -139,6 +153,7 @@ export default function Queue(props) {
       { class_id, student_id, tag_id, mentor_id, queue_id, helping_id },
       helping => {
         setBeingHelp(helping);
+        reloadAllStateFn(ids);
       }
     );
   };
@@ -213,7 +228,7 @@ export default function Queue(props) {
                 <BeingHelp beingHelp={beingHelp} resolvedFn={resolvedFn} />
               </Grid>
               <Grid item xs={12}>
-                <Resolved cid={ids} />
+                <Resolved resolvedList={resolvedList} />
               </Grid>
             </Grid>
             <Grid item xs={12} sm={12} md={9} lg={9}>
