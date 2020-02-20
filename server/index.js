@@ -34,7 +34,7 @@ massive({
     socket.on("joinClass", ({ class_id }) => {
       socket.class_id = class_id;
       socket.join(class_id);
-    })
+    });
 
     socket.on("handraise", ({ student_id, class_id, tag }, callback) => {
       db.tag
@@ -135,11 +135,19 @@ massive({
 
     socket.on("sendMessage", ({ message, image }, callback) => {
       const user = getUser(socket.id);
-      db.sender.insert({ userd_id: user.uid, message: message }).then(sender => {
-        db.convo.insert({ class_id: user.room, s_id: sender.s_id }).then(convo => {
-          io.to(convo.class_id).emit("message", { fname: user.name, message: sender.message, image });
-        })
-      })
+      db.sender
+        .insert({ userd_id: user.uid, message: message })
+        .then(sender => {
+          db.convo
+            .insert({ class_id: user.room, s_id: sender.s_id })
+            .then(convo => {
+              io.to(convo.class_id).emit("message", {
+                fname: user.name,
+                message: sender.message,
+                image
+              });
+            });
+        });
       callback();
     });
 
@@ -209,19 +217,21 @@ massive({
   app.get("/api/class", mentor.getAllClass);
   app.delete("/api/delete/class/:id", mentor.removeClass);
   app.patch("/api/update/class/status/:id", mentor.updateStatus);
+  app.patch("/api/edit/class/:id", mentor.editClass);
 
   app.get("/api/class/list", student.getAllClass);
   app.post("/api/class/:id", student.getClass);
   app.post("/api/join/class", student.joinClass);
   app.get("/api/joined/class/:user_id", student.joinedClass);
-  app.get("/api/class/accept", student.getAcceptClass)
-  app.get("/api/class/accept/:id", student.getAcceptClassDetails)
-  app.get("/api/resolved/:id", student.getAllResolved)
+  app.get("/api/class/accept", student.getAcceptClass);
+  app.get("/api/class/accept/:id", student.getAcceptClassDetails);
+  app.get("/api/resolved/:id", student.getAllResolved);
 
   app.get("/api/class/:id/queue", student.queueList);
   app.get("/api/class/:id/help", student.helpList);
   app.get("/api/class/title/:id", mentor.findClass);
   app.get("/api/get/enrollees/:id", mentor.getEnrolles);
+  app.get("/api/get/enrolled/:id", mentor.getEnrolledStudent);
   app.patch(
     "/api/update/enrollees/status/:listId/:status",
     mentor.updateEnrolleesStatus
