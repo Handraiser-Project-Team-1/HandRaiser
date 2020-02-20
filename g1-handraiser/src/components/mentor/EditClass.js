@@ -109,7 +109,7 @@ export default function EditClassForm(props) {
   const submit = (fetchClassDetails, id) => {
     setLoading(true);
     if (name && description && startDate && endDate) {
-      console.log(name, description, startDate, endDate, classDetails.class_id);
+      // console.log(name, description, startDate, endDate, classDetails.class_id);
 
       const slug = slugify(name);
       Axios.patch(
