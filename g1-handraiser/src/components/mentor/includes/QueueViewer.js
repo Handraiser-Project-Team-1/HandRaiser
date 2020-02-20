@@ -45,19 +45,27 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function QueueViewer({queueList,removeFromQueueFn,helpStudentFn,beingHelp}) {
+export default function QueueViewer({
+  queueList,
+  removeFromQueueFn,
+  helpStudentFn,
+  beingHelp,
+  ids,
+  fetchEnrollees
+}) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (fetchEnrollees, ids) => (event, newValue) => {
     setValue(newValue);
+    fetchEnrollees(ids);
   };
 
   return (
     <div className={classes.root}>
       <Tabs
         value={value}
-        onChange={handleChange}
+        onChange={handleChange(fetchEnrollees, ids)}
         aria-label="simple tabs example"
       >
         <Tab label="On Queue" {...a11yProps(0)} />
@@ -65,7 +73,12 @@ export default function QueueViewer({queueList,removeFromQueueFn,helpStudentFn,b
       </Tabs>
 
       <TabPanel value={value} index={0}>
-        <InQueue queueList={queueList} removeFromQueueFn={removeFromQueueFn} helpStudentFn={helpStudentFn} beingHelp={beingHelp}/>
+        <InQueue
+          queueList={queueList}
+          removeFromQueueFn={removeFromQueueFn}
+          helpStudentFn={helpStudentFn}
+          beingHelp={beingHelp}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <QueueDone />

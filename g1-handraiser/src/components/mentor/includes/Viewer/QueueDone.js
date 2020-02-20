@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState, useContext } from "react";
 import Axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import { useParams } from "react-router-dom";
@@ -13,7 +13,6 @@ import { useParams } from "react-router-dom";
 import { List, Avatar, Button, Icon } from "antd";
 import CustomizedSnackbars from "../../../includes/Notif";
 import DataContext from "../../DataContext";
-
 const useStyles = makeStyles(theme => ({
   root: {
     padding: "50%"
@@ -37,13 +36,16 @@ const useStyles = makeStyles(theme => ({
 function StudentList() {
   const classes = useStyles();
   let { ids } = useParams();
-  const { enrollees, fetchEnrollees } = useContext(DataContext);
+  const { enrollees, fetchEnrollees, setEnrolledCount } = useContext(
+    DataContext
+  );
   const [message, setMessage] = useState({});
   const [notif, setNotif] = useState(false);
 
-  useEffect(() => {
-    fetchEnrollees(ids);
-  }, [fetchEnrollees, ids]);
+  // useEffect(() => {
+  //   console.log(enrollees)
+  //   fetchEnrollees(ids);
+  // }, [fetchEnrollees, ids]);
 
   const handleConfirm = (status, listId) => {
     if (status === "accept") {
@@ -52,6 +54,8 @@ function StudentList() {
       )
         .then(res => {
           console.log(res);
+
+          setEnrolledCount(prev => prev + 1);
           setNotif(true);
           setMessage({
             title: "Success!",
@@ -66,7 +70,7 @@ function StudentList() {
         `${process.env.REACT_APP_DB_URL}/api/decline/enrollees/${listId}`
       )
         .then(res => {
-          console.log(res);
+          if (status === "remove") setEnrolledCount(prev => prev - 1);
           setNotif(true);
           setMessage({
             title: "Information!",
@@ -119,7 +123,6 @@ function StudentList() {
         open={notif}
         setOpen={setNotif}
       />
-
       <List
         itemLayout="horizontal"
         dataSource={enrollees}

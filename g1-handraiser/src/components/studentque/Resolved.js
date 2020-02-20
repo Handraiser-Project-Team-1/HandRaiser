@@ -16,16 +16,17 @@ const useStyles = makeStyles({
     minWidth: 50
   }
 });
-function Resolved({cid}) {
+function Resolved({ cid }) {
   const classes = useStyles();
-  const [data, setData] = useState([])
-  
-  useEffect(()=>{
-    Axios.get(`${process.env.REACT_APP_DB_URL}/api/resolved/${cid}`)
-    .then(res=>{
-      return(setData(res.data))
-    })
-  },[cid])
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    Axios.get(`${process.env.REACT_APP_DB_URL}/api/resolved/${cid}`).then(
+      res => {
+        return setData(res.data);
+      }
+    );
+  }, [cid]);
 
   return (
     <div>
@@ -39,8 +40,8 @@ function Resolved({cid}) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((x,i)=>{
-              return(
+            {data.map((x, i) => {
+              return (
                 <TableRow key={i}>
                   <TableCell scope="row" style={{ color: "gray" }}>
                     <Avatar icon="user" /> {x.fname} {x.lname}
@@ -49,7 +50,7 @@ function Resolved({cid}) {
                     </Tag>
                   </TableCell>
                 </TableRow>
-              )
+              );
             })}
           </TableBody>
         </Table>

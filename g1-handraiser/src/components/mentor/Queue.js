@@ -13,6 +13,9 @@ import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import DataContext from "./DataContext";
 import Resolved from "../studentque/Resolved";
 import io from "socket.io-client";
+import StudentCount from "./includes/StudentCount";
+import { Paper } from "@material-ui/core";
+import EditForm from "./EditClass";
 
 const socket = io.connect(process.env.REACT_APP_DB_URL);
 
@@ -30,21 +33,33 @@ export default function Queue(props) {
   const classes = useStyles();
   const [classDetails, setClassDetails] = useState({});
   const [enrollees, setEnrollees] = useState([]);
+  const [enrolledCount, setEnrolledCount] = useState(0);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    fetchClassDetails(ids);
+    enrolledCountStudent(ids);
+    fetchEnrollees(ids);
+  }, [id, ids]);
+
+  const fetchClassDetails = id => {
     Axios.get(`${process.env.REACT_APP_DB_URL}/api/class/title/${id}`)
       .then(res => {
         setClassDetails(res.data);
       })
       .catch(err => console.error(err));
-
-    fetchEnrollees(ids);
-  }, [id, ids]);
+  };
 
   const fetchEnrollees = ids => {
     Axios.get(`${process.env.REACT_APP_DB_URL}/api/get/enrollees/${ids}`)
       .then(res => setEnrollees(res.data))
       .catch(err => console.error(err));
+  };
+
+  const enrolledCountStudent = ids => {
+    Axios.get(`${process.env.REACT_APP_DB_URL}/api/get/enrolled/${ids}`)
+      .then(res => setEnrolledCount(res.data[0].count))
+      .catch(err => console.error(err.response));
   };
 
   const [initial, setInitial] = useState(true);
@@ -71,7 +86,7 @@ export default function Queue(props) {
     socket.emit("joinClass", { class_id: ids });
     socket.on("updateQueue", queue => setQueueList(queue));
     socket.on("updateHelp", help => setBeingHelp(help));
-  }, [ids, queueList, initial, beingHelp]);
+  }, [ids, queueList, initial]);
 
   useEffect(() => {
     Axios({
@@ -80,16 +95,13 @@ export default function Queue(props) {
     })
       .then(response => setQueueList(response.data))
       .catch(error => console.error(error));
-  }, [beingHelp, ids]);
-
-  useEffect(() => {
     Axios({
       method: "get",
       url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/help`
     })
       .then(response => setBeingHelp(response.data))
       .catch(error => console.error(error));
-  }, [beingHelp, ids])
+  }, [ids]);
 
   const helpStudentFn = (queue_id, student_id, class_id) => {
     socket.emit(
@@ -99,6 +111,11 @@ export default function Queue(props) {
         setBeingHelp(helping);
       }
     );
+  };
+
+  const dateFormat = date => {
+    let d = new Date(date);
+    return d.toDateString();
   };
 
   const removeFromQueueFn = (queue_id, student_id, class_id, tag_id) => {
@@ -126,7 +143,9 @@ export default function Queue(props) {
     );
   };
   return (
-    <DataContext.Provider value={{ enrollees, fetchEnrollees }}>
+    <DataContext.Provider
+      value={{ enrollees, fetchEnrollees, setEnrolledCount, enrolledCount }}
+    >
       <div className={classes.root}>
         <Grid
           container
@@ -151,35 +170,74 @@ export default function Queue(props) {
               </Typography>
             </Breadcrumbs>
           </Grid>
+        </Grid>
 
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={12} md={12} lg={3}>
-              <Grid
-                container
-                direction="column"
-                justify="flex-start"
-                alignItems="stretch"
-                spacing={1}
-              >
-                <Grid item>
-                  <QueueCounter count={queueList.length} />
-                </Grid>
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <Typography variant="h3">{classDetails.class_name}</Typography>
+            <Typography variant="caption">
+              {dateFormat(classDetails.date_created) +
+                " to " +
+                dateFormat(classDetails.date_end) +
+                " "}
+            </Typography>
 
-                <Grid item>
-                  <BeingHelp beingHelp={beingHelp} resolvedFn={resolvedFn} />
-                </Grid>
-                <Grid item>
-                  <Resolved cid={ids}/>
-                </Grid>
+            <Link
+              variant="subtitle1"
+              to="#"
+              onClick={() => {
+                setVisible(true);
+              }}
+            >
+              [edit]
+            </Link>
+          </Grid>
+          <Grid item xs={12}>
+            <Paper variant="outlined" style={{ padding: 10 }}>
+              <Typography variant="subtitle1">
+                {classDetails.class_description}
+              </Typography>
+            </Paper>
+          </Grid>
+
+          <Grid item container spacing={1}>
+            <Grid container item xs={12} sm={12} md={3} lg={3} spacing={1}>
+              <Grid item xs={12}>
+                <StudentCount count={enrolledCount} />
+              </Grid>
+              <Grid item xs={12}>
+                <QueueCounter count={queueList.length} />
+              </Grid>
+
+              <Grid item xs={12}>
+                <BeingHelp beingHelp={beingHelp} resolvedFn={resolvedFn} />
+              </Grid>
+              <Grid item xs={12}>
+                <Resolved cid={ids} />
               </Grid>
             </Grid>
-          </Grid>
-          <Grid item xs={12} sm={12} md={7} lg={9}>
-            <QueueViewer queueList={queueList} removeFromQueueFn={removeFromQueueFn} helpStudentFn={helpStudentFn} beingHelp={beingHelp}/>
+            <Grid item xs={12} sm={12} md={9} lg={9}>
+              <QueueViewer
+                queueList={queueList}
+                removeFromQueueFn={removeFromQueueFn}
+                helpStudentFn={helpStudentFn}
+                beingHelp={beingHelp}
+                fetchEnrollees={fetchEnrollees}
+                ids={ids}
+              />
+            </Grid>
           </Grid>
         </Grid>
         <Chat />
       </div>
+      <EditForm
+        visible={visible}
+        setVisible={setVisible}
+        classDetails={classDetails}
+        fetchClassDetails={fetchClassDetails}
+        id={ids}
+      />
+      <Chat />
     </DataContext.Provider>
   );
 }
