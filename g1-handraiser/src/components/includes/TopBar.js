@@ -355,6 +355,7 @@ const Layout = props => {
                     {stud_class.map((x, i) => {
                       return (
                         <ListItem
+                        key={i}
                           button
                           selected={parseInt(selected) === x.cid ? true : false}
                           className={classes.nested}
@@ -365,7 +366,7 @@ const Layout = props => {
                             window.location.reload()
                             socket.emit('join', { name: user.fname, sessionId: x.cid, uid: user.uid })
                           }}
-                          key={i}
+                          
                         >
                           <ListItemIcon>
                             <StarBorderOutlinedIcon />

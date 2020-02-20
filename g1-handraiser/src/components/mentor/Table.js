@@ -112,8 +112,10 @@ export default function SimpleTable({ myClass, handleDelete, setClasses }) {
                   type="primary"
                   ghost
                   variant="outlined"
-                  onClick={() =>
+                  onClick={() => {
                     history.push(`/myclasslist/${row.class_id}/${row.slug}`)
+                    sessionStorage.setItem('sessionId',row.class_id)
+                  }
                   }
                 >
                   <Icon type="eye" />
