@@ -39,7 +39,6 @@ function Login() {
   const classes = useStyles();
 
   const [login, setLogin] = useState(false);
-
   const responseGoogle = response => {
     setLogin(true);
     axios({
@@ -52,10 +51,8 @@ function Login() {
       }
     })
       .then(response => {
-        console.log(response);
         setTimeout(() => {
           if (response.status === 200) {
-            console.log(response);
             response.data.user_type === "mentor"
               ? history.push("/myclasslist")
               : history.push("/classes");
@@ -96,7 +93,7 @@ function Login() {
           Login with Google
         </Button>
       )}
-      clientId="566271695022-d3jfkv7cmqq6c6unto7bvb7q2osl7hii.apps.googleusercontent.com"
+      clientId={process.env.REACT_APP_CLIENT_ID}
       buttonText="Login"
       onSuccess={responseGoogle}
       onFailure={responseGoogleFail}

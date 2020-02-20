@@ -32,7 +32,7 @@ export default function ClassList(props) {
 
   const handleDelete = id => {
     confirm({
-      title: "Are you sure delete this task?",
+      title: "Are you sure delete this class?",
       content: "Some descriptions",
       okText: "Yes",
       okType: "danger",

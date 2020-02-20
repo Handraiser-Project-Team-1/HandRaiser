@@ -45,7 +45,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function QueueViewer({queueList,removeFromQueueFn,helpStudentFn}) {
+export default function QueueViewer({queueList,removeFromQueueFn,helpStudentFn,beingHelp}) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -65,7 +65,7 @@ export default function QueueViewer({queueList,removeFromQueueFn,helpStudentFn})
       </Tabs>
 
       <TabPanel value={value} index={0}>
-        <InQueue queueList={queueList} removeFromQueueFn={removeFromQueueFn} helpStudentFn={helpStudentFn}/>
+        <InQueue queueList={queueList} removeFromQueueFn={removeFromQueueFn} helpStudentFn={helpStudentFn} beingHelp={beingHelp}/>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <QueueDone />

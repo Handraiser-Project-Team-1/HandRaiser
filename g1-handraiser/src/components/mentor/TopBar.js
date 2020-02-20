@@ -29,7 +29,7 @@ import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import axios from "axios";
-
+import { GoogleLogout } from 'react-google-login';
 const config = {
   autoCollapseDisabled: false,
   collapsedBreakpoint: "sm",
@@ -247,6 +247,11 @@ const Layout = props => {
     localStorage.clear();
     history.push("/");
   };
+
+  const responseGoogleFail = response => {
+    console.error(response.error);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Root omitThemeProvider={true} config={config}>
@@ -310,12 +315,19 @@ const Layout = props => {
                     </ListItemIcon>
                     <ListItemText primary="My Class" />
                   </ListItem>
-                  <ListItem onClick={logout} button>
-                    <ListItemIcon>
-                      <PowerSettingsNewIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Logout" />
-                  </ListItem>
+                  <GoogleLogout
+                    clientId={process.env.REACT_APP_CLIENT_ID}
+                    onLogoutSuccess={logout}
+                    onFailure={responseGoogleFail}
+                    render={renderProps => (
+                      <ListItem onClick={renderProps.onClick} button>
+                        <ListItemIcon>
+                          <PowerSettingsNewIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Logout" />
+                      </ListItem>
+                    )}d
+                  />
                 </List>
               </div>
               <CollapseBtn className={sidebarStyles.collapseBtn}>

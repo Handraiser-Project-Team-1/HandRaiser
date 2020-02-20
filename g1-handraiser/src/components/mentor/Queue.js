@@ -11,6 +11,7 @@ import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Typography from "@material-ui/core/Typography";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import DataContext from "./DataContext";
+import Resolved from "../studentque/Resolved";
 import io from "socket.io-client";
 import StudentCount from "./includes/StudentCount";
 import { Paper } from "@material-ui/core";
@@ -86,7 +87,7 @@ export default function Queue(props) {
     socket.emit("joinClass", { class_id: ids });
     socket.on("updateQueue", queue => setQueueList(queue));
     socket.on("updateHelp", help => setBeingHelp(help));
-  }, [ids, queueList, initial]);
+  }, [ids, queueList, initial, beingHelp]);
 
   useEffect(() => {
     Axios({
@@ -94,6 +95,15 @@ export default function Queue(props) {
       url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/queue`
     })
       .then(response => setQueueList(response.data))
+      .catch(error => console.error(error));
+  }, [beingHelp, ids]);
+
+  useEffect(() => {
+    Axios({
+      method: "get",
+      url: `${process.env.REACT_APP_DB_URL}/api/class/${ids}/help`
+    })
+      .then(response => setBeingHelp(response.data))
       .catch(error => console.error(error));
   }, [beingHelp, ids]);
 
@@ -105,6 +115,11 @@ export default function Queue(props) {
         setBeingHelp(helping);
       }
     );
+  };
+
+  const dateFormat = date => {
+    let d = new Date(date);
+    return d.toDateString();
   };
 
   const removeFromQueueFn = (queue_id, student_id, class_id, tag_id) => {
@@ -131,32 +146,6 @@ export default function Queue(props) {
       }
     );
   };
-
-  const dateFormat = date => {
-    let d = new Date(date);
-    return d.toDateString();
-  };
-
-  // useEffect(() => {
-  //   if (localStorage.getItem("tokenid")) {
-  //     Axios({
-  //       method: "get",
-  //       url: `${process.env.REACT_APP_DB_URL}/api/type/${localStorage.getItem(
-  //         "uid"
-  //       )}`
-  //     }).then(res => {
-  //       res.data.map(x => {
-  //         if (x.user_type === "mentor") {
-  //           history.push("/queue");
-  //         } else if (x.user_type === "student") {
-  //           history.push("/classes");
-  //         }
-  //         return x;
-  //       });
-  //     });
-  //   }
-  // }, [history]);
-
   return (
     <DataContext.Provider
       value={{ enrollees, fetchEnrollees, setEnrolledCount, enrolledCount }}
@@ -214,36 +203,34 @@ export default function Queue(props) {
               </Typography>
             </Paper>
           </Grid>
-        </Grid>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12} md={5} lg={3}>
-            <Grid
-              container
-              direction="column"
-              justify="flex-start"
-              alignItems="stretch"
-              spacing={1}
-            >
-              <Grid item>
+
+          <Grid item container spacing={1}>
+            <Grid container item xs={12} sm={12} md={3} lg={3} spacing={1}>
+              <Grid item xs={12}>
                 <StudentCount count={enrolledCount} />
               </Grid>
-              <Grid item>
+              <Grid item xs={12}>
                 <QueueCounter count={queueList.length} />
               </Grid>
 
-              <Grid item>
+              <Grid item xs={12}>
                 <BeingHelp beingHelp={beingHelp} resolvedFn={resolvedFn} />
               </Grid>
+              <Grid item xs={12}>
+                <Resolved cid={ids} />
+              </Grid>
+            </Grid>
+            <Grid item xs={12} sm={12} md={9} lg={9}>
+              <QueueViewer
+                queueList={queueList}
+                removeFromQueueFn={removeFromQueueFn}
+                helpStudentFn={helpStudentFn}
+                beingHelp={beingHelp}
+              />
             </Grid>
           </Grid>
-          <Grid item xs={12} sm={12} md={7} lg={9}>
-            <QueueViewer
-              queueList={queueList}
-              removeFromQueueFn={removeFromQueueFn}
-              helpStudentFn={helpStudentFn}
-            />
-          </Grid>
         </Grid>
+        <Chat />
       </div>
       <EditForm
         visible={visible}

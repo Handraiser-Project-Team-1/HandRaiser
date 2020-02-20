@@ -39,6 +39,10 @@ import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import ClassList from "../selectclass/Select";
 import Que from "../studentque/Que";
 
+import { GoogleLogout } from 'react-google-login';
+import io from "socket.io-client";
+const socket = io.connect(process.env.REACT_APP_DB_URL);
+
 const config = {
   autoCollapseDisabled: false,
   collapsedBreakpoint: "sm",
@@ -253,8 +257,13 @@ const Layout = props => {
   }, [history]);
 
   var logout = () => {
+    socket.emit("logout", {user_id: localStorage.getItem('uid')});
     localStorage.clear();
     history.push("/");
+  };
+
+  const responseGoogleFail = response => {
+    console.error(response.error);
   };
 
   useEffect(() => {
@@ -363,12 +372,19 @@ const Layout = props => {
                   </List>
                 </Collapse>
                 <List>
-                  <ListItem onClick={logout} button>
-                    <ListItemIcon>
-                      <PowerSettingsNewIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Logout" />
-                  </ListItem>
+                  <GoogleLogout
+                    clientId={process.env.REACT_APP_CLIENT_ID}
+                    onLogoutSuccess={logout}
+                    onFailure={responseGoogleFail}
+                    render={renderProps => (
+                      <ListItem onClick={renderProps.onClick} button>
+                        <ListItemIcon>
+                          <PowerSettingsNewIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Logout" />
+                      </ListItem>
+                    )}
+                  /> 
                 </List>
               </div>
               <CollapseBtn className={sidebarStyles.collapseBtn}>

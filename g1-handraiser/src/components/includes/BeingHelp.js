@@ -9,7 +9,6 @@ import { Tag } from "antd";
 import { Typography } from "@material-ui/core";
 const useStyles = makeStyles(theme => ({
   card: {
-    marginTop: 5,
     fontSize: "15px",
     color: "gray"
   },
@@ -34,16 +33,14 @@ export default function CardClass({ beingHelp, resolvedFn, student }) {
           <Typography style={{ color: "gray" }}>Being Help</Typography>
         </CardContent>
         {beingHelp.map((data, index) => {
-          return(
+          return (
             <React.Fragment key={index}>
               <CardHeader
-                avatar={
-                  <Avatar src={data.image}></Avatar>
-                }
+                avatar={<Avatar src={data.image}></Avatar>}
                 title={data.name}
                 subheader={[<Tag key="tag">{data.tag}</Tag>]}
               />
-              {(!student) &&
+              {!student && (
                 <CardContent style={{ paddingBottom: 16 }}>
                   <Typography component="div">
                     <Box textAlign="right">
@@ -69,9 +66,9 @@ export default function CardClass({ beingHelp, resolvedFn, student }) {
                     </Box>
                   </Typography>
                 </CardContent>
-              }
+              )}
             </React.Fragment>
-          )
+          );
         })}
       </Card>
     </React.Fragment>

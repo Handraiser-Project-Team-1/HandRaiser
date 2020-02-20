@@ -71,8 +71,11 @@ const useStyles = makeStyles({
       alignItems: "center"
     },
     "@media(max-width: 768px)": {
-      padding: "5%",
-      marginTop: "15%"
+      display: "flex",
+      alignText: "center",
+      justifyContent: "center",
+
+      marginTop: "10%"
     }
   },
 
