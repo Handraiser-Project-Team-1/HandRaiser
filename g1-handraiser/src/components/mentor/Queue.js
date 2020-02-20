@@ -45,7 +45,6 @@ export default function Queue(props) {
   const fetchClassDetails = id => {
     Axios.get(`${process.env.REACT_APP_DB_URL}/api/class/title/${id}`)
       .then(res => {
-        console.log(res.data);
         setClassDetails(res.data);
       })
       .catch(err => console.error(err));
@@ -147,7 +146,6 @@ export default function Queue(props) {
     <DataContext.Provider
       value={{ enrollees, fetchEnrollees, setEnrolledCount, enrolledCount }}
     >
-      {console.log(1)}
       <div className={classes.root}>
         <Grid
           container
@@ -224,6 +222,8 @@ export default function Queue(props) {
                 removeFromQueueFn={removeFromQueueFn}
                 helpStudentFn={helpStudentFn}
                 beingHelp={beingHelp}
+                fetchEnrollees={fetchEnrollees}
+                ids={ids}
               />
             </Grid>
           </Grid>
