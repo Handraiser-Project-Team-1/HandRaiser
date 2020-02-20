@@ -125,11 +125,8 @@ export default function EditClassForm(props) {
         .then(res => {
           setTimeout(() => {
             setVisible(false);
+            setLoading(false);
           }, 1000);
-          setDescription("");
-          setName("");
-          setStartDate("");
-          setEndDate("");
 
           fetchClassDetails(id);
         })
