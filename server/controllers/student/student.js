@@ -141,9 +141,10 @@ const queueList = (req, res) => {
 
 const getAcceptClass = (req, res) => {
   const db = req.app.get('db')
+  const {sid} = req.params
 
   db.query(
-    `SELECT DISTINCT list.student_status AS status, class.class_name AS cname, class.class_id AS cid FROM student INNER JOIN list ON student.student_id=list.student_id INNER JOIN class ON class.class_id=list.class_id WHERE list.student_status='accept' AND class.class_status='on'`
+    `SELECT DISTINCT list.student_status AS status, class.class_name AS cname, class.class_id AS cid FROM student INNER JOIN list ON student.student_id=list.student_id INNER JOIN class ON class.class_id=list.class_id WHERE list.student_status='accept' AND class.class_status='on' AND list.student_id=${sid}`
   )
     .then(post => res.status(201).json(post))
     .catch(err => {
@@ -154,9 +155,9 @@ const getAcceptClass = (req, res) => {
 
 const getAcceptClassDetails = (req, res) => {
   const db = req.app.get('db')
-  const {id} = req.params
+  const {id, sid} = req.params
   db.query(
-    `select DISTINCT list.student_status as status, class.class_name as cname, class.class_description as desc, class.class_id as cid FROM student inner join list on student.student_id=list.student_id inner join class on class.class_id=list.class_id where list.student_status='accept' AND class.class_status='on' and class.class_id = ${id}`
+    `select DISTINCT list.student_status as status, class.class_name as cname, class.class_description as desc, class.class_id as cid FROM student inner join list on student.student_id=list.student_id inner join class on class.class_id=list.class_id where list.student_status='accept' AND class.class_status='on' and class.class_id = ${id} AND list.student_id =${sid}`
   )
   .then(u => res.status(201).json(u))
   .catch(err => {
@@ -225,6 +226,14 @@ const getAllResolved = (req, res) => {
   `).then(u => res.status(200).json(u))
   .catch(err=> console.log(err))
 }
+const getStudent = (req, res) => {
+  db = req.app.get("db")
+  const {uid} = req.params
+
+  db.query(`SELECT * FROM student WHERE user_id=${uid}`)
+  .then(u => res.status(200).json(u))
+  .catch(err=> console.log(err))
+}
 
 module.exports = {
   getAllClass,
@@ -235,5 +244,6 @@ module.exports = {
   getAcceptClass,
   getAcceptClassDetails,
   helpList,
-  getAllResolved
+  getAllResolved,
+  getStudent
 };

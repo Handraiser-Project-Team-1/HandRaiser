@@ -162,12 +162,17 @@ export default function Que(props) {
   const [classDesc, setClassDesc] = useState([]);
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/accept/${id}`
-    }).then(res => {
-      setClassDesc(res.data);
-    });
+    axios
+    .get(`${process.env.REACT_APP_DB_URL}/api/student/${localStorage.getItem('uid')}`)
+    .then(res=>{
+      axios({
+        method: "get",
+        url: `${process.env.REACT_APP_DB_URL}/api/class/accept/${id}/${res.data[0].student_id}`
+      }).then(res => {
+        setClassDesc(res.data);
+      });
+    })
+    
   }, [id]);
 
   useEffect(() => {
