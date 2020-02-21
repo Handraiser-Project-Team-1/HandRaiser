@@ -131,9 +131,10 @@ export default function Que(props) {
 
   const handraiseFn = () => {
     setTagVal("");
+    // console.log(data.list_id)
     socket.emit(
       "handraise",
-      { student_id: data.student_id, class_id: data.class_id, tag: tagVal },
+      { student_id: data.student_id, class_id: data.class_id, tag: tagVal, list_id: data.list_id},
       queue => setQueueList(queue)
     );
   };

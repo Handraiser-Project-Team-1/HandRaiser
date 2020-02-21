@@ -38,7 +38,7 @@ function InQueue({queueList,removeFromQueueFn,helpStudentFn,beingHelp}) {
                 <Icon type="minus-circle" /> Remove
               </Button>,
               (beingHelp.length === 0) &&
-              <Button type="primary" onClick={() => helpStudentFn(item.queue_id,item.student_id,item.class_id)} ghost>
+              <Button type="primary" onClick={() => helpStudentFn(item.queue_id,item.student_id,item.class_id, item.list_id)} ghost>
                 <Icon type="question-circle" /> Help
               </Button>
             ]}

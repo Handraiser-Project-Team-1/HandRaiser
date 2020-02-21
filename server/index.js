@@ -36,24 +36,29 @@ massive({
       socket.join(class_id);
     });
 
-    socket.on("handraise", ({ student_id, class_id, tag }, callback) => {
+    socket.on("handraise", ({ student_id, class_id, tag, list_id }, callback) => {
       db.tag
         .insert({
           tag
         })
         .then(tagResponse => {
-          db.queue
-            .insert({
-              student_id,
-              tag_id: tagResponse.tag_id,
-              class_id
-            })
-            .then(() => {
-              handraise.updatedQueueList(class_id, db, data => {
-                socket.to(class_id).broadcast.emit('updateQueue', data);
-                callback(data);
+          db.list
+          .findOne({list_id: list_id})
+          .then(results=>{
+              db.queue
+              .insert({
+                student_id,
+                tag_id: tagResponse.tag_id,
+                class_id,
+                list_id: results.list_id
               })
-            }).catch(error => console.error(error));
+              .then(() => {
+                handraise.updatedQueueList(class_id, db, data => {
+                  socket.to(class_id).broadcast.emit('updateQueue', data);
+                  callback(data);
+                })
+              }).catch(error => console.error(error));
+          })
         })
     });
 
@@ -72,10 +77,10 @@ massive({
         .catch(error => console.error(error));
     });
 
-    socket.on("help", ({ queue_id, student_id, class_id, mentor_id }, callback) => {
-      db.helping.insert({ student_id, mentor_id })
+    socket.on("help", ({ queue_id, student_id, class_id, mentor_id, list_id }, callback) => {
+      db.helping.insert({ student_id, mentor_id, list_id })
         .then(helping => {
-          db.queue.update({ queue_id }, { helping_id: helping.helping_id })
+          db.queue.update({ queue_id }, { helping_id: helping.helping_id})
             .then(() => {
               handraise.updatedQueueList(class_id, db, data => {
                 socket.to(class_id).broadcast.emit('updateQueue', data);
@@ -228,7 +233,7 @@ massive({
   app.get("/api/resolved/:id", student.getAllResolved);
   app.get("/api/class/:id/queue", student.queueList);
   app.get("/api/class/:id/help", student.helpList);
-  app.get("/api/student/:uid", student.getStudent)
+  app.get("/api/student/:uid", student.getStudent);
 
   app.get("/api/class/title/:id", mentor.findClass);
   app.get("/api/get/enrollees/:id", mentor.getEnrolles);

@@ -29,6 +29,15 @@ exports.up = pgm => {
       references: "class",
       notNull: true,
       onDelete: "cascade"
+    },
+    list_id: {
+      type: "integer",
+      notNull: true,
+      references: "list",
+      onDelete: 'cascade',
+      foreignKey: {
+        name: 'list_fk_table',
+      }
     }
   })
 };

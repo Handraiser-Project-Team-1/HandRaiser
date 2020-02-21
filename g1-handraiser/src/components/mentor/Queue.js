@@ -87,7 +87,7 @@ export default function Queue(props) {
     socket.on("updateQueue", queue => setQueueList(queue));
     socket.on("updateHelp", help => setBeingHelp(help));
   }, [ids, queueList, initial]);
-
+                                                          //// problem  !!!
   useEffect(() => {
     Axios({
       method: "get",
@@ -103,10 +103,10 @@ export default function Queue(props) {
       .catch(error => console.error(error));
   }, [ids]);
 
-  const helpStudentFn = (queue_id, student_id, class_id) => {
+  const helpStudentFn = (queue_id, student_id, class_id, list_id) => {
     socket.emit(
       "help",
-      { queue_id, student_id, class_id, mentor_id: classDetails.mentor_id },
+      { queue_id, student_id, class_id, mentor_id: classDetails.mentor_id, list_id },
       helping => {
         setBeingHelp(helping);
       }

@@ -8,7 +8,8 @@ module.exports = {
         t.tag_id as tag_id, 
         t.tag as tag, 
         CONCAT(ud.user_fname,' ', ud.user_lname) as name, 
-        ud.user_image as image 
+        ud.user_image as image.
+        q.list_id 
       FROM 
         tag as t, 
         queue as q, 

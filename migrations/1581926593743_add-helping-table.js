@@ -19,6 +19,12 @@ exports.up = pgm => {
       references: "mentor",
       notNull: true,
       onDelete: "cascade"
+    },
+    list_id: {
+      type: "integer",
+      references: "list",
+      notNull: true,
+      onDelete: "cascade"
     }
   });
 };

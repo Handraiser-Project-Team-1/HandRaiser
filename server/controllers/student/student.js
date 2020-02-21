@@ -19,39 +19,37 @@ const getClass = (req, res) => {
   const decodedToken = jwt.decode(JSON.parse(tokenData).token);
 
   db.query(
-    `
-            SELECT 
-                l.student_id,
-                ud.user_fname,
-                ud.user_lname,
-                ud.user_image,
-                l.class_id,
-                c.class_status,
-                c.class_name,
-                c.class_description,
-                l.student_status,
-                l.list_id
-            FROM 
-                user_details as ud, 
-                user_type as ut, 
-                student as s, 
-                "class" as c,
-                list as l
-            WHERE 
-                    l.student_id = s.student_id 
-                and 
-                    l.class_id = c.class_id
-                and
-                    ud.userd_id = ut.userd_id
-                and
-                    ut.user_id = s.user_id
-                and 
-                    ud.google_id = '${decodedToken.sub}'
-                and
-                    c.class_id = ${id}
-                and
-                    c.class_status = 'on'
-            `
+    `SELECT 
+        l.student_id,
+        ud.user_fname,
+        ud.user_lname,
+        ud.user_image,
+        l.class_id,
+        c.class_status,
+        c.class_name,
+        c.class_description,
+        l.student_status,
+        l.list_id
+    FROM 
+        user_details as ud, 
+        user_type as ut, 
+        student as s, 
+        "class" as c,
+        list as l
+    WHERE 
+            l.student_id = s.student_id 
+        and 
+            l.class_id = c.class_id
+        and
+            ud.userd_id = ut.userd_id
+        and
+            ut.user_id = s.user_id
+        and 
+            ud.google_id = '${decodedToken.sub}'
+        and
+            c.class_id = ${id}
+        and
+            c.class_status = 'on'`
   )
     .then(response => {
       if (!response[0]) {
@@ -115,7 +113,8 @@ const queueList = (req, res) => {
       t.tag_id as tag_id, 
       t.tag as tag, 
       CONCAT(ud.user_fname,' ', ud.user_lname) as name, 
-      ud.user_image as image
+      ud.user_image as image,
+      q.list_id
     FROM 
       tag as t, 
       queue as q, 
