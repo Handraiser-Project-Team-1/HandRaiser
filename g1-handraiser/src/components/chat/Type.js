@@ -45,6 +45,7 @@ export default function Type({ name, keypress, message, setmessage }) {
       fullWidth={true}
       autoComplete="off"
       value={message}
+      maxLength="3"
       onKeyPress={() => keypress(name)}
       onChange={(event) => setmessage(event.target.value)}
     />

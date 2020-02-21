@@ -9,7 +9,7 @@ import DialogContainer from "./DialogContainer";
 import SendIcon from "@material-ui/icons/Send";
 import Axios from "axios";
 import io from "socket.io-client";
-const socket = io.connect(process.env.REACT_APP_DB_URL);
+let socket;
 // let user = "mark" + Math.floor(Math.random() * Math.floor(20000));
 
 export default function DialogBox({ handleClose, open }) {
@@ -20,11 +20,12 @@ export default function DialogBox({ handleClose, open }) {
   const [messages, setMessages] = useState([])
   const [message, setmessage] = useState('')
   const [feedback, setFeedbAck] = useState('')
-
+  const ENDPOINT = process.env.REACT_APP_DB_URL;
   const handleClick = () => {
     setState(state + 1);
     if (message) {
       const nottyping = "";
+      
       socket.emit("sendMessage", ({ message, image }), () => setmessage(""));
       socket.emit("not typing", nottyping);
     }
@@ -38,7 +39,8 @@ export default function DialogBox({ handleClose, open }) {
   // }, [ENDPOINT, name, room])
 
   useEffect(() => {
-    const uid = localStorage.getItem('uid')
+    socket = io(ENDPOINT)
+    const uid = localStorage.getItem('id')
     let session_id;
 
     let data = sessionStorage.getItem('sessionId');
@@ -63,7 +65,7 @@ export default function DialogBox({ handleClose, open }) {
       session_id = data
       socket.emit('join', { name: named, sessionId: session_id, uid })
     });
-  }, [])
+  }, [ENDPOINT])
 
 
   useEffect(() => {

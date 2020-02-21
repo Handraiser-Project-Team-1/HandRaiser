@@ -59,7 +59,7 @@ export default function Select(props) {
   }, [history]);
 
   useEffect(() => {
-    fetch();
+    setInterval(() => fetch(),300)
 
     setInterval(() => getClasslist(), 300)
 
@@ -115,7 +115,6 @@ export default function Select(props) {
   const verify = data => {
     const find = joinedClass.find(element => element.class_id === data);
     // console.log(find);
-
     if (find) {
       switch (find.student_status) {
         case "pending":

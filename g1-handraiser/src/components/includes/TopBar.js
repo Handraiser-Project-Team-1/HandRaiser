@@ -228,12 +228,7 @@ const Layout = props => {
   };
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/accept`
-    }).then(res => {
-      setClass(res.data);
-    });
+    setInterval(() => getclass(),300)
 
     if (localStorage.getItem("tokenid")) {
       //identify if mentor or student
@@ -257,6 +252,15 @@ const Layout = props => {
       history.push("/");
     }
   }, [history]);
+
+  const getclass = () => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_DB_URL}/api/class/accept`
+    }).then(res => {
+      setClass(res.data);
+    });
+  }
 
   var logout = () => {
     socket.emit("logout", { user_id: localStorage.getItem('uid') });
@@ -360,13 +364,11 @@ const Layout = props => {
                           selected={parseInt(selected) === x.cid ? true : false}
                           className={classes.nested}
                           onClick={() => {
+                            sessionStorage.setItem('sessionId', x.cid)
                             history.push(`${match.path}/${x.cid}`);
                             setSelected(x.cid);
-                            sessionStorage.setItem('sessionId', x.cid)
                             window.location.reload()
-                            socket.emit('join', { name: user.fname, sessionId: x.cid, uid: user.uid })
-                          }}
-                          
+                          }} 
                         >
                           <ListItemIcon>
                             <StarBorderOutlinedIcon />

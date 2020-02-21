@@ -55,7 +55,7 @@ function StudentList() {
         .then(res => {
           console.log(res);
 
-          setEnrolledCount(prev => prev + 1);
+          setEnrolledCount(prev => parseInt(prev) + 1);
           setNotif(true);
           setMessage({
             title: "Success!",
@@ -75,7 +75,7 @@ function StudentList() {
           setMessage({
             title: "Information!",
             type: "info",
-            msg: `You decline/remove a student with a student`
+            msg: `You decline/remove a student`
           });
           fetchEnrollees(ids);
         })
