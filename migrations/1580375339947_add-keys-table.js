@@ -19,7 +19,6 @@ exports.up = (pgm) => {
       type: 'text',
       notNull: true
     }
-
   })
 };
 

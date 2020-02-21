@@ -231,7 +231,6 @@ const Layout = props => {
     setInterval(() => getclass(),300)
 
     if (localStorage.getItem("tokenid")) {
-      //identify if mentor or student
       axios({
         method: "post",
         url: `${process.env.REACT_APP_DB_URL}/api/user`,
