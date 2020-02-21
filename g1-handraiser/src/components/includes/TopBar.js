@@ -305,7 +305,7 @@ const Layout = props => {
                   <Icon type="setting" key="setting" />,
                   <Icon type="edit" key="edit" />
                 ]}
-              >
+              > 
                 <Avatar
                   className={classes.large}
                   alt={`${user.fname} ${user.lname}`}

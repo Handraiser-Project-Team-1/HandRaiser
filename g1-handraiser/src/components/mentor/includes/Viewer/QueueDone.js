@@ -61,7 +61,7 @@ function StudentList({removeStudentFn}) {
             msg: "You successfully enrolled the student!"
           });
           fetchEnrollees(ids);
-        })
+        }) 
         .catch(err => console.error(err));
     } else {
       Axios.delete(

@@ -73,7 +73,7 @@ export default function Select(props) {
       .catch(err => {
         console.log(err);
       });
-  }
+  } 
 
   const fetch = () => {
     let user_id = localStorage.getItem("uid");

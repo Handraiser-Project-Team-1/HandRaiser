@@ -15,5 +15,5 @@ const Page404 = () => {
     </React.Fragment>
   );
 }
-
+ 
 export default Page404
