@@ -56,5 +56,24 @@ module.exports = {
     `).then(response => {
       callback(response);
     }).catch(error => console.error(error));
+  },
+  updatedResolvedList: (class_id,db,callback) => {
+    db.query(`
+      SELECT
+        user_details.user_fname AS fname, 
+        user_details.user_lname AS lname, 
+        tag.tag AS tag,
+        tag.tag_id AS tid,
+        class.class_id as cid
+      FROM user_details
+      INNER JOIN user_type ON user_details.userd_id=user_type.userd_id 
+      INNER JOIN student on user_type.user_id=student.user_id 
+      INNER JOIN resolved on student.student_id=resolved.student_id
+      INNER JOIN class on resolved.class_id=class.class_id
+      INNER JOIN tag on resolved.tag_id=tag.tag_id
+      WHERE class.class_id=${class_id}
+      ORDER BY tid DESC
+    `).then(response => callback(response))
+      .catch(error => console.error(error));
   }
 }

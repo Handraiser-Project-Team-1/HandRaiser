@@ -99,28 +99,33 @@ export default function Que(props) {
   const [queueList, setQueueList] = useState([]);
   const [initial, setInitial] = useState(true);
   const [beingHelp, setBeingHelp] = useState([]);
+  const [resolvedList, setResolvedList] = useState([]);
 
   useEffect(() => {
-    setInitial(false);
-    axios({
-      method: "GET",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/queue`
-    })
-      .then(response => setQueueList(response.data))
-      .catch(error => console.error(error));
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/help`
-    })
-      .then(response => setBeingHelp(response.data))
-      .catch(error => console.error(error));
+    if(initial){
+      setInitial(false);
+      axios({
+        method: "GET",
+        url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/queue`
+      })
+        .then(response => setQueueList(response.data))
+        .catch(error => console.error(error));
+      axios({
+        method: "get",
+        url: `${process.env.REACT_APP_DB_URL}/api/class/${id}/help`
+      })
+        .then(response => setBeingHelp(response.data))
+        .catch(error => console.error(error));
+      axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_DB_URL}/api/resolved/${id}`
+      }).then(res => setResolvedList(res.data))
+        .catch(error => console.error(error)); 
+    }
     socket.emit("joinClass", { class_id: data.class_id });
-    socket.on("updateQueue", queue => {
-      setQueueList(queue);
-    });
-    socket.on("updateHelp", help => {
-      setBeingHelp(help);
-    });
+    socket.on("updateQueue", queue => setQueueList(queue));
+    socket.on("updateHelp", help => setBeingHelp(help));
+    socket.on("updateResolved", resolved => setResolvedList(resolved));
   }, [data, queueList, initial, id, history]);
 
   const [tagVal, setTagVal] = useState("");
@@ -221,7 +226,7 @@ export default function Que(props) {
               <BeingHelp beingHelp={beingHelp} student={true} />
             </Grid>
             <Grid item>
-              <Resolved cid={id}/>
+              <Resolved resolvedList={resolvedList}/>
             </Grid>
             <Grid xs={9} item></Grid>
           </Grid>
