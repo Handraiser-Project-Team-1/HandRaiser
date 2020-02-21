@@ -38,7 +38,7 @@ export default function DialogBox({ handleClose, open }) {
   // }, [ENDPOINT, name, room])
 
   useEffect(() => {
-    const uid = localStorage.getItem('uid')
+    const uid = localStorage.getItem('id')
     let session_id;
 
     let data = sessionStorage.getItem('sessionId');

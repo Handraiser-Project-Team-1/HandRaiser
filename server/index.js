@@ -121,6 +121,9 @@ massive({
                     socket.to(class_id).broadcast.emit('updateHelp', data);
                     callback(data);
                   })
+                  handraise.updatedResolvedList(class_id, db, data => {
+                    socket.to(class_id).broadcast.emit('updateResolved', data);
+                  })
                 }).catch(error => console.error(error));
             }).catch(error => console.error(error));
         }).catch(error => console.error(error));
