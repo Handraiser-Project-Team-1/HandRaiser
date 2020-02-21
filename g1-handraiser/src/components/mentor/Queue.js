@@ -94,6 +94,7 @@ export default function Queue(props) {
     socket.on("updateQueue", queue => setQueueList(queue));
     socket.on("updateHelp", help => setBeingHelp(help));
     socket.on("updateResolved", resolved => setResolvedList(resolved));
+    //socket.on("redirectStudent", () => reloadAllStateFn(ids));
   }, [ids, queueList, initial]);
 
   const reloadAllStateFn = (class_id) => {
@@ -157,6 +158,14 @@ export default function Queue(props) {
       }
     );
   };
+
+  const removeStudentFn = (student_id) => {
+    socket.emit("removeStudent", { class_id: ids, student_id }, () => {
+      console.log("ids")
+      reloadAllStateFn(ids);
+    })
+  }
+  
   return (
     <DataContext.Provider
       value={{ enrollees, fetchEnrollees, setEnrolledCount, enrolledCount }}
@@ -239,6 +248,7 @@ export default function Queue(props) {
                 beingHelp={beingHelp}
                 fetchEnrollees={fetchEnrollees}
                 ids={ids}
+                removeStudentFn={removeStudentFn}
               />
             </Grid>
           </Grid>

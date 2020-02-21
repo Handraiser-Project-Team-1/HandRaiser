@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function StudentList() {
+function StudentList({removeStudentFn}) {
   const classes = useStyles();
   let { ids } = useParams();
   const { enrollees, fetchEnrollees, setEnrolledCount } = useContext(
@@ -47,14 +47,12 @@ function StudentList() {
   //   fetchEnrollees(ids);
   // }, [fetchEnrollees, ids]);
 
-  const handleConfirm = (status, listId) => {
+  const handleConfirm = (status, listId, s_id) => {
     if (status === "accept") {
       Axios.patch(
         `${process.env.REACT_APP_DB_URL}/api/update/enrollees/status/${listId}/${status}`
       )
         .then(res => {
-          console.log(res);
-
           setEnrolledCount(prev => prev + 1);
           setNotif(true);
           setMessage({
@@ -77,24 +75,25 @@ function StudentList() {
             type: "info",
             msg: `You decline/remove a student with a student`
           });
+          removeStudentFn(s_id);
           fetchEnrollees(ids);
         })
         .catch(err => console.error(err));
     }
   };
 
-  const checkStatus = (data, listId) => {
+  const checkStatus = (data, listId, s_id) => {
     if (data === "pending") {
       return [
         <Button
-          onClick={() => handleConfirm("accept", listId)}
+          onClick={() => handleConfirm("accept", listId, s_id)}
           type="primary"
           ghost
         >
           <Icon type="check-circle" /> Accept
         </Button>,
         <Button
-          onClick={() => handleConfirm("decline", listId)}
+          onClick={() => handleConfirm("decline", listId, s_id)}
           type="primary"
           ghost
         >
@@ -105,7 +104,7 @@ function StudentList() {
       return [
         <Button
           icon="delete"
-          onClick={() => handleConfirm("remove", listId)}
+          onClick={() => handleConfirm("remove", listId, s_id)}
           type="primary"
           ghost
         >
@@ -127,8 +126,8 @@ function StudentList() {
         itemLayout="horizontal"
         dataSource={enrollees}
         renderItem={item => (
-          <List.Item actions={checkStatus(item.status, item.l_id)}>
-            <List.Item.Meta
+          <List.Item actions={checkStatus(item.status, item.l_id, item.s_id)}>
+            <List.Item.Meta            
               avatar={<Avatar src={item.image} />}
               // title={<a href="https://ant.design">{item.title}</a>}
               title={`${item.fname} ${item.lname}`}

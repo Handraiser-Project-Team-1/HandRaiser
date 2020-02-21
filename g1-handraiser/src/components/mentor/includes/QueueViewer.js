@@ -51,7 +51,8 @@ export default function QueueViewer({
   helpStudentFn,
   beingHelp,
   ids,
-  fetchEnrollees
+  fetchEnrollees,
+  removeStudentFn
 }) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -81,7 +82,7 @@ export default function QueueViewer({
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <QueueDone />
+        <QueueDone removeStudentFn={removeStudentFn}/>
       </TabPanel>
     </div>
   );

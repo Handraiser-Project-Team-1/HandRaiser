@@ -126,6 +126,7 @@ export default function Que(props) {
     socket.on("updateQueue", queue => setQueueList(queue));
     socket.on("updateHelp", help => setBeingHelp(help));
     socket.on("updateResolved", resolved => setResolvedList(resolved));
+    socket.on("redirectStudent", student => (student === data.student_id) && history.push('/classes'))
   }, [data, queueList, initial, id, history]);
 
   const [tagVal, setTagVal] = useState("");

@@ -129,6 +129,17 @@ massive({
         }).catch(error => console.error(error));
     })
 
+    socket.on("removeStudent", ({class_id, student_id}, callback) => {
+      socket.to(class_id).broadcast.emit('redirectStudent', student_id);
+      handraise.updatedQueueList(class_id, db, data => {
+        socket.to(class_id).broadcast.emit('updateQueue', data);
+      });
+      handraise.updatedHelpList(class_id, db, data => {
+        socket.to(class_id).broadcast.emit('updateHelp', data);
+      });
+      callback();
+    });
+
     socket.on("join", function ({ name, sessionId, uid }) {
       if (sessionId != null) {
         const { user } = addUser({ id: socket.id, name, room: sessionId, uid });
