@@ -1,16 +1,19 @@
 import React from "react";
-
-export default function page404() {
+import { useHistory } from 'react-router-dom';
+import { Result, Button } from 'antd';
+const Page404 = () => {
+  let history = useHistory()
   return (
     <React.Fragment>
-      <h1
-        style={{ textAlign: "center", fontSize: "5rem", paddingTop: "200px" }}
-      >
-        404{" "}
-        <span style={{ textAlign: "center", fontSize: "20px" }}>
-          Page not found!
-        </span>
-      </h1>
+      <Result
+        style={{paddingTop:150}}
+        status="404"
+        title="404"
+        subTitle="Sorry, the page you visited does not exist or have been remove by the owner."
+        extra={<Button type="primary" onClick={() => { history.push('/classes') }}>Back Home</Button>}
+      />
     </React.Fragment>
   );
 }
+ 
+export default Page404

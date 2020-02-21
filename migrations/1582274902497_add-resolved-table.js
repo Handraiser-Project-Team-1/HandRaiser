@@ -3,18 +3,20 @@
 exports.shorthands = undefined;
 
 exports.up = pgm => {
-  pgm.createTable("queue", {
-    queue_id: {
+  pgm.createTable("resolved", {
+    res_id: {
       type: "serial",
       primaryKey: true
-    },
-    helping_id: {
-      type: "integer",
-      notNull: false,
     },
     student_id: {
       type: "integer",
       references: "student",
+      notNull: true,
+      onDelete: "cascade"
+    },
+    mentor_id: {
+      type: "integer",
+      references: "mentor",
       notNull: true,
       onDelete: "cascade"
     },
@@ -29,17 +31,8 @@ exports.up = pgm => {
       references: "class",
       notNull: true,
       onDelete: "cascade"
-    },
-    list_id: {
-      type: "integer",
-      notNull: true,
-      references: "list",
-      onDelete: 'cascade',
-      foreignKey: {
-        name: 'list_fk_table',
-      }
     }
-  })
+  });
 };
 
 exports.down = pgm => {};
