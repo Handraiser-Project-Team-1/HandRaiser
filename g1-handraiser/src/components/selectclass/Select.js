@@ -59,10 +59,9 @@ export default function Select(props) {
   }, [history]);
 
   useEffect(() => {
-    fetch();
+    setInterval(() => fetch())
 
     setInterval(() => getClasslist(), 300)
-
   }, []);
 
   const getClasslist = () => {
