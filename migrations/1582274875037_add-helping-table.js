@@ -3,8 +3,8 @@
 exports.shorthands = undefined;
 
 exports.up = pgm => {
-  pgm.createTable("resolved", {
-    res_id: {
+  pgm.createTable("helping", {
+    helping_id: {
       type: "serial",
       primaryKey: true
     },
@@ -20,15 +20,9 @@ exports.up = pgm => {
       notNull: true,
       onDelete: "cascade"
     },
-    tag_id: {
+    list_id: {
       type: "integer",
-      references: "tag",
-      notNull: true,
-      onDelete: "cascade"
-    },
-    class_id: {
-      type: "integer",
-      references: "class",
+      references: "list",
       notNull: true,
       onDelete: "cascade"
     }

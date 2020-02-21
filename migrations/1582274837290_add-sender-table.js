@@ -3,19 +3,19 @@
 exports.shorthands = undefined;
 
 exports.up = (pgm) => {
-    pgm.createTable("mentor", {
-        mentor_id: {
+    pgm.createTable("sender",{
+        s_id: {
             type: "serial",
             primaryKey: true,
         },
-        user_id: {
+        userd_id: {
             type: "integer",
-            references: "user_type",
+            references: "user_details",
             notNull: true,
             onDelete: "cascade"
         },
-        status: {
-            type: "boolean",
+        message: {
+            type: "text",
             notNull: true,
         }
     })

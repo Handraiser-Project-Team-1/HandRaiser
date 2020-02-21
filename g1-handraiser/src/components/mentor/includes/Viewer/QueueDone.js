@@ -53,7 +53,7 @@ function StudentList({removeStudentFn}) {
         `${process.env.REACT_APP_DB_URL}/api/update/enrollees/status/${listId}/${status}`
       )
         .then(res => {
-          setEnrolledCount(prev => prev + 1);
+          setEnrolledCount(prev => parseInt(prev) + 1);
           setNotif(true);
           setMessage({
             title: "Success!",
@@ -61,14 +61,14 @@ function StudentList({removeStudentFn}) {
             msg: "You successfully enrolled the student!"
           });
           fetchEnrollees(ids);
-        })
+        }) 
         .catch(err => console.error(err));
     } else {
       Axios.delete(
         `${process.env.REACT_APP_DB_URL}/api/decline/enrollees/${listId}`
       )
         .then(res => {
-          if (status === "remove") setEnrolledCount(prev => prev - 1);
+          if (status === "remove") setEnrolledCount(prev => parseInt(prev) - 1);
           setNotif(true);
           setMessage({
             title: "Information!",
