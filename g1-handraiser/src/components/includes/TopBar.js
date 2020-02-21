@@ -228,15 +228,18 @@ const Layout = props => {
   };
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/accept`
-    }).then(res => {
-      setClass(res.data);
-    });
-
+    axios
+    .get(`${process.env.REACT_APP_DB_URL}/api/student/${localStorage.getItem('uid')}`)
+    .then(res=>{
+      axios({
+        method: "get",
+        url: `${process.env.REACT_APP_DB_URL}/api/class/accept/${res.data[0].student_id}`
+      }).then(res => {
+        setClass(res.data);
+      });
+    })
+    
     if (localStorage.getItem("tokenid")) {
-      //identify if mentor or student
       axios({
         method: "post",
         url: `${process.env.REACT_APP_DB_URL}/api/user`,
@@ -363,7 +366,7 @@ const Layout = props => {
                             history.push(`${match.path}/${x.cid}`);
                             setSelected(x.cid);
                             sessionStorage.setItem('sessionId', x.cid)
-                            window.location.reload()
+                            // window.location.reload()
                             socket.emit('join', { name: user.fname, sessionId: x.cid, uid: user.uid })
                           }}
                           

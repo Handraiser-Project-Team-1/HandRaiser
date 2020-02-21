@@ -136,9 +136,10 @@ export default function Que(props) {
 
   const handraiseFn = () => {
     setTagVal("");
+    // console.log(data.list_id)
     socket.emit(
       "handraise",
-      { student_id: data.student_id, class_id: data.class_id, tag: tagVal },
+      { student_id: data.student_id, class_id: data.class_id, tag: tagVal, list_id: data.list_id},
       queue => setQueueList(queue)
     );
   };
@@ -167,12 +168,17 @@ export default function Que(props) {
   const [classDesc, setClassDesc] = useState([]);
 
   useEffect(() => {
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_DB_URL}/api/class/accept/${id}`
-    }).then(res => {
-      setClassDesc(res.data);
-    });
+    axios
+    .get(`${process.env.REACT_APP_DB_URL}/api/student/${localStorage.getItem('uid')}`)
+    .then(res=>{
+      axios({
+        method: "get",
+        url: `${process.env.REACT_APP_DB_URL}/api/class/accept/${id}/${res.data[0].student_id}`
+      }).then(res => {
+        setClassDesc(res.data);
+      });
+    })
+    
   }, [id]);
 
   useEffect(() => {

@@ -116,10 +116,10 @@ export default function Queue(props) {
       .catch(error => console.error(error));
   }
 
-  const helpStudentFn = (queue_id, student_id, class_id) => {
+  const helpStudentFn = (queue_id, student_id, class_id, list_id) => {
     socket.emit(
       "help",
-      { queue_id, student_id, class_id, mentor_id: classDetails.mentor_id },
+      { queue_id, student_id, class_id, mentor_id: classDetails.mentor_id, list_id },
       helping => {
         setBeingHelp(helping);
         reloadAllStateFn(ids);

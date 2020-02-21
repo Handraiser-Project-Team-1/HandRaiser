@@ -14,7 +14,6 @@ exports.up = pgm => {
       notNull: true,
       onDelete: "cascade"
     },
-
     class_name: {
       type: "text",
       notNull: true
