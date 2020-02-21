@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button, Grid, Typography } from "@material-ui/core";
@@ -71,24 +71,6 @@ function Keyauth() {
     message: ""
   });
 
-  useEffect(()=>{
-    if (localStorage.getItem("tokenid")) {
-      axios({
-        method: "get",
-        url: `${process.env.REACT_APP_DB_URL}/api/type/${localStorage.getItem(
-          "uid"
-        )}`
-      }).then(res => {
-        if(res.data[0].user_type === "pending"){
-          history.push("/authentication")
-        }else if(res.data[0].user_type === "student"){
-          history.push("/classes")
-        }else if(res.data[0].user_type === "mentor"){
-          history.push("myclasslist")
-        }
-      })}
-  },[])
-
   const setNotifDetailsFn = (type, title, message) => {
     setNotifDetails({
       type: type,
@@ -118,7 +100,6 @@ function Keyauth() {
     })
       .then(response => {
         localStorage.setItem("id", JSON.stringify(response.data.id));
-        localStorage.setItem("uid", JSON.stringify(response.data.user_id));
         if (tokenObj !== null) {
           setTimeout(() => {
             if (response.data.type === "student") {
