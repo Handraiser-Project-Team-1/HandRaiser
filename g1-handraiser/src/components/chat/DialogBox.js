@@ -10,13 +10,11 @@ import SendIcon from "@material-ui/icons/Send";
 import Axios from "axios";
 import io from "socket.io-client";
 const socket = io.connect(process.env.REACT_APP_DB_URL);
-// let user = "mark" + Math.floor(Math.random() * Math.floor(20000));
 
-export default function DialogBox({ handleClose, open }) {
+export default function DialogBox({ handleClose, open, data }) {
   const [state, setState] = useState(1);
   const [uname, setName] = useState('')
   const [image, setImage] = useState('')
-  // const [room] = useState('')
   const [messages, setMessages] = useState([])
   const [message, setmessage] = useState('')
   const [feedback, setFeedbAck] = useState('')
@@ -31,19 +29,12 @@ export default function DialogBox({ handleClose, open }) {
     }
   };
 
-  // useEffect(() => {
-  //   socket = io(ENDPOINT)
-  //   console.log(name);
-  //   console.log(socket);
-  //   socket.emit('join', { name, room });
-  // }, [ENDPOINT, name, room])
-
   useEffect(() => {
     const uid = localStorage.getItem('id')
     let session_id;
 
     let data = sessionStorage.getItem('sessionId');
-    
+
     Axios({
       method: "post",
       url: `${process.env.REACT_APP_DB_URL}/api/user`,
@@ -121,7 +112,7 @@ export default function DialogBox({ handleClose, open }) {
         maxWidth="sm"
         fullWidth={true}
       >
-        <DialogTitle id="alert-dialog-title">{sessionStorage.getItem('sessionId')}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{(data) && data.class_name}</DialogTitle>
         <DialogContent dividers>
           <DialogContainer
             message={message}

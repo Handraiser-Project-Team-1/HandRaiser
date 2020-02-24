@@ -15,7 +15,7 @@ exports.up = (pgm) => {
             onDelete: "cascade"
         },
         message: {
-            type: "text",
+            type: "string",
             notNull: true,
         }
     })
