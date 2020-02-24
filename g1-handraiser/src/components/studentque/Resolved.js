@@ -5,7 +5,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import { Icon, Avatar } from "antd";
+import { Icon, Avatar, Divider } from "antd";
 import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import { Tag } from "antd";
@@ -33,7 +33,8 @@ function Resolved({ resolvedList }) {
                 return (
                   <TableRow key={i}>
                     <TableCell scope="row" style={{ color: "gray" }}>
-                      <Avatar icon="user" /> {x.fname} {x.lname}
+                      <Avatar icon="user" /> {x.fname} {x.lname} 
+                      <Divider type="vertical"/>
                       <Tag key="tag" color="blue">
                         {x.tag}
                       </Tag>

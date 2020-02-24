@@ -11,11 +11,10 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import ImportContactsIcon from "@material-ui/icons/ImportContacts";
-import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Divider } from "@material-ui/core";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { Avatar, Divider, Badge } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
-import { Card, Icon } from "antd";
-import { green } from "@material-ui/core/colors";
+import { Card } from "antd";
 
 import {
   Root,
@@ -27,7 +26,6 @@ import {
 } from "@mui-treasury/layout";
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import axios from "axios";
 import { GoogleLogout } from 'react-google-login';
 const config = {
@@ -141,7 +139,6 @@ const config = {
     }
   }
 };
-
 const useStyles = makeStyles(theme => ({
   content: {
     flexGrow: 1,
@@ -163,13 +160,21 @@ const useStyles = makeStyles(theme => ({
     }
   },
   large: {
+    display: "flex",
+    marginLeft: 35,
     width: theme.spacing(14),
-    height: theme.spacing(14),
+    height: theme.spacing(14), 
     margin: "auto",
     transition: "all 0.3s ease 0s",
     [theme.breakpoints.between("sm", "md")]: {
       width: theme.spacing(6),
       height: theme.spacing(6)
+    },
+    "@media(max-width: 1024px)":{
+      [theme.breakpoints.between("sm", "md")]: {
+        width: theme.spacing(15),
+        height: theme.spacing(15)
+      }
     }
   },
   title: {
@@ -194,6 +199,34 @@ const theme = createMuiTheme({
     }
   }
 });
+const StyledBadge = withStyles(theme => ({
+  badge: {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left:0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: '$ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}))(Badge);
 
 const Layout = props => {
   const classes = useStyles();
@@ -267,36 +300,44 @@ const Layout = props => {
               </Toolbar>
             </Header>
             <Sidebar>
-              <Card
+            <Card
                 className={classes.icon}
-                actions={[
-                  <FiberManualRecordIcon
-                    style={{ color: green[500] }} //ACTIVE ICON
-                    fontSize="small"
-                  />,
-                  <Icon type="setting" key="setting" />,
-                  <Icon type="edit" key="edit" />
-                ]}
-              >
-                <Avatar
+            
+              > <StyledBadge
+        overlap="circle"
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        variant="dot"
+      >
+        <Avatar
                   className={classes.large}
                   alt={`${user.fname} ${user.lname}`}
                   src={`${user.image}`}
                 />
-                <div style={{ paddingBottom: "15px" }} />
+      </StyledBadge>
+      <div
+                  style={{
+                    paddingBottom: "35px",
+                  }}
+                />
                 <Typography
                   variant="h6"
                   style={{
-                    marginLeft: "15%"
+                    marginLeft: "17%"
                   }}
                   noWrap
                 >
                   {user.fname} {user.lname}
                 </Typography>
-                <Typography variant="subtitle1" noWrap>
+                <Typography variant="body2" noWrap  style={{
+                    marginLeft: "2%"
+                  }}>
                   {user.email}
                 </Typography>
-              </Card>
+      </Card>
+
               <Divider />
               <div
                 className={sidebarStyles.container}

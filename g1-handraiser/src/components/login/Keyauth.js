@@ -18,39 +18,39 @@ const useStyles = makeStyles({
   },
   card: {
     padding: "5%",
-    width: "30%",
+    width: "50%",
     height: "20%",
-    backgroundColor: "#fafafa",
-    "@media (max-width: 320px)": {
-      width: "100%"
-    }
+    textAlign: "center",
+    "@media (max-width: 1024px)": {
+      width: "50%"
+    },
+    "@media (max-width: 768px)": {
+      width: "90%",
+      
+    },
   },
   button: {
     display: "flex",
     backgroundColor: "#42B0FF",
     color: "#fff",
     marginLeft: "40%",
-    "@media (max-width: 320px)": {
-      marginLeft: "34%"
+    "@media (min-width: 768px)": {
+      marginLeft: "42%"
     },
-    "@media (max-width: 768px)": {
-      marginLeft: "30%"
-    }
+    "@media (max-width: 465px)": {
+      marginLeft: "35%"
+    },
   },
   img: {
     height: "30%",
     width: "50%",
-    marginLeft: "25%",
+  
     "@media (max-width: 320px)": {
       height: "50%",
       width: "50%"
     }
   },
-  typography: {
-    display: "flex",
-    textAlign: "center",
-    marginLeft: "8%"
-  },
+
   textfield: {
     display: "flex",
     justifyContent: "center",
@@ -145,12 +145,12 @@ function Keyauth() {
         setOpen={setNotif}
       />
       <div className={classes.root}>
-        <Card className={classes.card}>
+        <div className={classes.card}>
           <Grid container justify="center" alignItems="center" spacing={3}>
             <form onSubmit={onSubmitFn}>
               <Grid item xs={12} sm={12}>
                 <img src={Img} alt="" className={classes.img} />{" "}
-                <Typography variant="h6" className={classes.typography}>
+                <Typography variant="h6">
                   Enter the verification code we sent to your email!
                 </Typography>
                 <TextField
@@ -189,7 +189,7 @@ function Keyauth() {
               </Grid>
             </form>
           </Grid>
-        </Card>
+        </div>
       </div>
     </>
   );
