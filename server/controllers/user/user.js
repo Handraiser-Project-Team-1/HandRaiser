@@ -248,7 +248,10 @@ module.exports = {
             if (response === "permission") {
               res.status(400).end();
               return;
+            }else if(!response){
+              res.status(500).end();
             }
+            
             db.keys
               .insert({
                 userd_id: id,
