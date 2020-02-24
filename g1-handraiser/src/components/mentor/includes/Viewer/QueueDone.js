@@ -33,12 +33,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-function StudentList({removeStudentFn}) {
+function StudentList({ removeStudentFn }) {
   const classes = useStyles();
   let { ids } = useParams();
-  const { enrollees, fetchEnrollees, setEnrolledCount } = useContext(
-    DataContext
-  );
+  const {
+    enrollees,
+    fetchEnrollees,
+    setEnrolledCount,
+    setPendingCount
+  } = useContext(DataContext);
   const [message, setMessage] = useState({});
   const [notif, setNotif] = useState(false);
 
@@ -61,7 +64,7 @@ function StudentList({removeStudentFn}) {
             msg: "You successfully enrolled the student!"
           });
           fetchEnrollees(ids);
-        }) 
+        })
         .catch(err => console.error(err));
     } else {
       Axios.delete(
@@ -69,11 +72,14 @@ function StudentList({removeStudentFn}) {
       )
         .then(res => {
           if (status === "remove") setEnrolledCount(prev => parseInt(prev) - 1);
+          if (status === "decline")
+            setPendingCount(prev => parseFloat(prev) - 1);
+
           setNotif(true);
           setMessage({
             title: "Information!",
             type: "info",
-            msg: `You decline/remove a student with a student`
+            msg: `You decline/remove a student`
           });
           removeStudentFn(s_id);
           fetchEnrollees(ids);
@@ -127,7 +133,7 @@ function StudentList({removeStudentFn}) {
         dataSource={enrollees}
         renderItem={item => (
           <List.Item actions={checkStatus(item.status, item.l_id, item.s_id)}>
-            <List.Item.Meta            
+            <List.Item.Meta
               avatar={<Avatar src={item.image} />}
               // title={<a href="https://ant.design">{item.title}</a>}
               title={`${item.fname} ${item.lname}`}

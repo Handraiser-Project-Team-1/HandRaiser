@@ -118,11 +118,15 @@ function Keyauth() {
     })
       .then(response => {
         localStorage.setItem("id", JSON.stringify(response.data.id));
-        axios.get(`${process.env.REACT_APP_DB_URL}/api/student/getuid/${response.data.id}`)
+        axios
+          .get(
+            `${process.env.REACT_APP_DB_URL}/api/student/getuid/${response.data.id}`
+          )
           .then(res => {
-            localStorage.setItem('uid', res.data.user_id);
-          })
+            localStorage.setItem("uid", res.data.user_id);
+          });
         if (tokenObj !== null) {
+          localStorage.setItem("success", true);
           setTimeout(() => {
             if (response.data.type === "student") {
               history.push("/classes");
@@ -139,7 +143,11 @@ function Keyauth() {
           .match(/\w+$/g)
           .join();
         if (Number(errorCode) === 401) {
-          setNotifDetailsFn("warning", "Wrong Authentication Code", `Kindly check again the code in your email`);
+          setNotifDetailsFn(
+            "warning",
+            "Wrong Authentication Code",
+            `Kindly check again the code in your email`
+          );
           setNotif(true);
         } else if (Number(errorCode) === 403) {
           //wrong token redirect to login
@@ -147,7 +155,11 @@ function Keyauth() {
           history.push("/login");
         } else {
           console.error(error);
-          setNotifDetailsFn("error", "Something's wrong", `Please try again later.`);
+          setNotifDetailsFn(
+            "error",
+            "Something's wrong",
+            `Please try again later.`
+          );
           setNotif(true);
         }
       });

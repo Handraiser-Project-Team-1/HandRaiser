@@ -15,6 +15,7 @@ import Resolved from "../studentque/Resolved";
 import StudentCount from "./includes/StudentCount";
 import { Paper } from "@material-ui/core";
 import EditForm from "./EditClass";
+import EnrolleesCount from "./includes/EnrolleesCount";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,12 +27,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Queue(props) {
-  const { socket } = useContext(DataContext); 
+  const { socket } = useContext(DataContext);
   let { id, ids } = useParams();
   const classes = useStyles();
   const [classDetails, setClassDetails] = useState({});
   const [enrollees, setEnrollees] = useState([]);
   const [enrolledCount, setEnrolledCount] = useState(0);
+  const [pendingCount, setPendingCount] = useState(0);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -50,7 +52,12 @@ export default function Queue(props) {
 
   const fetchEnrollees = ids => {
     Axios.get(`${process.env.REACT_APP_DB_URL}/api/get/enrollees/${ids}`)
-      .then(res => setEnrollees(res.data))
+      .then(res => {
+        setPendingCount(
+          res.data.filter(element => element.status === "pending").length
+        );
+        setEnrollees(res.data);
+      })
       .catch(err => console.error(err));
   };
 
@@ -81,11 +88,12 @@ export default function Queue(props) {
       })
         .then(response => setBeingHelp(response.data))
         .catch(error => console.error(error));
-      
+
       Axios({
-        method: 'get',
+        method: "get",
         url: `${process.env.REACT_APP_DB_URL}/api/resolved/${ids}`
-      }).then(res => setResolvedList(res.data))
+      })
+        .then(res => setResolvedList(res.data))
         .catch(error => console.error(error));
     }
     socket.emit("joinClass", { class_id: ids });
@@ -95,7 +103,7 @@ export default function Queue(props) {
     //socket.on("redirectStudent", () => reloadAllStateFn(ids));
   }, [ids, queueList, initial, socket]);
 
-  const reloadAllStateFn = (class_id) => {
+  const reloadAllStateFn = class_id => {
     Axios({
       method: "get",
       url: `${process.env.REACT_APP_DB_URL}/api/class/${class_id}/queue`
@@ -109,16 +117,23 @@ export default function Queue(props) {
       .then(response => setBeingHelp(response.data))
       .catch(error => console.error(error));
     Axios({
-      method: 'get',
+      method: "get",
       url: `${process.env.REACT_APP_DB_URL}/api/resolved/${class_id}`
-    }).then(res => setResolvedList(res.data))
+    })
+      .then(res => setResolvedList(res.data))
       .catch(error => console.error(error));
-  }
+  };
 
   const helpStudentFn = (queue_id, student_id, class_id, list_id) => {
     socket.emit(
       "help",
-      { queue_id, student_id, class_id, mentor_id: classDetails.mentor_id, list_id },
+      {
+        queue_id,
+        student_id,
+        class_id,
+        mentor_id: classDetails.mentor_id,
+        list_id
+      },
       helping => {
         setBeingHelp(helping);
         reloadAllStateFn(ids);
@@ -157,16 +172,23 @@ export default function Queue(props) {
     );
   };
 
-  const removeStudentFn = (student_id) => {
+  const removeStudentFn = student_id => {
     socket.emit("removeStudent", { class_id: ids, student_id }, () => {
-      console.log("ids")
+      console.log("ids");
       reloadAllStateFn(ids);
-    })
-  }
-  
+    });
+  };
+
   return (
     <DataContext.Provider
-      value={{ enrollees, fetchEnrollees, setEnrolledCount, enrolledCount }}
+      value={{
+        enrollees,
+        fetchEnrollees,
+        setEnrolledCount,
+        enrolledCount,
+        pendingCount,
+        setPendingCount
+      }}
     >
       <div className={classes.root}>
         <Grid
@@ -224,6 +246,9 @@ export default function Queue(props) {
 
           <Grid item container spacing={1}>
             <Grid container item xs={12} sm={12} md={3} lg={3} spacing={1}>
+              <Grid item xs={12}>
+                <EnrolleesCount count={enrolledCount} />
+              </Grid>
               <Grid item xs={12}>
                 <StudentCount count={enrolledCount} />
               </Grid>

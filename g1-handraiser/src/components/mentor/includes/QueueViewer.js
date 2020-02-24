@@ -82,7 +82,7 @@ export default function QueueViewer({
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <QueueDone removeStudentFn={removeStudentFn}/>
+        <QueueDone removeStudentFn={removeStudentFn} />
       </TabPanel>
     </div>
   );
