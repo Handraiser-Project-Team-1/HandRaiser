@@ -8,16 +8,16 @@ exports.up = (pgm) => {
         },
         userd_id: {
             type: 'integer',
-            references: 'user_details',
+            references: 'user_details',                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
             notNull: true,
+            onDelete: "cascade"
         },
         user_type: {
             type: 'text',
             notNull: true
         }
-    })
+    })   
 };
-
 exports.down = (pgm) => {
 
 };

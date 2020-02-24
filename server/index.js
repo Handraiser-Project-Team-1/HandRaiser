@@ -247,7 +247,9 @@ massive({
   app.get("/api/resolved/:id", student.getAllResolved);
   app.get("/api/class/:id/queue", student.queueList);
   app.get("/api/class/:id/help", student.helpList);
+
   app.get("/api/student/:uid", student.getStudent);
+  app.get("/api/student/getuid/:uid", student.get_Usertype);
 
   app.get("/api/class/title/:id", mentor.findClass);
   app.get("/api/get/enrollees/:id", mentor.getEnrolles);

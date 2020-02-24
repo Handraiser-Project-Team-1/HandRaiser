@@ -234,6 +234,15 @@ const getStudent = (req, res) => {
   .catch(err=> console.log(err))
 }
 
+const get_Usertype = (req, res) => {
+  const db = req.app.get("db")
+  const {uid} = req.params
+  db.user_type
+  .findOne(uid)
+  .then(dat => res.status(200).send(dat))
+  .catch(err => console.log(err))
+}
+
 module.exports = {
   getAllClass,
   joinClass,
@@ -244,5 +253,6 @@ module.exports = {
   getAcceptClassDetails,
   helpList,
   getAllResolved,
-  getStudent
+  getStudent,
+  get_Usertype
 };
