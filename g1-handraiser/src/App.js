@@ -12,12 +12,16 @@ import Page404 from "./components/includes/Page404";
 import Authentication from "./components/login/Keyauth";
 import PermissionLoading from "./components/includes/PermissionLoading";
 import TopBarStud from "./components/includes/TopBar";
+import io from "socket.io-client";
+import DataContext from './components/mentor/DataContext';
+const socket = io.connect(process.env.REACT_APP_DB_URL);
 require("dotenv").config();
 
 export const JWTContext = createContext({});
 
 export default function App() {
   return (
+    <DataContext.Provider value={{socket}}>
     <BrowserRouter>
       <JWTContext.Provider>
         <Switch>
@@ -63,5 +67,6 @@ export default function App() {
         </Switch>
       </JWTContext.Provider>
     </BrowserRouter>
+    </DataContext.Provider>
   );
 }

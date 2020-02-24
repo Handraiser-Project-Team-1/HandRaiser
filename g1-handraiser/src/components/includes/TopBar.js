@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -40,8 +40,7 @@ import ClassList from "../selectclass/Select";
 import Que from "../studentque/Que";
 
 import { GoogleLogout } from 'react-google-login';
-import io from "socket.io-client";
-const socket = io.connect(process.env.REACT_APP_DB_URL);
+import DataContext from '../mentor/DataContext'
 
 const config = {
   autoCollapseDisabled: false,
@@ -222,23 +221,15 @@ const Layout = props => {
     uid: ""
   });
   const [selected, setSelected] = useState(null);
+  const { socket } = useContext(DataContext); 
 
   const handleCollapse = () => {
     setOpenSubList(!openSubList);
   };
 
   useEffect(() => {
-    axios
-    .get(`${process.env.REACT_APP_DB_URL}/api/student/${localStorage.getItem('uid')}`)
-    .then(res=>{
-      axios({
-        method: "get",
-        url: `${process.env.REACT_APP_DB_URL}/api/class/accept/${res.data[0].student_id}`
-      }).then(res => {
-        setClass(res.data);
-      });
-    })
-    
+    getClass();
+
     if (localStorage.getItem("tokenid")) {
       axios({
         method: "post",
@@ -260,6 +251,19 @@ const Layout = props => {
       history.push("/");
     }
   }, [history]);
+
+  const getClass = () => {
+    axios
+      .get(`${process.env.REACT_APP_DB_URL}/api/student/${localStorage.getItem('uid')}`)
+      .then(res => {
+        axios({
+          method: "get",
+          url: `${process.env.REACT_APP_DB_URL}/api/class/accept/${res.data[0].student_id}`
+        }).then(res => {
+          setClass(res.data);
+        });
+      })
+  }
 
   var logout = () => {
     socket.emit("logout", { user_id: localStorage.getItem('uid') });
@@ -301,7 +305,7 @@ const Layout = props => {
                   <Icon type="setting" key="setting" />,
                   <Icon type="edit" key="edit" />
                 ]}
-              >
+              > 
                 <Avatar
                   className={classes.large}
                   alt={`${user.fname} ${user.lname}`}
@@ -358,7 +362,7 @@ const Layout = props => {
                     {stud_class.map((x, i) => {
                       return (
                         <ListItem
-                        key={i}
+                          key={i}
                           button
                           selected={parseInt(selected) === x.cid ? true : false}
                           className={classes.nested}
@@ -366,10 +370,9 @@ const Layout = props => {
                             history.push(`${match.path}/${x.cid}`);
                             setSelected(x.cid);
                             sessionStorage.setItem('sessionId', x.cid)
-                            // window.location.reload()
-                            socket.emit('join', { name: user.fname, sessionId: x.cid, uid: user.uid })
+                            window.location.reload()                          
                           }}
-                          
+
                         >
                           <ListItemIcon>
                             <StarBorderOutlinedIcon />

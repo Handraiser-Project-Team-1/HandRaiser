@@ -59,10 +59,8 @@ export default function Select(props) {
   }, [history]);
 
   useEffect(() => {
-    fetch();
-
-    setInterval(() => getClasslist(), 300)
-
+   fetch()
+    getClasslist()
   }, []);
 
   const getClasslist = () => {
@@ -74,7 +72,7 @@ export default function Select(props) {
       .catch(err => {
         console.log(err);
       });
-  }
+  } 
 
   const fetch = () => {
     let user_id = localStorage.getItem("uid");
@@ -86,6 +84,7 @@ export default function Select(props) {
       .catch(err => {
         console.log(err);
       });
+      
   };
 
   const onJoin = cid => {
