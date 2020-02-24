@@ -228,7 +228,7 @@ const Layout = props => {
   };
 
   useEffect(() => {
-    setInterval(() => getClass(), 300)
+    getClass();
 
     if (localStorage.getItem("tokenid")) {
       axios({
