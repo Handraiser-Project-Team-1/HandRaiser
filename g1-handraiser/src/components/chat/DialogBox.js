@@ -19,7 +19,8 @@ export default function DialogBox({ handleClose, open, data }) {
   const [message, setmessage] = useState('')
   const [feedback, setFeedbAck] = useState('')
 
-  const handleClick = () => {
+  const
+   handleClick = () => {
     setState(state + 1);
     if (message) {
       const nottyping = "";

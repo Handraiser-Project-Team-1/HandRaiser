@@ -15,6 +15,7 @@ import Resolved from "../studentque/Resolved";
 import StudentCount from "./includes/StudentCount";
 import { Paper } from "@material-ui/core";
 import EditForm from "./EditClass";
+import {Icon }from "antd"
 import EnrolleesCount from "./includes/EnrolleesCount";
 
 const useStyles = makeStyles(theme => ({
@@ -220,6 +221,7 @@ export default function Queue(props) {
           <Grid item xs={12}>
             <Typography variant="h3">{classDetails.class_name}</Typography>
             <Typography variant="caption">
+            <Icon type="calendar" />
               {dateFormat(classDetails.date_created) +
                 " to " +
                 dateFormat(classDetails.date_end) +

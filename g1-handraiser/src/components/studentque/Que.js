@@ -35,12 +35,26 @@ const useStyles = makeStyles(theme => ({
     width: "16vh"
   },
 
-  img: {
+  cover: {
+    position: "relative",
     display: "flex",
-    marginLeft: "20%",
+    marginLeft: "25%",
     width: 1200,
     height: 250,
-    opacity: 0.7
+    opacity: 0.7,
+ "@media(max-width: 1024px)":{
+  position: "relative",
+  display: "flex",
+  opacity: 0.7,
+  width: 500,
+  height: 350,
+ },
+ "@media (max-width: 425px)" :{
+  opacity: 0.7,
+   marginTop: "10%"
+
+
+ }
   },
   card: {
     display: "flex",
@@ -50,21 +64,34 @@ const useStyles = makeStyles(theme => ({
     backgroundColor:
       "-webkit-linear-gradient(to right,#e3f2fd , #C9D6FF)" /* Chrome 10-25, Safari 5.1-6 */,
     background:
-      "linear-gradient(to right, #E1F5FE, #42A5F5 )" /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+      "linear-gradient(to right, #E1F5FE, #42A5F5 )",
+       /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+       "@media (max-width: 425px)" :{
+        height: 300,
+
+       }
   },
   content: {
-    flex: "1 0 auto",
-    margin: 15
+    marginLeft: "1%",
+    flex: '1 0 auto',
+    position: "absolute",
+
   },
   que: {
-    // padding: "1%",
     height: "100%"
   },
-  help: {
-    position: "fixed",
-    marginTop: "2%",
-    marginLeft: "1%",
-    color: "gray"
+controls: {
+    display: 'flex',
+    position: "absolute",
+    alignItems: 'center',
+    marginLeft: 20,
+    marginTop: theme.spacing(15),
+    "@media (max-width: 425px)" :{
+      position: "absolute",
+      marginTop: "45%"
+    }
+
   }
 }));
 
@@ -190,15 +217,17 @@ export default function Que(props) {
     <React.Fragment>
       <Grid container spacing={1}>
         <Grid item xs={12}>
-          <Card className={classes.card} elevation={0} square={true}>
-            <CardContent className={classes.content}>
-              <Typography component="h2" variant="h4">
+             <Card className={classes.card} elevation={0} square={true}>
+      <div className={classes.details}>
+        <CardContent className={classes.content}>
+        <Typography component="h2" variant="h4">
                 {classDesc[0] ? classDesc[0].cname : false}
               </Typography>
               <Typography variant="subtitle1" color="textSecondary">
                 {classDesc[0] ? classDesc[0].desc : false}
               </Typography>
-              <div className={classes.help}>
+        </CardContent>
+        <div className={classes.controls}>
                 {filterSelfFn(data.student_id) ? null : (
                   <Help
                     handraiseFn={handraiseFn}
@@ -206,16 +235,17 @@ export default function Que(props) {
                     setTagValFn={setTagValFn}
                   />
                 )}
-              </div>{" "}
-            </CardContent>
-            <CardMedia
-              className={classes.img}
+              </div>
+        
+      </div>
+      <CardMedia
+              className={classes.cover}
               component="img"
               alt="Contemplative Reptile"
               height="220"
               src="https://graphiccave.com/wp-content/uploads/2015/06/Business-Workspace-PC-and-Laptop-Work-Vector-Pack-PNG-Graphic-Cave.png"
             />
-          </Card>
+    </Card>
         </Grid>
 
         <Grid item xs={12} sm={12} lg={3}>
