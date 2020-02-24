@@ -53,6 +53,8 @@ function Login() {
       .then(response => {
         setTimeout(() => {
           if (response.status === 200) {
+            localStorage.setItem("success", true);
+
             response.data.user_type === "mentor"
               ? history.push("/myclasslist")
               : history.push("/classes");
