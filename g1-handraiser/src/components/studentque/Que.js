@@ -217,32 +217,6 @@ export default function Que(props) {
     <React.Fragment>
       <Grid container spacing={1}>
         <Grid item xs={12}>
-          {/* <Card className={classes.card} elevation={0} square={true}>
-            <CardContent className={classes.content}>
-              <Typography component="h2" variant="h4">
-                {classDesc[0] ? classDesc[0].cname : false}
-              </Typography>
-              <Typography variant="subtitle1" color="textSecondary">
-                {classDesc[0] ? classDesc[0].desc : false}
-              </Typography>
-              <div className={classes.help}>
-                {filterSelfFn(data.student_id) ? null : (
-                  <Help
-                    handraiseFn={handraiseFn}
-                    tagVal={tagVal}
-                    setTagValFn={setTagValFn}
-                  />
-                )}
-              </div>{" "}
-            </CardContent>
-            <CardMedia
-              className={classes.img}
-              component="img"
-              alt="Contemplative Reptile"
-              height="220"
-              src="https://graphiccave.com/wp-content/uploads/2015/06/Business-Workspace-PC-and-Laptop-Work-Vector-Pack-PNG-Graphic-Cave.png"
-            />
-          </Card> */}
              <Card className={classes.card} elevation={0} square={true}>
       <div className={classes.details}>
         <CardContent className={classes.content}>
