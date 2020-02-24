@@ -39,8 +39,8 @@ import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import ClassList from "../selectclass/Select";
 import Que from "../studentque/Que";
 
-import { GoogleLogout } from 'react-google-login';
-import DataContext from '../mentor/DataContext'
+import { GoogleLogout } from "react-google-login";
+import DataContext from "../mentor/DataContext";
 
 const config = {
   autoCollapseDisabled: false,
@@ -221,7 +221,7 @@ const Layout = props => {
     uid: ""
   });
   const [selected, setSelected] = useState(null);
-  const { socket } = useContext(DataContext); 
+  const { socket } = useContext(DataContext);
 
   const handleCollapse = () => {
     setOpenSubList(!openSubList);
@@ -254,7 +254,11 @@ const Layout = props => {
 
   const getClass = () => {
     axios
-      .get(`${process.env.REACT_APP_DB_URL}/api/student/${localStorage.getItem('uid')}`)
+      .get(
+        `${process.env.REACT_APP_DB_URL}/api/student/${localStorage.getItem(
+          "uid"
+        )}`
+      )
       .then(res => {
         axios({
           method: "get",
@@ -262,11 +266,11 @@ const Layout = props => {
         }).then(res => {
           setClass(res.data);
         });
-      })
-  }
+      });
+  };
 
   var logout = () => {
-    socket.emit("logout", { user_id: localStorage.getItem('uid') });
+    socket.emit("logout", { user_id: localStorage.getItem("uid") });
     localStorage.clear();
     history.push("/");
   };
@@ -305,7 +309,7 @@ const Layout = props => {
                   <Icon type="setting" key="setting" />,
                   <Icon type="edit" key="edit" />
                 ]}
-              > 
+              >
                 <Avatar
                   className={classes.large}
                   alt={`${user.fname} ${user.lname}`}
@@ -369,10 +373,8 @@ const Layout = props => {
                           onClick={() => {
                             history.push(`${match.path}/${x.cid}`);
                             setSelected(x.cid);
-                            sessionStorage.setItem('sessionId', x.cid)
-                            window.location.reload()                          
+                            sessionStorage.setItem("sessionId", x.cid);
                           }}
-
                         >
                           <ListItemIcon>
                             <StarBorderOutlinedIcon />
