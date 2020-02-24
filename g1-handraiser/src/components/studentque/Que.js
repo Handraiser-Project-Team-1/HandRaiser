@@ -254,7 +254,7 @@ export default function Que(props) {
           </Card>
         </Grid>
       </Grid>
-      <Chat />
+      <Chat data={data} />
     </React.Fragment>
   );
 }

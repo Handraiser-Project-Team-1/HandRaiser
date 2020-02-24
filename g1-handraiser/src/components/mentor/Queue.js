@@ -260,7 +260,7 @@ export default function Queue(props) {
         fetchClassDetails={fetchClassDetails}
         id={ids}
       />
-      <Chat />
+      <Chat data={classDetails}/>
     </DataContext.Provider>
   );
 }
