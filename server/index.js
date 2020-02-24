@@ -224,7 +224,6 @@ massive({
   app.post("/api/login", admin.login);
   app.patch("/api/admin", admin.updatePass);
 
-  //new endpoint
   app.get("/api/all/users", user.getAllUsers);
   app.patch("/api/change/type/:id", user.changeType);
   app.delete("/api/delete/user/:id", user.delete);
