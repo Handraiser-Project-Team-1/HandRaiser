@@ -16,10 +16,8 @@ import Collapse from "@material-ui/core/Collapse";
 import SchoolIcon from "@material-ui/icons/School";
 import PowerSettingsNewIcon from "@material-ui/icons/PowerSettingsNew";
 import StarBorderOutlinedIcon from "@material-ui/icons/StarBorderOutlined";
-import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Divider } from "@material-ui/core";
-import { green } from "@material-ui/core/colors";
-
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { Avatar, Divider, Badge } from "@material-ui/core";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { Card, Icon } from "antd";
@@ -175,19 +173,28 @@ const useStyles = makeStyles(theme => ({
     }
   },
   large: {
+    display: "flex",
+    marginLeft: 36,
     width: theme.spacing(14),
-    height: theme.spacing(14),
+    height: theme.spacing(14), 
     margin: "auto",
     transition: "all 0.3s ease 0s",
     [theme.breakpoints.between("sm", "md")]: {
       width: theme.spacing(6),
       height: theme.spacing(6)
+    },
+    "@media(max-width: 1024px)":{
+      [theme.breakpoints.between("sm", "md")]: {
+        width: theme.spacing(15),
+        height: theme.spacing(15)
+      }
     }
   },
   title: {
     fontSize: "1.5em",
     fontWeight: "500"
-  }
+  },
+
 }));
 
 const theme = createMuiTheme({
@@ -206,6 +213,34 @@ const theme = createMuiTheme({
     }
   }
 });
+const StyledBadge = withStyles(theme => ({
+  badge: {
+    backgroundColor: '#44b700',
+    color: '#44b700',
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    '&::after': {
+      position: 'absolute',
+      top: 0,
+      left:0,
+      width: '100%',
+      height: '100%',
+      borderRadius: '50%',
+      animation: '$ripple 1.2s infinite ease-in-out',
+      border: '1px solid currentColor',
+      content: '""',
+    },
+  },
+  '@keyframes ripple': {
+    '0%': {
+      transform: 'scale(.8)',
+      opacity: 1,
+    },
+    '100%': {
+      transform: 'scale(2.4)',
+      opacity: 0,
+    },
+  },
+}))(Badge);
 
 const Layout = props => {
   const classes = useStyles();
@@ -299,25 +334,27 @@ const Layout = props => {
               </Toolbar>
             </Header>
             <Sidebar color="primary">
+    
               <Card
                 className={classes.icon}
-                actions={[
-                  <FiberManualRecordIcon
-                    style={{ color: green[500] }} //ACTIVE ICON
-                    fontSize="small"
-                  />,
-                  <Icon type="setting" key="setting" />,
-                  <Icon type="edit" key="edit" />
-                ]}
-              >
-                <Avatar
+            
+              > <StyledBadge
+        overlap="circle"
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        variant="dot"
+      >
+        <Avatar
                   className={classes.large}
                   alt={`${user.fname} ${user.lname}`}
                   src={`${user.image}`}
                 />
-                <div
+      </StyledBadge>
+      <div
                   style={{
-                    paddingBottom: "15px"
+                    paddingBottom: "35px"
                   }}
                 />
                 <Typography
@@ -329,10 +366,13 @@ const Layout = props => {
                 >
                   {user.fname} {user.lname}
                 </Typography>
-                <Typography variant="body2" noWrap>
+                <Typography variant="body2" style={{
+                    marginLeft: "2%"
+                  }} noWrap>
                   {user.email}
                 </Typography>
-              </Card>
+      </Card>
+
 
               <Divider />
               <div
