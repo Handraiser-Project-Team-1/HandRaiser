@@ -106,7 +106,6 @@ export default function ClassList(props) {
           setStartDate("");
           setEndDate("");
           props.fetchClass();
-          props.setValue(0);
         })
         .catch(err => {
           console.error(err);
