@@ -69,7 +69,7 @@ const ClassComponent = ({res, i, verify, bannerArray}) => {
 
 export default function Select(props) {
   var history = useHistory();
-  const [notif, setNotif] = useState(true);
+  const [notif, setNotif] = useState(false);
   const [user, setUser] = useState({
     fname: ""
   });
@@ -121,6 +121,11 @@ export default function Select(props) {
   useEffect(() => {
     fetch();
     getClasslist();
+
+    if (localStorage.getItem("success")) {
+      localStorage.removeItem("success");
+      setNotif(true);
+    }
   }, []);
 
   const getClasslist = () => {

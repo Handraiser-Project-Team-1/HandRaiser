@@ -8,6 +8,7 @@ import page404 from "../includes/Page404";
 import Que from "./Queue";
 import { Tabs, Modal } from "antd";
 import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
+import Notification from "../includes/Notif";
 
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
@@ -17,6 +18,7 @@ export default function ClassList(props) {
   let match = useRouteMatch();
   const { TabPane } = Tabs;
   const [setValue] = useState(0);
+  const [notif, setNotif] = useState(false);
   const [classes, setClasses] = useState([]);
   const { confirm } = Modal;
 
@@ -29,6 +31,12 @@ export default function ClassList(props) {
     }
   };
   useEffect(fetchClass, []);
+  useEffect(() => {
+    if (localStorage.getItem("success")) {
+      localStorage.removeItem("success");
+      setNotif(true);
+    }
+  }, []);
 
   const handleDelete = id => {
     confirm({
@@ -52,6 +60,13 @@ export default function ClassList(props) {
 
   return (
     <TopBar active={props.active}>
+      <Notification
+        type="success"
+        title="Hi mentor!"
+        message="Always do your best in teaching your student!"
+        open={notif}
+        setOpen={setNotif}
+      />
       <Switch>
         <Route path={`${match.path}/:ids/:id`} component={Que} />
         <Route exact path={match.path}>
