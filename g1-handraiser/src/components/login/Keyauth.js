@@ -118,6 +118,10 @@ function Keyauth() {
     })
       .then(response => {
         localStorage.setItem("id", JSON.stringify(response.data.id));
+        axios.get(`${process.env.REACT_APP_DB_URL}/api/student/getuid/${response.data.id}`)
+          .then(res => {
+            localStorage.setItem('uid', res.data.user_id);
+          })
         if (tokenObj !== null) {
           setTimeout(() => {
             if (response.data.type === "student") {

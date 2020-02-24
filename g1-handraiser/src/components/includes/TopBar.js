@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Toolbar from "@material-ui/core/Toolbar";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -40,8 +40,7 @@ import ClassList from "../selectclass/Select";
 import Que from "../studentque/Que";
 
 import { GoogleLogout } from 'react-google-login';
-import io from "socket.io-client";
-const socket = io.connect(process.env.REACT_APP_DB_URL);
+import DataContext from '../mentor/DataContext'
 
 const config = {
   autoCollapseDisabled: false,
@@ -222,13 +221,14 @@ const Layout = props => {
     uid: ""
   });
   const [selected, setSelected] = useState(null);
+  const { socket } = useContext(DataContext); 
 
   const handleCollapse = () => {
     setOpenSubList(!openSubList);
   };
 
   useEffect(() => {
-    setInterval(() => getClass(), 300)
+    getClass();
 
     if (localStorage.getItem("tokenid")) {
       axios({

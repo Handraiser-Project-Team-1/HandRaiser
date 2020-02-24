@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import Axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import QueueCounter from "./includes/QueueCounter";
@@ -12,12 +12,9 @@ import Typography from "@material-ui/core/Typography";
 import NavigateNextIcon from "@material-ui/icons/NavigateNext";
 import DataContext from "./DataContext";
 import Resolved from "../studentque/Resolved";
-import io from "socket.io-client";
 import StudentCount from "./includes/StudentCount";
 import { Paper } from "@material-ui/core";
 import EditForm from "./EditClass";
-
-const socket = io.connect(process.env.REACT_APP_DB_URL);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,6 +26,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function Queue(props) {
+  const { socket } = useContext(DataContext); 
   let { id, ids } = useParams();
   const classes = useStyles();
   const [classDetails, setClassDetails] = useState({});
@@ -95,7 +93,7 @@ export default function Queue(props) {
     socket.on("updateHelp", help => setBeingHelp(help));
     socket.on("updateResolved", resolved => setResolvedList(resolved));
     //socket.on("redirectStudent", () => reloadAllStateFn(ids));
-  }, [ids, queueList, initial]);
+  }, [ids, queueList, initial, socket]);
 
   const reloadAllStateFn = (class_id) => {
     Axios({

@@ -59,9 +59,8 @@ export default function Select(props) {
   }, [history]);
 
   useEffect(() => {
-    setInterval(() => fetch())
-
-    setInterval(() => getClasslist(), 300)
+   fetch()
+    getClasslist()
   }, []);
 
   const getClasslist = () => {
@@ -85,6 +84,7 @@ export default function Select(props) {
       .catch(err => {
         console.log(err);
       });
+      
   };
 
   const onJoin = cid => {
