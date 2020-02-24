@@ -61,21 +61,20 @@ const useStyles = makeStyles({
     alignItems: "center",
     flexDirection: "column",
     height: "70vh",
-    width: "40%",
     marginTop: "15%",
 
-    "@media (max-width: 425px)": {
+    "@media (max-width: 768px)": {
       display: "flex",
-      width: "90%",
+      width: "100%",
       justifyContent: "center",
       alignItems: "center"
     },
-    "@media(max-width: 768px)": {
+    "@media(min-width: 768px)": {
       display: "flex",
+      width: "40%",
       alignText: "center",
       justifyContent: "center",
-
-      marginTop: "10%"
+      marginTop: "5%"
     }
   },
 
@@ -85,8 +84,8 @@ const useStyles = makeStyles({
     "@media (max-width: 768px)": {
       width: "50%"
     },
-    "@media (max-width: 320px)": {
-      width: "55%"
+    "@media (max-width: 425px)": {
+      width: "45%"
     }
   },
   button: {
