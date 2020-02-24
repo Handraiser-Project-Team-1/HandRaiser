@@ -2,7 +2,7 @@
 
 ## HandRaiser
 
-Hard coded app made of JS React components built by 5 developers namely, Vincent Serra (Backend: Main App Features), Marcial Norte (Backend: Main App Features), Mark Jowen Medes (Frontend and Websockets), Vanessa Dulva(Frontend), Francisco Ifurung(Team Leader). This app contains two users and one admin. Those two users can be classified as Mentor and Students who interact with each other through real-time handraising and chat. This app is purely handraising system with features that are used by all users for their convinience. This app is very convinient in Classes with a large amount of students which help normalize the crowd content and discipline the students in waiting for their turn.
+Hard coded app made of JS React components built by 5 developers namely, Vincent Serra (Backend: Main App Features), Marcial Norte (Backend: Main App Features), Mark Jowen Medes (Frontend and Websockets), Vanessa Dulva(Frontend), Francisco Ifurung(Team Leader). This app contains two users and one admin. Those two users can be classified as Mentor and Students who interact with each other through real-time handraising and chat. This app is purely handraising system with features that are used by all users for their convenience. This app is very convenient in Classes with a large amount of students which help normalize the crowd content and discipline the students in waiting for their turn.
 
 ## Main Features
 
