@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Grid,
   Typography,
@@ -17,11 +17,9 @@ import Help from "./HelpFab";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { useHistory, useParams, useRouteMatch } from "react-router-dom";
-import io from "socket.io-client";
 import Resolved from "./Resolved";
 import { Icon } from "antd";
-
-const socket = io.connect(process.env.REACT_APP_DB_URL);
+import DataContext from '../mentor/DataContext';
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(1),
@@ -76,6 +74,8 @@ export default function Que(props) {
 
   const [data, setData] = useState([]);
   const match = useRouteMatch();
+  const { socket } = useContext(DataContext);
+
 
   useEffect(() => {
     axios({
@@ -102,7 +102,7 @@ export default function Que(props) {
   const [resolvedList, setResolvedList] = useState([]);
 
   useEffect(() => {
-    if(initial){
+    if (initial) {
       setInitial(false);
       axios({
         method: "GET",
@@ -120,14 +120,14 @@ export default function Que(props) {
         method: 'get',
         url: `${process.env.REACT_APP_DB_URL}/api/resolved/${id}`
       }).then(res => setResolvedList(res.data))
-        .catch(error => console.error(error)); 
+        .catch(error => console.error(error));
     }
     socket.emit("joinClass", { class_id: data.class_id });
     socket.on("updateQueue", queue => setQueueList(queue));
     socket.on("updateHelp", help => setBeingHelp(help));
     socket.on("updateResolved", resolved => setResolvedList(resolved));
     socket.on("redirectStudent", student => (student === data.student_id) && history.push('/classes'))
-  }, [data, queueList, initial, id, history]);
+  }, [data, queueList, initial, id, history, socket]);
 
   const [tagVal, setTagVal] = useState("");
 
@@ -140,7 +140,7 @@ export default function Que(props) {
     // console.log(data.list_id)
     socket.emit(
       "handraise",
-      { student_id: data.student_id, class_id: data.class_id, tag: tagVal, list_id: data.list_id},
+      { student_id: data.student_id, class_id: data.class_id, tag: tagVal, list_id: data.list_id },
       queue => setQueueList(queue)
     );
   };
@@ -170,16 +170,16 @@ export default function Que(props) {
 
   useEffect(() => {
     axios
-    .get(`${process.env.REACT_APP_DB_URL}/api/student/${localStorage.getItem('uid')}`)
-    .then(res=>{
-      axios({
-        method: "get",
-        url: `${process.env.REACT_APP_DB_URL}/api/class/accept/${id}/${res.data[0].student_id}`
-      }).then(res => {
-        setClassDesc(res.data);
-      });
-    })
-    
+      .get(`${process.env.REACT_APP_DB_URL}/api/student/${localStorage.getItem('uid')}`)
+      .then(res => {
+        axios({
+          method: "get",
+          url: `${process.env.REACT_APP_DB_URL}/api/class/accept/${id}/${res.data[0].student_id}`
+        }).then(res => {
+          setClassDesc(res.data);
+        });
+      })
+
   }, [id]);
 
   useEffect(() => {
@@ -233,7 +233,7 @@ export default function Que(props) {
               <BeingHelp beingHelp={beingHelp} student={true} />
             </Grid>
             <Grid item>
-              <Resolved resolvedList={resolvedList}/>
+              <Resolved resolvedList={resolvedList} />
             </Grid>
             <Grid xs={9} item></Grid>
           </Grid>
