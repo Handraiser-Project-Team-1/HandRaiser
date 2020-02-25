@@ -20,7 +20,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import { Avatar, Divider, Badge } from "@material-ui/core";
 import { Switch, Route, useRouteMatch } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import { Card, Icon } from "antd";
+import { Card } from "antd";
 
 import {
   Root,
@@ -33,7 +33,6 @@ import {
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 import axios from "axios";
-import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import ClassList from "../selectclass/Select";
 import Que from "../studentque/Que";
 

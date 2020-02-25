@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Card from "@material-ui/core/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button, Grid, Typography } from "@material-ui/core";
 import Img from "./img/undraw_security_o890.svg";
@@ -87,7 +86,7 @@ function Keyauth() {
           history.push("myclasslist")
         }
       })}
-  },[])
+  },[history])
 
   const setNotifDetailsFn = (type, title, message) => {
     setNotifDetails({
