@@ -182,8 +182,7 @@ module.exports = {
                             res.status(200).send({
                               name: decoded.name,
                               type: user[0].user_type,
-                              id: user[0].userd_id,
-                              user_id: user[0].user_id
+                              id: user[0].userd_id
                             });
                           })
                           .catch(error => {
@@ -206,8 +205,7 @@ module.exports = {
                             res.status(200).send({
                               name: decoded.name,
                               type: user[0].user_type,
-                              id: user[0].userd_id,
-                              user_id: user[0].user_id
+                              id: user[0].userd_id
                             });
                           })
                           .catch(error => {
