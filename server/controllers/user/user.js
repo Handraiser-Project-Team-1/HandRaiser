@@ -250,6 +250,7 @@ module.exports = {
               return;
             }else if(!response){
               res.status(500).end();
+              return;
             }
             
             db.keys
