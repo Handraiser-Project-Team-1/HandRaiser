@@ -48,3 +48,27 @@ just npm i to the root directory and also in g1-handraiser folder.
  - [sqltabs](https://www.sqltabs.com/) - app used for DB
  - [PostgreSQL](https://www.postgresql.org/) - Object-relational DB
  - [MaterialUI](https://material-ui.com/) && [AntD](https://ant.design/) - for app's UI
+
+# How to Run App
+
+Create .env file outside the g1-develop folder and copy this code
+
+``URL=http://localhost:3000
+REACT_APP_DB_URL=http://localhost:3001
+SECRET_KEY= 5up324pp11c4710n53c237
+DB_HOST=localhost
+PORT=5432
+PASSWORD=handraiser
+DATABASE=handraiser
+USERS=postgres
+GMAIL_ADDRESS=francisco.ifurung@boom.camp
+GMAIL_OAUTH_CLIENT_ID=566271695022-1rj2dmbkbcfpadha1fl6k67sgakp108o.apps.googleusercontent.com
+GMAIL_OAUTH_CLIENT_SECRET=q67l_hVOwZknGmfUD55xtR_V
+GMAIL_OAUTH_REDIRECT_URL=http://localhost:3001/getAccessToken
+SCOPES=https://mail.google.com/
+ADMIN_PASS=$argon2i$v=19$m=4096,t=3,p=1$EVt46nPZxtymXqH0MVDyzw$KAqBF4KOhOSwANfhUb8xR0RMIm8/OPiR9Oy/Pc4TRQw``
+
+Create another .env file inside the g1-handraiser folder and copy this code
+
+``REACT_APP_DB_URL=http://localhost:3001
+REACT_APP_CLIENT_ID = 566271695022-d3jfkv7cmqq6c6unto7bvb7q2osl7hii.apps.googleusercontent.com``
